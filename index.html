@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>goSecure | Documentation</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="./files/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="./files/plugins/font-awesome-4.5.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="./files/plugins/ionicons/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="./files/dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="./files/dist/css/skins/skin-blue.min.css">
+    <link rel="stylesheet" href="./files/documentation/style.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="skin-blue fixed" data-spy="scroll" data-target="#scrollspy">
+    <div class="wrapper">
+
+        <header class="main-header">
+            <a href="#" class="logo">
+                <span class="logo-mini"><b>go</b>S</span>
+                <span class="logo-lg"><b>go</b>Secure</span>
+            </a>
+            <nav class="navbar navbar-static-top" role="navigation">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+            </nav>
+        </header>
+        
+        <aside class="main-sidebar">
+            <div class="sidebar" id="scrollspy">
+
+                <ul class="nav sidebar-menu">
+                    <li class="header">TABLE OF CONTENTS</li>
+                    <li class="active"><a href="#introduction"><i class="fa fa-circle-o"></i> Introduction</a></li>
+                    <li class="treeview" id="scrollspy-documentation">
+                        <a href="javascript:void(0)"><i class="fa fa-circle-o"></i> Documentation</a>
+                        <ul class="nav treeview-menu">
+                            <li><a href="#documentation-instructions-user-client"><i class="fa fa-square-o"></i> Client - User Instructions</a></li>
+                        </ul>
+                    </li>
+                    <li class="treeview" id="scrollspy-components">
+                        <a href="javascript:void(0)"><i class="fa fa-circle-o"></i> Build Components</a>
+                        <ul class="nav treeview-menu">
+                            <li><a href="#component-server"><i class="fa fa-square-o"></i> Server</a></li>
+                            <li><a href="#component-client"><i class="fa fa-square-o"></i> Client</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#faq"><i class="fa fa-circle-o"></i> FAQ</a></li>
+                    <li><a href="#license"><i class="fa fa-circle-o"></i> License</a></li>
+                    <li><a href="#disclaimer"><i class="fa fa-circle-o"></i> Disclaimer</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <div class="content-wrapper">
+            <div class="content-header">
+                <h1>
+            goSecure Documentation
+            <small>Current version 0.9.7</small>
+          </h1>
+                <ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li class="active">Documentation</li>
+                </ol>
+            </div>
+
+            <div class="content body">
+
+                <section id="introduction">
+                    <h2 class="page-header"><a href="#introduction">Introduction</a></h2>
+                    <p class="lead">
+                        <b>goSecure</b> is an easy to use and portable Virtual Private Network (VPN) system.
+                        <br><br>
+                        The system consists of a single server and one or many clients.
+                        <a href="https://www.strongswan.org/">strongSwan</a> is used to establish a Suite B IPsec tunnel with pre-shared keys between the server and client(s). The core crypt implementation has been verified by NSA’s Cryptol tool.
+                    </p>
+                    <br>
+                    <p class="lead">
+                        The <b>server</b> component is a multi-homed laptop/server that runs strongSwan using the NSA <a href="https://www.nsa.gov/ia/programs/csfc_program/">Commercial Solutions for Classified (CSfC)</a> guidelines for protecting classified data. It is built upon a minimal and hardened Linux instance per DISA <a href="http://iase.disa.mil/stigs/Pages/index.aspx">Security Technical Implementation Guides (STIGs)</a>.
+                    </p>
+                    <br>
+
+                    <p class="lead">
+                        The <b>client</b> component is a Raspberry Pi 3 that runs strongSwan using the NSA CSFC guidelines for protecting classified data and it utilizes its hardware Random Number Generator (RNG). It is built upon a minimal and hardened Linux instance per DISA STIGs.
+                        <br><br>
+                        The client currently supports 3 modes of operation:
+                        <ol>
+                            <li>Ethernet (eth0) LAN - Wifi (wlan0) WAN</li>
+                            <li>Ethernet (eth1) LAN - Ethernet (eth0) WAN</li>
+                            <li>Wifi LAN (wlan0) - Ethernet (eth0) WAN</li>
+                        </ol>
+                    </p>
+                    <br>
+                </section>
+            
+                <section id="documentation" data-spy="scroll" data-target="#scrollspy-documentation">
+                    <h2 class="page-header"><a href="#documentation">Documentation</a></h2>
+                    
+                    <br>
+                    <p class="lead">
+                        Network flow diagram:<br><br>
+                        <img src="./files/images/goSecure_Network_Diagram_1.png" style="width:850px; height:500px;">
+                    </p>
+                    <br>
+                    
+                    <h3 id="documentation-instructions-user-client">Client - User Instructions:</h3>
+                    
+                    <br>
+                    Note: If you are using the goSecure Client for the first time, please follow the Setup section below. Also follow the Setup section if your Wifi network or goSecure Server information has changed.
+                    <br>
+                    <br>
+                    <ol>
+                        Setup:
+                        <ol>
+                            <li>Plug in the Ethernet cable from the goSecure Client to the device (i.e. your laptop).</li>
+                            <li>Plug in the USB cable to the goSecure Client to the device (i.e. your laptop).</li>
+                            <li>Wait 60 seconds.</li>
+                            <li>Open a web browser and navigate to "http://setup.gosecure"</li>
+                            <li>Follow the instructions on the web page that appears.</li>
+                            <li>You can access your enterprise resources now.</li>
+                        </ol>
+                        <br>
+                        
+                        Normal use:
+                        <ol>
+                            <li>Plug in the Ethernet cable from the goSecure Client to the device (i.e. your laptop).</li>
+                            <li>Plug in the USB cable to the goSecure Client to the device (i.e. your laptop).</li>
+                            <li>Wait 60 seconds.</li>
+                            <li>You can access your enterprise resources now.</li>
+                        </ol>
+                    </ol>
+                    <br>
+                    
+                </section>
+                
+                <section id="components" data-spy="scroll" data-target="#scrollspy-components">
+                    <h2 class="page-header"><a href="#components">Build Components</a></h2>
+
+                    <h3 id="component-server">Server</h3>
+                    Note: The server component build instructions are simply an example that can be used by affaliates that desire a complete solution, but the client component can interoperate with any VPN server that can be configured using the NSA CSFC guidelines.
+                    <br><br>
+                    <ol type="1">
+                        <li>Prerequisites</li>
+                        <ul>
+                            <li>Hardware</li>
+                            <ul>
+                                <li>A laptop, desktop, or server with 2 network interfaces. In this example we will be using a laptop and an external USB to Ethernet adapter (SIIG JU-NE0211-S1 USB 3.0 to Gigabit Ethernet).</li>
+                            </ul>
+
+                            <li>Software</li>
+                            <ul>
+                                <li>CentOS 6.7 64-bit (minimal): <a href="http://isoredirect.centos.org/centos/6.7/isos/x86_64/">http://isoredirect.centos.org/centos/6.7/isos/x86_64/</a></li>
+                            </ul>
+                        </ul>
+                        <br>
+                        
+                        <li>Install OS</li>
+                        <ol>
+                            <li>Install CentOS 6.7 64-bit (minimal)</li>
+                            <ol>
+                                Disk partition overview:
+                                <br>
+                                <pre>Partitioning:
+Logical Volume
+    /home           approx. 40% of hard drive size
+    /tmp            approx. 5% of hard drive size
+    /var            approx. 5% of hard drive size
+    /var/log        approx. 10% of hard drive size
+    /var/log/audit  approx. 10% of hard drive size
+    /               approx. 30% of hard drive size
+
+Physical Volume
+    /boot           200MB
+    swap            2x amount of RAM</pre>
+                                <li>When you reach the prompt stating “Which type of installation would you like?”, select “Create Custom Layout”.</li>
+                                <br>
+                                <img class="aligncenter size-full wp-image-465" src="./files/images/server_install/centos_disk_layout.png" width="797" height="553">
+                                <br>
+                                <li>Create a “Standard Partition” for the “/boot” partition of size “200” (MB), and check the box “Force to be a primary partition”.</li>
+                                <br>
+                                <img class="aligncenter size-full wp-image-465" src="./files/images/server_install/centos_partition_layout.png" width="797" height="553">
+                                <br>
+                                <img class="aligncenter size-full wp-image-465" src="./files/images/server_install/centos_partition_layout_boot.png" width="797" height="553">
+                                <br>
+                                <li>Create a “Standard Partition” for the “swap” partition. Select “swap” as the “File System Type”.</li>
+                                <br>
+                                <img class="aligncenter size-full wp-image-465" src="./files/images/server_install/centos_partition_layout_swap.png" width="797" height="553">
+                                <br>      
+                                <li>Create a “LVM Physical Volume”. Select “Fill to maximum allowable size”.</li>
+                                <br>
+                                <img class="aligncenter size-full wp-image-465" src="./files/images/server_install/centos_lvm_group.png" width="797" height="553">
+                                <br> 
+                                <li>Create a “LVM Volume Group”. Create all the logical volumes at their specified mount points (depicted above in the Disk partition overview).</li>
+                                <br>
+                                <img class="aligncenter size-full wp-image-465" src="./files/images/server_install/centos_final_partition_layout.png" width="797" height="553">
+                                <br> 
+                                <li>Click “Format” when prompted with the warning.</li>
+                                <li>Click “Write changes to disk” when prompted.</li>
+                            </ol>
+                            <br>
+
+                        <ol>
+                            Package Selection:
+                            <br>
+                            <li>Select “Minimal” and select “Customize later”.</li>
+                            <br><img class="aligncenter size-full wp-image-465" src="./files/images/server_install/centos_package_selection.png" width="797" height="553">
+                        </ol>
+                            
+                        </ol>
+                        <br>
+                        
+                        <li>Configure OS</li>
+                        <ol>
+                            <li>vi /etc/sysctl.conf</li>
+                            <li>change "net.ipv4.ip_forward" from "0" to "1" in the file.</li>
+                            <li>sysctl -p</li>
+                        </ol>
+                        <br>
+                        
+                        <li>Configure Networking</li>
+                        <br>
+                        Note:<br>
+                        <ol>
+                            Configure external (Internet) facing interface and update the OS:<br>
+                            <li>vi /etc/sysconfig/network-scripts/ifcfg-eth0</li>
+                            <li>Change "ONBOOT=no" to "ONBOOT=yes" in the file.</li>
+                            <li>service network restart</li>
+                            <li>yum update -y</li>
+                            <li>reboot</li>
+                            <br>
+                            Install eth1 (SIIG) driver:
+                            <li>Ensure the SIIG USB-to-Ethernet adapter is plugged in.</li>
+                            <li>yum groupinstall -y "Development Tools"</li>
+                            <li>yum install wget unzip</li>
+                            <li>wget http://www.siig.com/media/files/drivers/0010/02-1634d-linux-v1.13.0.zip</li>
+                            <li>unzip 02-1634d-linux-v1.13.0.zip</li>
+                            <li>cd Linux</li>
+                            <li>tar -xf AX88179_178A_LINUX_DRIVER_v1.13.0_SOURCE.tar</li>
+                            <li> cd AX88179_178A_LINUX_DRIVER_v1.13.0_SOURCE</li>
+                            <li>make</li>
+                            <li>make install</li>
+                            <li>Unplug the SIIG USB-to-Ethernet adapter and plug it back in.</li>
+                            <br>
+                            
+                            Configure internal (Enterprise) facing interface:<br>
+                            <li>cp /etc/sysconfig/network-scripts/ifcfg-eth0 /etc/sysconfig/network-scripts/ifcfg-eth1</li>
+                            <li>vi /etc/sysconfig/network-scripts/ifcfg-eth1</li>
+                            <li>Change "DEVICE=eth0" to "DEVICE=eth1"</li>
+                            <li>Change the "HWADDR=&lt;eth0 MAC address&gt;" to "HWADDR=&lt;eth1 MAC address&gt;"</li><br>
+                            Note: Use the same format for the MAC address, i.e. "00:00:BA:XX:XX:XX". The MAC address for eth1 can be found on the back of the SIIG USB-to-Ethernet adapter.
+                            <br>
+                            <li>Delete the "UUID" line.</li>
+                            <li>Change "BOOTPROTO=dhcp" to "BOOTPROTO=static" in the file.</li>
+                            <li>Add "IPADDR=172.16.166.1" and  "NETMASK=255.255.255.0" to the bottom of the file.</li>
+                            <li>service network restart</li>
+                        </ol>
+                        <br>
+                        
+                        
+                        <li>Configure Firewall</li>
+                        <br>
+                        <ol>
+                            <li>vi /etc/sysconfig/iptables</li>
+                            <pre># Firewall configuration written by system-config-firewall
+# Manual customization of this file is not recommended.
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+#-A INPUT -p icmp -j ACCEPT
+-A INPUT -i lo -j ACCEPT
+#-A INPUT -m state --state NEW -m tcp -p tcp --dport 22 -j ACCEPT
+-A INPUT -m udp -p udp --dport 500 -j ACCEPT
+-A INPUT -m udp -p udp --dport 4500 -j ACCEPT
+-A FORWARD -i ipsec0 -o eth0 -j ACCEPT
+-A FORWARD -i eth0 -o ipsec0 -j ACCEPT
+-A FORWARD -i ipsec0 -o eth1 -j ACCEPT
+-A FORWARD -i eth1 -o ipsec0 -j ACCEPT
+-A INPUT -j REJECT --reject-with icmp-host-prohibited
+-A FORWARD -j REJECT --reject-with icmp-host-prohibited
+COMMIT
+
+*nat
+:PREROUTING ACCEPT [0:0]
+:POSTROUTING ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+-A POSTROUTING -o eth0 -j MASQUERADE
+-A POSTROUTING -o eth1 -j MASQUERADE
+COMMIT</pre><br>
+                            <li>service iptables restart</li>
+                        </ol>
+                        <br>
+                        
+                        <li>Install strongSwan</li>
+                        <ol>
+                            <li>yum install -y openssl-devel pam-devel</li>
+                            <li>wget https://download.strongswan.org/strongswan-5.3.5.tar.gz</li>
+                            <li>tar -xvzf strongswan-5.3.5.tar.gz</li>
+                            <li>cd ./strongswan-5.3.5/</li>
+                            <li>./configure --prefix=/usr --sysconfdir=/etc --enable-gcm --enable-xauth-pam --enable-kernel-libipsec --enable-openssl --with-fips-mode=2 --disable-ikev2 --disable-gmp --disable-pkcs1 --disable-pkcs7 --disable-pkcs8 --disable-pkcs12 --disable-pki --disable-x509</li> Note: This command will run for a long time.
+                            <li>make</li> Note: This command will run for a long time.
+                            <li>make install</li> Note: This command will run for a long time.
+                        </ol>
+                        <br>
+                        
+                        <li>Configure strongSwan</li>
+                        <ol>
+                            <li>vi /etc/strongswan.conf</li>
+                            <pre>charon {
+        interfaces_use = eth0
+        load_modular = yes
+        plugins {
+                include strongswan.d/charon/*.conf
+        }
+}</pre>
+                            <li>vi /etc/ipsec.conf</li>
+                            <pre>config setup
+
+conn %default
+        ikelifetime=60m
+        keylife=20m
+        rekeymargin=3m
+        keyingtries=1
+        keyexchange=ikev1
+        modeconfig=push
+        left=%defaultroute
+        leftsubnet=0.0.0.0/0
+        leftid=@vpn.ix.mil
+        leftfirewall=yes
+        authby=secret
+        ike=aes256-sha384-ecp384!
+        esp=aes256gcm128!
+
+
+conn rw-client1
+        right=%any
+        rightid=&lt;unique_id_of_client&gt;
+        rightsourceip=172.16.176.100/27
+        auto=start
+
+#To add additional clients:
+#conn rw-client1 #increment the last number by 1 for each additional client
+#        right=%any #stays the same for all clients
+#        rightid=&lt;unique_id_of_client&gt; #set a unique id for each client
+#        rightsourceip=172.16.176.100/27 #increment the last octet by 2. i.e. 102 for the next client, then 104
+#        auto=start #stays the same for all clients</pre>
+                            <li>vi /etc/ipsec.secrets</li>
+                            Note: replace &lt;unique_id_of_client&gt; with the unique ID and &lt;password_for_client&gt; with the password for the goSecure VPN client. 
+                            <pre>&lt;unique_id_of_client&gt; : PSK &lt;password_for_client&gt;</pre>
+                            <li>service network restart</li>
+                        </ol>
+                        <br>
+                        
+                        <li>Start strongSwan</li>
+                        <ol>
+                            <li>ipsec start</li>
+                            <li>echo "ipsec start" >> /etc/rc.d/rc.local</li>
+                        </ol>
+                        
+                    </ol>
+                    
+                    <h3 id="component-client">Client</h3>
+                    <br>
+                    Note: The following instructions are to build the client in mode 1 (see introduction section for mode definitions).
+                    <br>
+                    <br>
+                    
+                    <ol type="1">
+                        <li>Prerequisites</li>
+                        <ul>
+                            <li>Hardware</li>
+                            <ul>
+                                <li>Raspberry Pi 3 Model B</li>
+                                <li>2GB (minimum size) SD Card</li>
+                            </ul>
+
+                            <li>Software</li>
+                            <ul>
+                                <li>Raspbian Jessie Lite Image: <a href="https://downloads.raspberrypi.org/raspbian_lite_latest">https://downloads.raspberrypi.org/raspbian_lite_latest</a></li>
+                            </ul>
+                        </ul>
+                        <br>
+                        
+                        <li>Install OS</li>
+                        <ol>
+                            <li>Install Raspbian Jessie Lite (kernel 4.1) onto SD Card using the instructions under the "WRITING AN IMAGE TO THE SD CARD" section from <a href="https://www.raspberrypi.org/documentation/installation/installing-images/">here</a>.</li>
+                            <li>Turn on Raspberry Pi with SD Card installed.</li>
+                            <li>Login with default credentials (username: "pi" and password: "raspberry").</li>
+                        </ol>
+                        <br>
+                        
+                        <li>Configure OS</li>
+                        <ol>
+                            <li>sudo raspi-config</li>
+                            <li>Select "1 Expand Filesystem" and press the "Enter" key.</li>
+                            <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_expand_filesystem_1.jpg" width="797" height="553">
+                            <ol>
+                                <li>A new prompt stating "Root partition has been resized." will appear, press the "Enter" key to continue.</li>
+                                <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_expand_filesystem_2.jpg" width="797" height="553">
+                            </ol>
+                            <li>Select "2 Change User Password" and press the "Enter" key.
+                            <ol>
+                                <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_change_user_password_1.jpg" width="797" height="553">
+                                <li>Press the "Enter" key when you receive a message stating "You will not be asked to enter a password for the pi user"</li>
+                                <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_change_user_password_2.jpg" width="797" height="553">
+                                <li>A new command line prompt stating "Enter new UNIX password:" will appear on the bottom of the screen, type in your new password and press the "Enter" key.</li>
+                                <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_change_user_password_3.jpg" width="797" height="553">
+                                <li>A new command line prompt stating "Retype new UNIX password:" will appear on the bottom of the screen, type in your new password again and press the "Enter" key.</li>
+                                <li>A new prompt stating "Password changed successfully" will appear, press the "Enter" key to continue.</li>
+                                <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_change_user_password_4.jpg" width="797" height="553">
+                            </ol>
+                            <li>Select "5 Internationalisation Options" and press the "Enter" key.</li>
+                            <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_timezone_1.jpg" width="797" height="553">
+                            <ol>
+                                <li>Select "I2 Change Timezone" and press the "Enter" key.</li>
+                                <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_timezone_2.jpg" width="797" height="553">
+                                <li>Select "America" or the Country you reside in and press the "Enter" key.</li>
+                                <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_timezone_3.jpg" width="797" height="553">
+                                <li>Select "New_York" or the location you reside in and press the "Enter" key.</li>
+                                <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_timezone_4.jpg" width="797" height="553">
+                            </ol>
+                            <li>Select "5 Internationalisation Options" and press the "Enter" key.</li>
+                            <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_keyboard_1.jpg" width="797" height="553">
+                            <ol>
+                                <li>Select "I3 Change Keyboard Layout" and press the "Enter" key.</li>
+                                <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_keyboard_2.jpg" width="797" height="553">
+                                <li>Select "Generic 105-key (Intl) PC" and press the "Enter" key.</li>
+                                <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_keyboard_3.jpg" width="797" height="553">
+                                <li>Select "Other" and press the "Enter" key.</li>
+                                <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_keyboard_4.jpg" width="797" height="553">
+                                <li>Select "English (US)" and press the "Enter" key.</li>
+                                <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_keyboard_5.jpg" width="797" height="553">
+                                <li>Select "English (US)" and press the "Enter" key.</li>
+                                <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_keyboard_6.jpg" width="797" height="553">
+                                <li>Select "Right Alt (AltGr)" and press the "Enter" key.</li>
+                                <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_keyboard_7.jpg" width="797" height="553">
+                                <li>Select "No compose key" and press the "Enter" key.</li>
+                                <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_keyboard_8.jpg" width="797" height="553">
+                            </ol>
+                            <li>Press the "Tab" key 2 times to select "<Finish>" and press the "Enter" key.</li>
+                            <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_finish.jpg" width="797" height="553">
+                            <li>A new prompt stating "Would you like to reboot now?" will appear, press the "Enter" key to continue.</li>
+                            <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_reboot.jpg" width="797" height="553">
+                            <li>After reboot, on login prompt, login.</li>
+                        </ol>
+                        <br>
+                        
+                        <li>Configure Networking</li>
+                        <ol>
+                            <li>sudo sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"</li>
+                            <li>sudo vi /etc/sysctl.conf</li>
+                            <li>uncomment the line "net.ipv4.ip_forward=1" in the file.</li>
+                            <li>sudo vi /etc/network/interfaces</li>
+                            <pre># interfaces(5) file used by ifup(8) and ifdown(8)
+
+# Please note that this file is written to be used with dhcpcd
+# For static IP, consult /etc/dhcpcd.conf and 'man dhcpcd.conf'
+
+# Include files from /etc/network/interfaces.d:
+source-directory /etc/network/interfaces.d
+
+auto lo
+iface lo inet loopback
+
+auto eth0
+allow-hotplug eth0
+iface eth0 inet static
+address 192.168.50.1
+netmask 255.255.255.0
+
+auto wlan0
+allow-hotplug wlan0
+iface wlan0 inet manual
+wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf</pre>
+                        <li>sudo vi /etc/wpa_supplicant/wpa_supplicant.conf</li>
+                        <pre>ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+network={
+    ssid=&lt;YOUR_WIFI_SSID&gt;
+    psk=&lt;YOUR_WIFI_PASSWORD&gt;
+}</pre>
+                        <li>sudo service networking restart</li>
+                        </ol>
+                        <br>
+                        
+                        <li>Configure Firewall</li>
+                        <ol>
+                            <li>sudo mkdir /etc/iptables/</li>
+                            <li>sudo vi /etc/iptables/rules.v4</li>
+                            <pre>*filter
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+-A FORWARD -i ipsec0 -o eth0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A FORWARD -i eth0 -o ipsec0 -j ACCEPT
+COMMIT
+
+*nat
+:PREROUTING ACCEPT [0:0]
+:INPUT ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:POSTROUTING ACCEPT [0:0]
+-A POSTROUTING -o ipsec0 -j MASQUERADE
+COMMIT</pre>
+                            <li>sudo vi /etc/network/if-pre-up.d/firewall</li>
+                            <pre>#!/bin/sh
+sudo /sbin/iptables-restore < /etc/iptables/rules.v4</pre>
+                            <li>sudo chmod 550 /etc/network/if-pre-up.d/firewall</li>
+                        </ol>
+                        <br>
+                        
+                        <li>Enable hardware random</li>
+                        <ol>
+                            <li>sudo modprobe bcm2708-rng</li>
+                            <li>sudo sh -c "echo bcm2708-rng >> /etc/modules"</li>
+                        </ol>
+                        <br>
+                        
+                        <li>Update OS and Raspberry Pi</li>
+                        <ol>
+                            <li>sudo apt-get update -y</li>
+                            <li>sudo apt-get upgrade -y</li>
+                            <li>sudo apt-get dist-upgrade -y</li>
+                            <li>sudo apt-get install rpi-update</li>
+                            <li>sudo rpi-update</li>
+                            <li>sudo reboot</li>
+                        </ol>
+                        <br>
+                        
+                        <li>Install strongSwan</li>
+                        <ol>
+                            <li>cd /tmp/</li>
+                            <li>sudo apt-get install -y libssl-dev libpam-dev</li>
+                            <li>wget https://download.strongswan.org/strongswan-5.3.5.tar.gz</li>
+                            <li>tar -xvzf strongswan-5.3.5.tar.gz</li>
+                            <li>cd strongswan-5.3.5</li>
+                            <li>./configure --prefix=/usr --sysconfdir=/etc --enable-gcm --with-random-device=/dev/hwrng --enable-xauth-pam --enable-kernel-libipsec --enable-openssl --with-fips-mode=2 --disable-ikev2 --disable-gmp --disable-pkcs1 --disable-pkcs7 --disable-pkcs8 --disable-pkcs12 --disable-pki --disable-x509</li> Note: This command will run for a long time.
+                            <li>make</li> Note: This command will run for a long time.
+                            <li>sudo make install</li> Note: This command will run for a long time.
+                            <li>sudo vi /etc/strongswan.d/charon/openssl.conf</li>
+                            <li>uncomment "fips_mode = 0" in the file.</li>
+                        </ol>
+                        <br>
+                        
+                        <li>Configure strongSwan</li>
+                        <ol>
+                            <li>sudo vi /etc/strongswan.conf</li>
+                            <pre>charon {
+        interfaces_use = wlan0 #the external/WAN interface
+        load_modular = yes
+        plugins {
+                include strongswan.d/charon/*.conf
+        }
+}</pre>
+                            <li>sudo vi /etc/ipsec.conf</li>
+                            <br>
+                            <pre>config setup
+
+conn %default
+        ikelifetime=60m
+        keylife=20m
+        rekeymargin=3m
+        keyingtries=1
+        keyexchange=ikev1
+        modeconfig=push
+        authby=secret
+        ike=aes256-sha384-ecp384!
+        esp=aes256gcm128!
+
+conn work
+        left=%defaultroute      #external IP address
+        leftsourceip=%config    #external IP address
+        leftid=&lt;unique_id_of_client&gt;   #unique id of client i.e. client1@ix.mil
+        leftfirewall=yes        #automatically add firewall rules
+        right=&lt;eth0_ip_of_server&gt;       #strongSwan server external IP or DNS name
+        rightsubnet=0.0.0.0/0     #route all traffic to the strongSwan server
+        rightid=@vpn.ix.mil     #unique id of server
+        auto=start      #start tunnel when strongSwan service starts</pre>
+                            <li>sudo vi /etc/ipsec.secrets</li>
+                            <pre>&lt;unique_id_of_client&gt; : PSK &lt;password_for_client&gt;</pre>
+                            <li>sudo service networking restart</li>
+                        </ol>
+                        <br>
+                        
+                        
+                        <li>Start strongSwan</li>
+                        <ol>
+                            <li>sudo ipsec start</li>
+                            <li>sudo sh -c "echo 'sudo ipsec start' >> /etc/network/if-pre-up.d/firewall"</li>
+                            <li>sudo ip route add table 220 192.168.50.0/24 dev eth0</li>
+                            <li>sudo sed -i '$ d' /etc/rc.local</li>
+                            <li>sudo sh -c "echo 'ip route add table 220 192.168.50.0/24 dev eth0' >> /etc/rc.local"</li>
+                            <li>sudo sh -c "echo 'exit 0' >> /etc/rc.local"</li>
+                        </ol>
+                        <br>
+                        
+                        <li>Install DHCP and DNS Server</li>
+                        <ol>
+                            <li>sudo apt-get install dnsmasq -y</li>
+                        </ol>
+                        <br>
+                        
+                        <li>Configure DHCP and DNS Server</li>
+                        <ol>
+                            <li>sudo vi /etc/dnsmasq.conf</li>
+                            <pre>######## dns ########
+# Never forward plain names (without a dot or domain part)
+domain-needed
+# Never forward addresses in the non-routed address spaces
+bogus-priv
+# dont read resolv.conf   use the defined servers instead
+#no-resolv
+server=8.8.8.8
+server=8.8.4.4
+# increase dns cache form 512 to 4096
+cache-size=4096
+
+
+######### dhcp ##########
+# Add local-only domains here, queries in these domains are answered
+# from /etc/hosts or DHCP only
+local=/home/
+# Set this (and domain: see below) if you want to have a domain
+# automatically added to simple names in a hosts-file.
+expand-hosts
+# adds my localdomain to each dhcp host
+domain=gosecure
+# my private dhcp range + subnetmask + 14d lease time
+dhcp-range=192.168.50.101,192.168.50.200,255.255.255.0,14d
+# set route to my local network router
+dhcp-option=option:router,192.168.50.1
+#windows 7 float fix
+dhcp-option=252,"\n"
+
+###### logging ############
+# own logfile
+log-facility=/var/log/dnsmasq.log
+log-async
+# log dhcp infos
+log-dhcp
+# debugging dns
+#log-queries</pre>
+                            <li>sudo vi /etc/hosts</li>
+                            <pre>127.0.0.1       localhost
+::1             localhost ip6-localhost ip6-loopback
+ff02::1         ip6-allnodes
+ff02::2         ip6-allrouters
+
+127.0.1.1       raspberrypi
+192.168.50.1    setup</pre>
+
+                            <li>sudo service dnsmasq start</li>
+                            <li>sudo update-rc.d dnsmasq enable</li>
+                        </ol>
+                        <br>
+                            
+                        <li>Install Setup Interface</li>
+                        <ol>
+                            <li>sudo apt-get install python-pip -y</li>
+                            <li>sudo pip install Flask</li>
+                            <li>sudo pip install Flask-WTF</li>
+                            <li>cd ~</li>
+                            <li>wget &lt;url_for_gosecure_gui_code&gt; or <a href="./files/goSecure_Web_GUI.zip">Download Here</a> and SCP to goSecure client's home directory.</li>
+                            <li>unzip goSecure_Web_GUI.zip</li>
+                            <li>sudo vi /etc/init.d/gosecure-webgui.sh</li>
+                            <pre>#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:          gosecure-webgui
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: The goSecure Web Config GUI Service
+# Description:       This service controls the goSecure Web Config GUI
+### END INIT INFO
+
+# The next 3 lines specify the directory of the script, the name of the script, and the daemon name it will run as
+DIR=/home/pi/goSecure_Web_GUI
+DAEMON=$DIR/gosecure_app.py
+DAEMON_NAME=gosecure-webgui
+
+# Add any command line options for your daemon here
+DAEMON_OPTS=""
+
+# This next line determines what user the script runs as.
+DAEMON_USER=root
+
+# The process ID of the script when it runs is stored here:
+PIDFILE=/var/run/$DAEMON_NAME.pid
+
+. /lib/lsb/init-functions
+
+do_start () {
+    log_daemon_msg "Starting system $DAEMON_NAME daemon"
+    start-stop-daemon --start --background --pidfile $PIDFILE --make-pidfile --user $DAEMON_USER --chuid $DAEMON_USER --startas $DAEMON -- $DAEMON_OPTS
+    log_end_msg $?
+}
+do_stop () {
+    log_daemon_msg "Stopping system $DAEMON_NAME daemon"
+    start-stop-daemon --stop --pidfile $PIDFILE --retry 10
+    log_end_msg $?
+}
+
+case "$1" in
+
+    start|stop)
+        do_${1}
+        ;;
+
+    restart|reload|force-reload)
+        do_stop
+        do_start
+        ;;
+
+    status)
+        status_of_proc "$DAEMON_NAME" "$DAEMON" && exit 0 || exit $?
+        ;;
+
+    *)
+        echo "Usage: /etc/init.d/$DAEMON_NAME {start|stop|restart|status}"
+        exit 1
+        ;;
+
+esac
+exit 0</pre>
+                        <li>sudo chmod 755 /etc/init.d/gosecure-webgui.sh</li>
+                        <li>sudo chmod 550 /home/pi/goSecure_Web_GUI/gosecure_app.py</li>
+                        <li>sudo update-rc.d gosecure-webgui.sh defaults</li>
+                        </ol>
+                        <br>
+                            
+                        <li>Clean up</li>
+                        <ol>
+                            <li>sudo rm ~/goSecure_Web_GUI.zip</li>
+                            <li>sudo rm -rf /tmp/strongswan-5.3.5/</li>
+                            <li>sudo rm /tmp/strongswan-5.3.5.tar.gz</li>
+                            <li>sudo apt-get purge `sudo dpkg --get-selections | grep "\-dev" | sed s/install//` gcc-4\.[0-6].*</li>
+                            <li>sudo apt-get --yes autoremove</li>
+                            <li>sudo rm -rf /usr/share/doc/* /opt/vc/src/hello_pi/</li>
+                            <li>find /usr/share/locale/* -maxdepth 0 -type d |grep -v en |xargs sudo rm -rf</li>
+                            <li>find /usr/share/man/* -maxdepth 0 -type d |grep -Pv 'man\d' |xargs sudo rm -rf</li>
+                            <li>sudo find / -type f -name "*-old" |xargs sudo rm -rf</li>
+                            <li>sudo rm -rf /var/backups/* /var/lib/apt/lists/* ~/.bash_history</li>
+                            <li>find /var/log/ -type f |xargs sudo rm -rf</li>
+                            <li>sudo cp /dev/null /etc/resolv.conf</li>
+                            <li>sudo systemctl disable ssh</li>
+                            <li>sudo reboot</li>
+                        </ol>
+                        <br>
+
+                    </ol>
+                    
+                </section>
+
+                <section id="faq">
+                    <h2 class="page-header"><a href="#faq">FAQ</a></h2>
+                    <h3>What is goSecure?</h3>
+                    <p class="lead">goSecure is an easy to use and portable VPN system.</p>
+                    <h3>How do I add more clients to the system?</h3>
+                    <p>Refer to the comments in the configuration file created in #7 step 3 of the "Server" section in the "Build Components" heading. Also add a new line to the configuration file used in #7 step 4 of the "Server" section in the "Build Components" heading that contains the new &lt;unique_id_of_client&gt; and a new unique password.</p>
+                </section>
+
+                <section id="license">
+                    <h2 class="page-header"><a href="#license">License</a></h2>
+                    <p class="lead">
+                        This work was prepared by an U.S. Government employee and, therefore, is excluded from copyright by Section 105 of the Copyright Act of 1976. Copyright and Related Rights in the Work worldwide are waived through the <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0</a> <a href="https://creativecommons.org/publicdomain/zero/1.0/legalcode">Universal license</a>.
+                    </p>
+                </section>
+
+                <section id="disclaimer">
+                    <h2 class="page-header"><a href="#disclaimer">Disclaimer</a></h2>
+                    <p class="lead">
+                        <h3>Disclaimer of Warranty</h3><br>
+                        This Work is provided "as is." Any express or implied warranties, including but not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed. In no event shall the United States Government be liable for any direct, indirect, incidental, special, exemplary or consequential damages (including, but not limited to, procurement of substitute goods or services, loss of use, data or profits, or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way out of the use of this Guidance, even if advised of the possibility of such damage.
+                        <br>
+                        <br> The User of this Work agrees to hold harmless and indemnify the United States Government, its agents and employees from every claim or liability (whether in tort or in contract), including attorneys' fees, court costs, and expenses, arising in direct consequence of Recipient's use of the item, including, but not limited to, claims or liabilities made for injury to or death of personnel of User or third parties, damage to or destruction of property of User or third parties, and infringement or other violations of intellectual property or technical data rights.
+                        <br>
+                        <br> Nothing in this Work is intended to constitute an endorsement, explicit or implied, by the U.S. Government of any particular manufacturer's product or service.
+                        <br>
+                        <br>
+                    
+                        <h3>Disclaimer of Endorsement</h3><br>
+                        Reference herein to any specific commercial product, process, or service by trade name, trademark, manufacturer, or otherwise, in this Work does not constitute an endorsement, recommendation, or favoring by the United States Government and shall not be used for advertising or product endorsement purposes.
+                    </p>
+                </section>
+
+            </div>
+        </div>
+
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+                <b>Version</b> 0.9.7
+            </div>
+            <strong>IAD IX - goSecure</strong>
+        </footer>
+
+    </div>
+
+    <!-- jQuery 2.1.4 -->
+    <script src="./files/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="./files/bootstrap/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="./files/plugins/fastclick/fastclick.min.js"></script>
+    <!-- goSecure App -->
+    <script src="./files/dist/js/app.min.js"></script>
+    <!-- SlimScroll 1.3.0 -->
+    <script src="./files/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <script src="./files/documentation/docs.js"></script>
+</body>
+
+</html>
