@@ -4,7 +4,7 @@
 
 goSecure is an easy to use and portable Virtual Private Network (VPN) system. 
 
-For more information see http://iadgov.github.io/goSecure/
+For more information see https://iadgov.github.io/goSecure/
 
 ## License
 This Work was prepared by a United States Government employee and, therefore, is excluded from copyright by Section 105 of the Copyright Act of 1976.
