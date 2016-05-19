@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -61,6 +61,7 @@
                         </ul>
                     </li>
                     <li><a href="#faq"><i class="fa fa-circle-o"></i> FAQ</a></li>
+                    <li><a href="#api"><i class="fa fa-circle-o"></i> API</a></li>
                     <li><a href="#license"><i class="fa fa-circle-o"></i> License</a></li>
                     <li><a href="#disclaimer"><i class="fa fa-circle-o"></i> Disclaimer</a></li>
                 </ul>
@@ -71,7 +72,7 @@
             <div class="content-header">
                 <h1>
             goSecure Documentation
-            <small>Current version 0.9.7</small>
+            <small>Current version 0.9.8</small>
           </h1>
                 <ol class="breadcrumb">
                     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -114,7 +115,7 @@
                     <br>
                     <p class="lead">
                         Network flow diagram:<br><br>
-                        <img src="./files/images/goSecure_Network_Diagram_1.png" style="width:850px; height:500px;">
+                        <img class="img-responsive" src="./files/images/goSecure_Network_Diagram_1.png" style="width:850px; height:500px;">
                     </p>
                     <br>
                     
@@ -130,8 +131,8 @@
                             <li>Plug in the Ethernet cable from the goSecure Client to the device (i.e. your laptop).</li>
                             <li>Plug in the USB cable to the goSecure Client to the device (i.e. your laptop).</li>
                             <li>Wait 60 seconds.</li>
-                            <li>Open a web browser and navigate to "http://setup.gosecure"</li>
-                            <li>Follow the instructions on the web page that appears.</li>
+                            <li>Open a web browser and navigate to "https://setup.gosecure"</li>
+                            <li>Follow the instructions on the web page that appears. The default login username is "admin" and the password is "gosecure". You will be prompted to change them once you login.</li>
                             <li>You can access your enterprise resources now.</li>
                         </ol>
                         <br>
@@ -189,25 +190,25 @@ Physical Volume
     swap            2x amount of RAM</pre>
                                 <li>When you reach the prompt stating “Which type of installation would you like?”, select “Create Custom Layout”.</li>
                                 <br>
-                                <img class="aligncenter size-full wp-image-465" src="./files/images/server_install/centos_disk_layout.png" width="797" height="553">
+                                <img class="img-responsive" src="./files/images/server_install/centos_disk_layout.png" width="797" height="553">
                                 <br>
                                 <li>Create a “Standard Partition” for the “/boot” partition of size “200” (MB), and check the box “Force to be a primary partition”.</li>
                                 <br>
-                                <img class="aligncenter size-full wp-image-465" src="./files/images/server_install/centos_partition_layout.png" width="797" height="553">
+                                <img class="img-responsive" src="./files/images/server_install/centos_partition_layout.png" width="797" height="553">
                                 <br>
-                                <img class="aligncenter size-full wp-image-465" src="./files/images/server_install/centos_partition_layout_boot.png" width="797" height="553">
+                                <img class="img-responsive" src="./files/images/server_install/centos_partition_layout_boot.png" width="797" height="553">
                                 <br>
                                 <li>Create a “Standard Partition” for the “swap” partition. Select “swap” as the “File System Type”.</li>
                                 <br>
-                                <img class="aligncenter size-full wp-image-465" src="./files/images/server_install/centos_partition_layout_swap.png" width="797" height="553">
+                                <img class="img-responsive" src="./files/images/server_install/centos_partition_layout_swap.png" width="797" height="553">
                                 <br>      
                                 <li>Create a “LVM Physical Volume”. Select “Fill to maximum allowable size”.</li>
                                 <br>
-                                <img class="aligncenter size-full wp-image-465" src="./files/images/server_install/centos_lvm_group.png" width="797" height="553">
+                                <img class="img-responsive" src="./files/images/server_install/centos_lvm_group.png" width="797" height="553">
                                 <br> 
                                 <li>Create a “LVM Volume Group”. Create all the logical volumes at their specified mount points (depicted above in the Disk partition overview).</li>
                                 <br>
-                                <img class="aligncenter size-full wp-image-465" src="./files/images/server_install/centos_final_partition_layout.png" width="797" height="553">
+                                <img class="img-responsive" src="./files/images/server_install/centos_final_partition_layout.png" width="797" height="553">
                                 <br> 
                                 <li>Click “Format” when prompted with the warning.</li>
                                 <li>Click “Write changes to disk” when prompted.</li>
@@ -218,7 +219,7 @@ Physical Volume
                             Package Selection:
                             <br>
                             <li>Select “Minimal” and select “Customize later”.</li>
-                            <br><img class="aligncenter size-full wp-image-465" src="./files/images/server_install/centos_package_selection.png" width="797" height="553">
+                            <br><img class="img-responsive" src="./files/images/server_install/centos_package_selection.png" width="797" height="553">
                         </ol>
                             
                         </ol>
@@ -409,54 +410,64 @@ conn rw-client1
                         <ol>
                             <li>sudo raspi-config</li>
                             <li>Select "1 Expand Filesystem" and press the "Enter" key.</li>
-                            <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_expand_filesystem_1.jpg" width="797" height="553">
+                            <img class="img-responsive" src="./files/images/client_install/raspi-config_expand_filesystem_1.png" width="797" height="553">
                             <ol>
                                 <li>A new prompt stating "Root partition has been resized." will appear, press the "Enter" key to continue.</li>
-                                <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_expand_filesystem_2.jpg" width="797" height="553">
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_expand_filesystem_2.png" width="797" height="553">
                             </ol>
                             <li>Select "2 Change User Password" and press the "Enter" key.
                             <ol>
-                                <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_change_user_password_1.jpg" width="797" height="553">
-                                <li>Press the "Enter" key when you receive a message stating "You will not be asked to enter a password for the pi user"</li>
-                                <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_change_user_password_2.jpg" width="797" height="553">
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_change_user_password_1.png" width="797" height="553">
+                                <li>Press the "Enter" key when you receive a message stating "You will now be asked to enter a password for the pi user"</li>
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_change_user_password_2.png" width="797" height="553">
                                 <li>A new command line prompt stating "Enter new UNIX password:" will appear on the bottom of the screen, type in your new password and press the "Enter" key.</li>
-                                <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_change_user_password_3.jpg" width="797" height="553">
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_change_user_password_3.jpg" width="797" height="553">
                                 <li>A new command line prompt stating "Retype new UNIX password:" will appear on the bottom of the screen, type in your new password again and press the "Enter" key.</li>
                                 <li>A new prompt stating "Password changed successfully" will appear, press the "Enter" key to continue.</li>
-                                <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_change_user_password_4.jpg" width="797" height="553">
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_change_user_password_4.png" width="797" height="553">
                             </ol>
                             <li>Select "5 Internationalisation Options" and press the "Enter" key.</li>
-                            <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_timezone_1.jpg" width="797" height="553">
+                            <img class="img-responsive" src="./files/images/client_install/raspi-config_timezone_1.png" width="797" height="553">
                             <ol>
                                 <li>Select "I2 Change Timezone" and press the "Enter" key.</li>
-                                <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_timezone_2.jpg" width="797" height="553">
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_timezone_2.png" width="797" height="553">
                                 <li>Select "America" or the Country you reside in and press the "Enter" key.</li>
-                                <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_timezone_3.jpg" width="797" height="553">
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_timezone_3.png" width="797" height="553">
                                 <li>Select "New_York" or the location you reside in and press the "Enter" key.</li>
-                                <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_timezone_4.jpg" width="797" height="553">
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_timezone_4.png" width="797" height="553">
                             </ol>
                             <li>Select "5 Internationalisation Options" and press the "Enter" key.</li>
-                            <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_keyboard_1.jpg" width="797" height="553">
+                            <img class="img-responsive" src="./files/images/client_install/raspi-config_keyboard_1.png" width="797" height="553">
                             <ol>
                                 <li>Select "I3 Change Keyboard Layout" and press the "Enter" key.</li>
-                                <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_keyboard_2.jpg" width="797" height="553">
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_keyboard_2.png" width="797" height="553">
                                 <li>Select "Generic 105-key (Intl) PC" and press the "Enter" key.</li>
-                                <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_keyboard_3.jpg" width="797" height="553">
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_keyboard_3.jpg" width="797" height="553">
                                 <li>Select "Other" and press the "Enter" key.</li>
-                                <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_keyboard_4.jpg" width="797" height="553">
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_keyboard_4.jpg" width="797" height="553">
                                 <li>Select "English (US)" and press the "Enter" key.</li>
-                                <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_keyboard_5.jpg" width="797" height="553">
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_keyboard_5.jpg" width="797" height="553">
                                 <li>Select "English (US)" and press the "Enter" key.</li>
-                                <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_keyboard_6.jpg" width="797" height="553">
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_keyboard_6.jpg" width="797" height="553">
                                 <li>Select "Right Alt (AltGr)" and press the "Enter" key.</li>
-                                <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_keyboard_7.jpg" width="797" height="553">
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_keyboard_7.jpg" width="797" height="553">
                                 <li>Select "No compose key" and press the "Enter" key.</li>
-                                <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_keyboard_8.jpg" width="797" height="553">
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_keyboard_8.jpg" width="797" height="553">
+                            </ol>
+                            <li>Select "5 Internationalisation Options" and press the "Enter" key.</li>
+                            <img class="img-responsive" src="./files/images/client_install/raspi-config_wifi_1.png" width="797" height="553">
+                            <ol>
+                                <li>Select "I4 Change Wi-fi Country" and press the "Enter" key.</li>
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_wifi_2.png" width="797" height="553">
+                                <li>Select "US United States" or the Country you reside in and press the "Enter" key.</li>
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_wifi_3.png" width="797" height="553">
+                                <li>A new prompt stating "Wi-fi sountry set to US" will appear, press the "Enter" key to continue.</li>
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_wifi_4.png" width="797" height="553">
                             </ol>
                             <li>Press the "Tab" key 2 times to select "<Finish>" and press the "Enter" key.</li>
-                            <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_finish.jpg" width="797" height="553">
+                            <img class="img-responsive" src="./files/images/client_install/raspi-config_finish.png" width="797" height="553">
                             <li>A new prompt stating "Would you like to reboot now?" will appear, press the "Enter" key to continue.</li>
-                            <img class="aligncenter size-full wp-image-465" src="./files/images/client_install/raspi-config_reboot.jpg" width="797" height="553">
+                            <img class="img-responsive" src="./files/images/client_install/raspi-config_reboot.png" width="797" height="553">
                             <li>After reboot, on login prompt, login.</li>
                         </ol>
                         <br>
@@ -670,85 +681,39 @@ ff02::2         ip6-allrouters
                         </ol>
                         <br>
                             
-                        <li>Install Setup Interface</li>
+                        <li>Install User Interface</li>
                         <ol>
                             <li>sudo apt-get install python-pip -y</li>
-                            <li>sudo pip install Flask</li>
-                            <li>sudo pip install Flask-WTF</li>
+                            <li>sudo pip install Flask Flask-WTF Flask-Login</li>
                             <li>cd ~</li>
                             <li>wget https://github.com/iadgov/goSecure/archive/master.zip</li>
-                            <li>unzip master.zip</li>                            <li>mv master goSecure_Web_GUI</li>                            <li>rm master.zip</li>
-                            <li>sudo vi /etc/init.d/gosecure-webgui.sh</li>
-                            <pre>#!/bin/sh
+                            <li>unzip master.zip</li>
+                            <li>rm master.zip</li>
+                            <li>mv goSecure-master goSecure_Web_GUI</li>
+                            <li>find goSecure_Web_GUI -type d -exec chmod 550 {} \;</li>
+                            <li>find goSecure_Web_GUI -type f -exec chmod 440 {} \;</li>
+                            <li>sudo chmod 660 ./goSecure_Web_GUI/users_db.p</li>
+                            <li>sudo vi /lib/systemd/system/gosecure.service</li>
+                            <pre>[Unit]
+Description=goSecure Web GUI Service
+After=multi-user.target
 
-### BEGIN INIT INFO
-# Provides:          gosecure-webgui
-# Required-Start:    $remote_fs $syslog
-# Required-Stop:     $remote_fs $syslog
-# Default-Start:     2 3 4 5
-# Default-Stop:      0 1 6
-# Short-Description: The goSecure Web Config GUI Service
-# Description:       This service controls the goSecure Web Config GUI
-### END INIT INFO
+[Service]
+Type=idle
+ExecStart=/usr/bin/python /home/pi/goSecure_Web_GUI/gosecure_app.py
 
-# The next 3 lines specify the directory of the script, the name of the script, and the daemon name it will run as
-DIR=/home/pi/goSecure_Web_GUI
-DAEMON=$DIR/gosecure_app.py
-DAEMON_NAME=gosecure-webgui
-
-# Add any command line options for your daemon here
-DAEMON_OPTS=""
-
-# This next line determines what user the script runs as.
-DAEMON_USER=root
-
-# The process ID of the script when it runs is stored here:
-PIDFILE=/var/run/$DAEMON_NAME.pid
-
-. /lib/lsb/init-functions
-
-do_start () {
-    log_daemon_msg "Starting system $DAEMON_NAME daemon"
-    start-stop-daemon --start --background --pidfile $PIDFILE --make-pidfile --user $DAEMON_USER --chuid $DAEMON_USER --startas $DAEMON -- $DAEMON_OPTS
-    log_end_msg $?
-}
-do_stop () {
-    log_daemon_msg "Stopping system $DAEMON_NAME daemon"
-    start-stop-daemon --stop --pidfile $PIDFILE --retry 10
-    log_end_msg $?
-}
-
-case "$1" in
-
-    start|stop)
-        do_${1}
-        ;;
-
-    restart|reload|force-reload)
-        do_stop
-        do_start
-        ;;
-
-    status)
-        status_of_proc "$DAEMON_NAME" "$DAEMON" && exit 0 || exit $?
-        ;;
-
-    *)
-        echo "Usage: /etc/init.d/$DAEMON_NAME {start|stop|restart|status}"
-        exit 1
-        ;;
-
-esac
-exit 0</pre>
-                        <li>sudo chmod 755 /etc/init.d/gosecure-webgui.sh</li>
+[Install]
+WantedBy=multi-user.target</pre>
+                        <li>sudo chmod 644 /lib/systemd/system/gosecure.service</li>
+                        <li>sudo systemctl daemon-reload</li>
+                        <li>sudo systemctl enable gosecure.service</li>
                         <li>sudo chmod 550 /home/pi/goSecure_Web_GUI/gosecure_app.py</li>
-                        <li>sudo update-rc.d gosecure-webgui.sh defaults</li>
+                        <li>sudo reboot</li>
                         </ol>
                         <br>
                             
                         <li>Clean up</li>
                         <ol>
-                            <li>sudo rm ~/goSecure_Web_GUI.zip</li>
                             <li>sudo rm -rf /tmp/strongswan-5.3.5/</li>
                             <li>sudo rm /tmp/strongswan-5.3.5.tar.gz</li>
                             <li>sudo apt-get purge `sudo dpkg --get-selections | grep "\-dev" | sed s/install//` gcc-4\.[0-6].*</li>
@@ -775,6 +740,48 @@ exit 0</pre>
                     <p class="lead">goSecure is an easy to use and portable VPN system.</p>
                     <h3>How do I add more clients to the system?</h3>
                     <p>Refer to the comments in the configuration file created in #7 step 3 of the "Server" section in the "Build Components" heading. Also add a new line to the configuration file used in #7 step 4 of the "Server" section in the "Build Components" heading that contains the new &lt;unique_id_of_client&gt; and a new unique password.</p>
+                </section>
+                    
+                <section id="api">
+                    <h2 class="page-header"><a href="#api">API</a></h2>
+                    Note: Add "--insecure" to the end of the curl command if your computer does not trust the goSecure client's self signed certificate.
+                    <h3>goSecure Client REST API examples using curl</h3>
+                    <table class="table table-striped">
+                        <thead class="thead-default">
+                            <tr>
+                                <th>#</th>
+                                <th>Action</th>
+                                <th>curl command</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Set VPN credentials</td>
+                                <td>curl --user admin:gosecure -H "Content-Type: application/json" -X POST https://192.168.50.1/v1.0/vpn/credentials -d '{"vpn_server":"server1@ix.mil", "user_id":"client1@ix.mil","user_psk":"mysecretpsk"}'</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Reset (clear) VPN credentials</td>
+                                <td>curl --user admin:gosecure -H "Content-Type: application/json" -X DELETE https://192.168.50.1/v1.0/vpn/credentials</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td>Start VPN service and establish connection</td>
+                                <td>curl --user admin:gosecure -H "Content-Type: application/json" -X POST https://192.168.50.1/v1.0/vpn/actions -d '{"action":"start_vpn"}'</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">4</th>
+                                <td>Stop VPN service and close connection</td>
+                                <td>curl --user admin:gosecure -H "Content-Type: application/json" -X POST https://192.168.50.1/v1.0/vpn/actions -d '{"action":"stop_vpn"}'</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">5</th>
+                                <td>Restart VPN service and establish connection</td>
+                                <td>curl --user admin:gosecure -H "Content-Type: application/json" -X POST https://192.168.50.1/v1.0/vpn/actions -d '{"action":"restart_vpn"}'</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </section>
 
                 <section id="license">
@@ -806,7 +813,7 @@ exit 0</pre>
 
         <footer class="main-footer">
             <div class="pull-right hidden-xs">
-                <b>Version</b> 0.9.7
+                <b>Version</b> 0.9.8
             </div>
             <strong>IAD IX - goSecure</strong>
         </footer>
