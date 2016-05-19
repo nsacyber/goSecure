@@ -1,0 +1,13 @@
+(dp0
+S'admin'
+p1
+(dp2
+S'password'
+p3
+S'2074ad04839ae517751e5948ae13f0e3c90d186c9c9bbd29c3c88b9c6000dba5'
+p4
+sS'salt'
+p5
+S'uOMbInZTYYpiCGvEaH8Byw==\n'
+p6
+ss.

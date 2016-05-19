@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>goSecure User</title>
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/static/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="/static/css/form-elements.css">
+        <link rel="stylesheet" href="/static/css/style.css">
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+        
+        <a id="menu-toggle" href="#" onclick="location.href = '/setup'" class="btn btn-dark btn-lg toggle"><i class="fa fa-gear fa-2x"></i></a>
+
+        <!-- Top content -->
+        <div class="top-content">
+        	
+            <div class="inner-bg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-2 text">
+                            <h1><strong>goSecure</strong></h1>
+                            <div class="description">
+                            	<p>
+	                            	Change the goSecure client user information.
+                            	</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-2 text">
+                                <div class="description">
+                                    <p>
+                                        {% with messages = get_flashed_messages(with_categories=true) %}
+                                            {% if messages %}
+                                                <ul class="flashes">
+                                                    {% for category, message in messages %}
+                                                        <div class="{{ category }}" name="messages" id="messages">
+                                                            {{ message }}
+                                                        </div>
+                                                    {% endfor %}
+                                                </ul>
+                                            {% endif %}
+                                        {% endwith %}
+                                    </p>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3 form-box">
+                            <form role="form" action="" method="post" class="registration-form">
+                                <fieldset>
+                                    <div class="form-top">
+                                        <div class="form-top-left">
+                                            <h2>{{ current_user.id }}</h2>
+                                        </div>
+                                        <div class="form-top-right">
+                                            <i class="fa fa-user"></i>
+                                        </div>
+                                    </div>
+                                    <div class="form-bottom">
+                                        <div class="form-group">
+                                            {{ form.username.label }}
+                                            <br> {{ form.username(class="form-control") }}
+
+                                        </div>
+                                        <div class="form-group">
+                                            {{ form.password.label }}
+                                            <br> {{ form.password(class="form-control") }}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ form.new_password.label }}
+                                            <br> {{ form.new_password(class="form-control") }}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ form.confirm_password.label }}
+                                            <br> {{ form.confirm_password(class="form-control") }}
+                                        </div>
+                                        {{ form.userSubmit(class="btn btn-next") }}
+                                    </div>
+                                </fieldset>
+                                {{ form.csrf_token }}
+                            </form>
+                        </div>
+                    </div>       
+                </div>
+            </div>
+            
+        </div>
+
+
+        <!-- Javascript -->
+        <script src="/static/js/jquery-1.11.1.min.js"></script>
+        <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/static/js/jquery.backstretch.min.js"></script>
+        <script src="/static/js/retina-1.1.0.min.js"></script>
+        <script src="/static/js/default.js"></script>
+        
+        <!--[if lt IE 10]>
+            <script src="/static/js/placeholder.js"></script>
+        <![endif]-->
+
+    </body>
+
+</html>

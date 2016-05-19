@@ -21,13 +21,6 @@
             <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
 
-        <!-- Favicon and touch icons -->
-        <link rel="shortcut icon" href="/static/ico/favicon.png">
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/ico/apple-touch-icon-144-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/ico/apple-touch-icon-114-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/ico/apple-touch-icon-72-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" href="/static/ico/apple-touch-icon-57-precomposed.png">
-
     </head>
 
     <body>
@@ -38,6 +31,12 @@
                 <a id="menu-close" href="#" class="btn btn-light btn-lg pull-right toggle"><i class="fa fa-times"></i></a>
                 <li class="sidebar-brand">
                     <a href="#top" onclick="$(&quot;#menu-close&quot;).click();">Actions</a>
+                </li>
+                <li>
+                    <a href="#top" onclick="location.href = '/logout'">Logout</a>
+                </li>
+                <li>
+                    <a href="#top" onclick="location.href = '/user'">User Management</a>
                 </li>
                 <li>
                     <a href="#top" onclick="post('/action', {action: 'start_vpn'});">Start VPN</a>
@@ -170,7 +169,7 @@
         <script src="/static/bootstrap/js/bootstrap.min.js"></script>
         <script src="/static/js/jquery.backstretch.min.js"></script>
         <script src="/static/js/retina-1.1.0.min.js"></script>
-        <script src="/static/js/scripts.js"></script>
+        <script src="/static/js/setup.js"></script>
         
         <!--[if lt IE 10]>
             <script src="/static/js/placeholder.js"></script>
@@ -190,10 +189,8 @@
             });
             
             function post(path, params, method) {
-                method = method || "post"; // Set method to post by default if not specified.
+                method = method || "post";
 
-                // The rest of this code assumes you are not using a library.
-                // It can be made less wordy if you use one.
                 var form = document.createElement("form");
                 form.setAttribute("method", method);
                 form.setAttribute("action", path);

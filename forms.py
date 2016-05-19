@@ -1,6 +1,18 @@
-from wtforms import PasswordField, SelectField, SubmitField, StringField, validators 
+from wtforms import PasswordField, SelectField, SubmitField, StringField, validators
 from flask.ext.wtf import Form
 from scripts.rpi_wifi_conn import get_wifi_list
+
+class loginForm(Form):
+    username = StringField("Username", [validators.DataRequired("Please enter the username."), validators.Length(min=2,max=25, message="Please enter a username between 2 and 25 characters.")])
+    password = PasswordField("Password", [validators.DataRequired("Please enter the password."), validators.Length(min=8,max=128, message="Please enter a password between 8 and 128 characters.")])
+    loginSubmit = SubmitField("Login", [validators.DataRequired()])
+    
+class userForm(Form):
+    username = StringField("Username", [validators.DataRequired("Please enter the username."), validators.Length(min=2,max=25, message="Please enter a username between 2 and 25 characters.")])
+    password = PasswordField("Current Password", [validators.DataRequired("Please enter the password."), validators.Length(min=8,max=128, message="Please enter a password between 8 and 128 characters.")])
+    new_password = PasswordField("New Password", [validators.DataRequired("Please enter a new password."), validators.Length(min=8,max=128, message="Please enter a new password between 8 and 128 characters."), validators.EqualTo('confirm_password', message='Passwords must match')])
+    confirm_password = PasswordField("Repeat New Password")
+    userSubmit = SubmitField("Save and Logout", [validators.DataRequired()])
 
 class initialSetupForm(Form):
     wifi_list = get_wifi_list()
