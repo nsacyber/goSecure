@@ -348,7 +348,7 @@ conn %default
         leftfirewall=yes
         right=%any
         rightsourceip=172.16.176.100/27
-        auto=start
+        auto=add
         authby=secret
         ike=aes256-sha384-ecp384!
         esp=aes256gcm128!
@@ -600,7 +600,7 @@ conn work
         right=&lt;eth0_ip_of_server&gt;       #strongSwan server external IP or DNS name
         rightsubnet=0.0.0.0/0     #route all traffic to the strongSwan server
         rightid=@vpn.ix.mil     #unique id of server
-        auto=add      #start tunnel when strongSwan service starts
+        auto=start      #start tunnel when strongSwan service starts
         authby=secret
         ike=aes256-sha384-ecp384!
         esp=aes256gcm128!
