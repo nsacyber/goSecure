@@ -311,12 +311,13 @@ COMMIT</pre><br>
                         <li>Install strongSwan</li>
                         <ol>
                             <li>yum install -y openssl-devel pam-devel</li>
-                            <li>wget https://download.strongswan.org/strongswan-5.3.5.tar.gz</li>
-                            <li>tar -xvzf strongswan-5.3.5.tar.gz</li>
-                            <li>cd ./strongswan-5.3.5/</li>
-                            <li>./configure --prefix=/usr --sysconfdir=/etc --enable-gcm --enable-xauth-pam --enable-kernel-libipsec --enable-openssl --with-fips-mode=2 --disable-ikev2 --disable-gmp --disable-pkcs1 --disable-pkcs7 --disable-pkcs8 --disable-pkcs12 --disable-pki --disable-x509</li> Note: This command will run for a long time.
+                            <li>wget https://download.strongswan.org/strongswan-5.4.0.tar.gz</li>
+                            <li>tar -xvzf strongswan-5.4.0.tar.gz</li>
+                            <li>cd ./strongswan-5.4.0/</li>
+                            <li>./configure --prefix=/usr --sysconfdir=/etc --enable-gcm --enable-kernel-libipsec --enable-openssl --with-fips-mode=2 --disable-vici --disable-des --disable-ikev2 --disable-gmp</li> Note: This command will run for a long time.
                             <li>make</li> Note: This command will run for a long time.
                             <li>make install</li> Note: This command will run for a long time.
+                            <li>cd ~</li>
                         </ol>
                         <br>
                         
@@ -329,7 +330,9 @@ COMMIT</pre><br>
         plugins {
                 include strongswan.d/charon/*.conf
         }
-}</pre>
+}
+
+include strongswan.d/*.conf</pre>
                             <li>vi /etc/ipsec.conf</li>
                             <pre>config setup
 
@@ -339,28 +342,25 @@ conn %default
         rekeymargin=3m
         keyingtries=1
         keyexchange=ikev1
-        modeconfig=push
         left=%defaultroute
         leftsubnet=0.0.0.0/0
         leftid=@vpn.ix.mil
         leftfirewall=yes
+        right=%any
+        rightsourceip=172.16.176.100/27
+        auto=start
         authby=secret
         ike=aes256-sha384-ecp384!
         esp=aes256gcm128!
+        aggressive=yes
 
 
 conn rw-client1
-        right=%any
         rightid=&lt;unique_id_of_client&gt;
-        rightsourceip=172.16.176.100/27
-        auto=start
 
 #To add additional clients:
 #conn rw-client1 #increment the last number by 1 for each additional client
-#        right=%any #stays the same for all clients
-#        rightid=&lt;unique_id_of_client&gt; #set a unique id for each client
-#        rightsourceip=172.16.176.100/27 #increment the last octet by 2. i.e. 102 for the next client, then 104
-#        auto=start #stays the same for all clients</pre>
+#        rightid=&lt;unique_id_of_client&gt; #set a unique id for each client</pre>
                             <li>vi /etc/ipsec.secrets</li>
                             Note: replace &lt;unique_id_of_client&gt; with the unique ID and &lt;password_for_client&gt; with the password for the goSecure VPN client. 
                             <pre>&lt;unique_id_of_client&gt; : PSK &lt;password_for_client&gt;</pre>
@@ -400,7 +400,7 @@ conn rw-client1
                         
                         <li>Install OS</li>
                         <ol>
-                            <li>Install Raspbian Jessie Lite (kernel 4.1) onto SD Card using the instructions under the "WRITING AN IMAGE TO THE SD CARD" section from <a href="https://www.raspberrypi.org/documentation/installation/installing-images/">here</a>.</li>
+                            <li>Install Raspbian Jessie Lite onto SD Card using the instructions under the "WRITING AN IMAGE TO THE SD CARD" section from <a href="https://www.raspberrypi.org/documentation/installation/installing-images/">here</a>.</li>
                             <li>Turn on Raspberry Pi with SD Card installed.</li>
                             <li>Login with default credentials (username: "pi" and password: "raspberry").</li>
                         </ol>
@@ -558,10 +558,10 @@ sudo /sbin/iptables-restore < /etc/iptables/rules.v4</pre>
                         <ol>
                             <li>cd /tmp/</li>
                             <li>sudo apt-get install -y libssl-dev libpam-dev</li>
-                            <li>wget https://download.strongswan.org/strongswan-5.3.5.tar.gz</li>
-                            <li>tar -xvzf strongswan-5.3.5.tar.gz</li>
-                            <li>cd strongswan-5.3.5</li>
-                            <li>./configure --prefix=/usr --sysconfdir=/etc --enable-gcm --with-random-device=/dev/hwrng --enable-xauth-pam --enable-kernel-libipsec --enable-openssl --with-fips-mode=2 --disable-ikev2 --disable-gmp --disable-pkcs1 --disable-pkcs7 --disable-pkcs8 --disable-pkcs12 --disable-pki --disable-x509</li> Note: This command will run for a long time.
+                            <li>wget https://download.strongswan.org/strongswan-5.4.0.tar.gz</li>
+                            <li>tar -xvzf strongswan-5.4.0.tar.gz</li>
+                            <li>cd strongswan-5.4.0</li>
+                            <li>./configure --prefix=/usr --sysconfdir=/etc --enable-gcm --with-random-device=/dev/hwrng --enable-kernel-libipsec --enable-openssl --with-fips-mode=2 --disable-vici --disable-des --disable-ikev2 --disable-gmp</li> Note: This command will run for a long time.
                             <li>make</li> Note: This command will run for a long time.
                             <li>sudo make install</li> Note: This command will run for a long time.
                             <li>sudo vi /etc/strongswan.d/charon/openssl.conf</li>
@@ -578,7 +578,9 @@ sudo /sbin/iptables-restore < /etc/iptables/rules.v4</pre>
         plugins {
                 include strongswan.d/charon/*.conf
         }
-}</pre>
+}
+
+include strongswan.d/*.conf</pre>
                             <li>sudo vi /etc/ipsec.conf</li>
                             <br>
                             <pre>config setup
@@ -589,10 +591,6 @@ conn %default
         rekeymargin=3m
         keyingtries=1
         keyexchange=ikev1
-        modeconfig=push
-        authby=secret
-        ike=aes256-sha384-ecp384!
-        esp=aes256gcm128!
 
 conn work
         left=%defaultroute      #external IP address
@@ -602,14 +600,18 @@ conn work
         right=&lt;eth0_ip_of_server&gt;       #strongSwan server external IP or DNS name
         rightsubnet=0.0.0.0/0     #route all traffic to the strongSwan server
         rightid=@vpn.ix.mil     #unique id of server
-        auto=start      #start tunnel when strongSwan service starts</pre>
+        auto=add      #start tunnel when strongSwan service starts
+        authby=secret
+        ike=aes256-sha384-ecp384!
+        esp=aes256gcm128!
+        aggressive=yes #this is required to support multiple road warrior clients that use just a pre-shared key.</pre>
                             <li>sudo vi /etc/ipsec.secrets</li>
+                            Note: type it in exactly the way it's shown, it will get over written by the web interface during the setup procedure.
                             <pre>&lt;unique_id_of_client&gt; : PSK &lt;password_for_client&gt;</pre>
                             <li>sudo service networking restart</li>
                         </ol>
                         <br>
-                        
-                        
+                            
                         <li>Start strongSwan</li>
                         <ol>
                             <li>sudo ipsec start</li>
@@ -714,8 +716,8 @@ WantedBy=multi-user.target</pre>
                             
                         <li>Clean up</li>
                         <ol>
-                            <li>sudo rm -rf /tmp/strongswan-5.3.5/</li>
-                            <li>sudo rm /tmp/strongswan-5.3.5.tar.gz</li>
+                            <li>sudo rm -rf /tmp/strongswan-5.4.0/</li>
+                            <li>sudo rm /tmp/strongswan-5.4.0.tar.gz</li>
                             <li>sudo apt-get purge `sudo dpkg --get-selections | grep "\-dev" | sed s/install//` gcc-4\.[0-6].*</li>
                             <li>sudo apt-get --yes autoremove</li>
                             <li>sudo rm -rf /usr/share/doc/* /opt/vc/src/hello_pi/</li>
