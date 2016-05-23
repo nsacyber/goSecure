@@ -327,6 +327,7 @@ COMMIT</pre><br>
                             <pre>charon {
         interfaces_use = eth0
         load_modular = yes
+        i_dont_care_about_security_and_use_aggressive_mode_psk=yes
         plugins {
                 include strongswan.d/charon/*.conf
         }
@@ -575,6 +576,7 @@ sudo /sbin/iptables-restore < /etc/iptables/rules.v4</pre>
                             <pre>charon {
         interfaces_use = wlan0 #the external/WAN interface
         load_modular = yes
+        i_dont_care_about_security_and_use_aggressive_mode_psk=yes
         plugins {
                 include strongswan.d/charon/*.conf
         }
