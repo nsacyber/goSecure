@@ -47,17 +47,17 @@
                 <ul class="nav sidebar-menu">
                     <li class="header">TABLE OF CONTENTS</li>
                     <li class="active"><a href="#introduction"><i class="fa fa-circle-o"></i> Introduction</a></li>
-                    <li class="treeview" id="scrollspy-documentation">
-                        <a href="javascript:void(0)"><i class="fa fa-circle-o"></i> Documentation</a>
-                        <ul class="nav treeview-menu">
-                            <li><a href="#documentation-instructions-user-client"><i class="fa fa-square-o"></i> Client - User Instructions</a></li>
-                        </ul>
-                    </li>
                     <li class="treeview" id="scrollspy-components">
                         <a href="javascript:void(0)"><i class="fa fa-circle-o"></i> Build Components</a>
                         <ul class="nav treeview-menu">
                             <li><a href="#component-server"><i class="fa fa-square-o"></i> Server</a></li>
                             <li><a href="#component-client"><i class="fa fa-square-o"></i> Client</a></li>
+                        </ul>
+                    </li>
+                    <li class="treeview" id="scrollspy-documentation">
+                        <a href="javascript:void(0)"><i class="fa fa-circle-o"></i> Documentation</a>
+                        <ul class="nav treeview-menu">
+                            <li><a href="#documentation-instructions-user-client"><i class="fa fa-square-o"></i> Client - User Instructions</a></li>
                         </ul>
                     </li>
                     <li><a href="#faq"><i class="fa fa-circle-o"></i> FAQ</a></li>
@@ -107,46 +107,12 @@
                         </ol>
                     </p>
                     <br>
-                </section>
-            
-                <section id="documentation" data-spy="scroll" data-target="#scrollspy-documentation">
-                    <h2 class="page-header"><a href="#documentation">Documentation</a></h2>
-                    
-                    <br>
+                
                     <p class="lead">
                         Network flow diagram:<br><br>
                         <img class="img-responsive" src="./files/images/goSecure_Network_Diagram_1.png" style="width:850px; height:500px;">
                     </p>
                     <br>
-                    
-                    <h3 id="documentation-instructions-user-client">Client - User Instructions:</h3>
-                    
-                    <br>
-                    Note: If you are using the goSecure Client for the first time, please follow the Setup section below. Also follow the Setup section if your Wifi network or goSecure Server information has changed.
-                    <br>
-                    <br>
-                    <ol>
-                        Setup:
-                        <ol>
-                            <li>Plug in the Ethernet cable from the goSecure Client to the device (i.e. your laptop).</li>
-                            <li>Plug in the USB cable to the goSecure Client to the device (i.e. your laptop).</li>
-                            <li>Wait 60 seconds.</li>
-                            <li>Open a web browser and navigate to "https://setup.gosecure"</li>
-                            <li>Follow the instructions on the web page that appears. The default login username is "admin" and the password is "gosecure". You will be prompted to change them once you login.</li>
-                            <li>You can access your enterprise resources now.</li>
-                        </ol>
-                        <br>
-                        
-                        Normal use:
-                        <ol>
-                            <li>Plug in the Ethernet cable from the goSecure Client to the device (i.e. your laptop).</li>
-                            <li>Plug in the USB cable to the goSecure Client to the device (i.e. your laptop).</li>
-                            <li>Wait 60 seconds.</li>
-                            <li>You can access your enterprise resources now.</li>
-                        </ol>
-                    </ol>
-                    <br>
-                    
                 </section>
                 
                 <section id="components" data-spy="scroll" data-target="#scrollspy-components">
@@ -390,6 +356,7 @@ conn rw-client1
                             <ul>
                                 <li>Raspberry Pi 3 Model B</li>
                                 <li>2GB (minimum size) SD Card</li>
+                                <li>Ensure nothing is plugged into the ethernet port.</li>
                             </ul>
 
                             <li>Software</li>
@@ -401,9 +368,9 @@ conn rw-client1
                         
                         <li>Install OS</li>
                         <ol>
-                            <li>Install Raspbian Jessie Lite onto SD Card using the instructions under the "WRITING AN IMAGE TO THE SD CARD" section from <a href="https://www.raspberrypi.org/documentation/installation/installing-images/">here</a>.</li>
-                            <li>Turn on Raspberry Pi with SD Card installed.</li>
-                            <li>Login with default credentials (username: "pi" and password: "raspberry").</li>
+                            <li>Install Raspbian Jessie Lite onto a SD Card using the instructions under the "WRITING AN IMAGE TO THE SD CARD" section from <a href="https://www.raspberrypi.org/documentation/installation/installing-images/">here</a>.</li>
+                            <li>Turn on the Raspberry Pi with the SD Card installed.</li>
+                            <li>Login with the default credentials (username: "pi" and password: "raspberry").</li>
                         </ol>
                         <br>
                         
@@ -465,7 +432,7 @@ conn rw-client1
                                 <li>A new prompt stating "Wi-fi sountry set to US" will appear, press the "Enter" key to continue.</li>
                                 <img class="img-responsive" src="./files/images/client_install/raspi-config_wifi_4.png" width="797" height="553">
                             </ol>
-                            <li>Press the "Tab" key 2 times to select "<Finish>" and press the "Enter" key.</li>
+                            <li>Press the "Tab" key 2 times to select "&lt;Finish&gt;" and press the "Enter" key.</li>
                             <img class="img-responsive" src="./files/images/client_install/raspi-config_finish.png" width="797" height="553">
                             <li>A new prompt stating "Would you like to reboot now?" will appear, press the "Enter" key to continue.</li>
                             <img class="img-responsive" src="./files/images/client_install/raspi-config_reboot.png" width="797" height="553">
@@ -501,15 +468,23 @@ allow-hotplug wlan0
 iface wlan0 inet manual
 wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf</pre>
                         <li>sudo vi /etc/wpa_supplicant/wpa_supplicant.conf</li>
+                        <br>
+                        Note: replace the &lt;YOUR_WIFI_SSID&gt; with your WIFI SSID and &lt;YOUR_WIFI_PASSWORD&gt; with your WIFI Password.
+                        <br>
                         <pre>ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
 update_config=1
 network={
-    ssid=&lt;YOUR_WIFI_SSID&gt;
-    psk=&lt;YOUR_WIFI_PASSWORD&gt;
+    ssid="&lt;YOUR_WIFI_SSID&gt;"
+    psk="&lt;YOUR_WIFI_PASSWORD&gt;"
 }</pre>
                         <li>sudo service networking restart</li>
+                        <br>Wait 30 seconds for the Wifi to obtain an IP Address.
                         </ol>
                         <br>
+                        
+                        Note: you now have the option to SSH into the goSecure client. Copying and pasting the commands and configuration files is recommended. Be sure to change variables where specified.
+                        
+                        <br><br>
                         
                         <li>Configure Firewall</li>
                         <ol>
@@ -539,12 +514,16 @@ sudo /sbin/iptables-restore < /etc/iptables/rules.v4</pre>
                         
                         <li>Enable hardware random</li>
                         <ol>
-                            <li>sudo modprobe bcm2708-rng</li>
-                            <li>sudo sh -c "echo bcm2708-rng >> /etc/modules"</li>
+                            Note: replace "bcm2835-rng" with "bcm2708-rng" in the commands below if you have a Raspberry Pi 2.
+                            <br><br>
+                            <li>sudo modprobe bcm2835-rng</li>
+                            <li>sudo sh -c "echo bcm2835-rng >> /etc/modules"</li>
                         </ol>
                         <br>
                         
                         <li>Update OS and Raspberry Pi</li>
+                            Note: These commands will run for a long time.
+                            <br><br>
                         <ol>
                             <li>sudo apt-get update -y</li>
                             <li>sudo apt-get upgrade -y</li>
@@ -552,6 +531,7 @@ sudo /sbin/iptables-restore < /etc/iptables/rules.v4</pre>
                             <li>sudo apt-get install rpi-update</li>
                             <li>sudo rpi-update</li>
                             <li>sudo reboot</li>
+                            <li>After reboot, on login prompt, login.</li>
                         </ol>
                         <br>
                         
@@ -565,13 +545,13 @@ sudo /sbin/iptables-restore < /etc/iptables/rules.v4</pre>
                             <li>./configure --prefix=/usr --sysconfdir=/etc --enable-gcm --with-random-device=/dev/hwrng --enable-kernel-libipsec --enable-openssl --with-fips-mode=2 --disable-vici --disable-des --disable-ikev2 --disable-gmp</li> Note: This command will run for a long time.
                             <li>make</li> Note: This command will run for a long time.
                             <li>sudo make install</li> Note: This command will run for a long time.
-                            <li>sudo vi /etc/strongswan.d/charon/openssl.conf</li>
-                            <li>uncomment "fips_mode = 0" in the file.</li>
                         </ol>
                         <br>
                         
                         <li>Configure strongSwan</li>
                         <ol>
+                            <li>sudo vi /etc/strongswan.d/charon/openssl.conf</li>
+                            <li>uncomment "fips_mode = 0" in the file.</li>
                             <li>sudo vi /etc/strongswan.conf</li>
                             <pre>charon {
         interfaces_use = wlan0 #the external/WAN interface
@@ -671,15 +651,7 @@ log-async
 log-dhcp
 # debugging dns
 #log-queries</pre>
-                            <li>sudo vi /etc/hosts</li>
-                            <pre>127.0.0.1       localhost
-::1             localhost ip6-localhost ip6-loopback
-ff02::1         ip6-allnodes
-ff02::2         ip6-allrouters
-
-127.0.1.1       raspberrypi
-192.168.50.1    setup</pre>
-
+                            <li>sudo sh -c 'echo "192.168.50.1 setup" >> /etc/hosts'</li>
                             <li>sudo service dnsmasq start</li>
                             <li>sudo update-rc.d dnsmasq enable</li>
                         </ol>
@@ -718,8 +690,6 @@ WantedBy=multi-user.target</pre>
                             
                         <li>Clean up</li>
                         <ol>
-                            <li>sudo rm -rf /tmp/strongswan-5.4.0/</li>
-                            <li>sudo rm /tmp/strongswan-5.4.0.tar.gz</li>
                             <li>sudo apt-get purge `sudo dpkg --get-selections | grep "\-dev" | sed s/install//` gcc-4\.[0-6].*</li>
                             <li>sudo apt-get --yes autoremove</li>
                             <li>sudo rm -rf /usr/share/doc/* /opt/vc/src/hello_pi/</li>
@@ -735,6 +705,41 @@ WantedBy=multi-user.target</pre>
                         <br>
 
                     </ol>
+                    
+                </section>
+                    
+                <section id="documentation" data-spy="scroll" data-target="#scrollspy-documentation">
+                    <h2 class="page-header"><a href="#documentation">Documentation</a></h2>
+                    
+                    <br>
+                    
+                    <h3 id="documentation-instructions-user-client">Client - User Instructions:</h3>
+                    
+                    <br>
+                    Note: If you are using the goSecure Client for the first time, please follow the Setup section below. Also follow the Setup section if your Wifi network or goSecure Server information has changed.
+                    <br>
+                    <br>
+                    <ol>
+                        Setup:
+                        <ol>
+                            <li>Plug in the Ethernet cable from the goSecure Client to the device (i.e. your laptop).</li>
+                            <li>Plug in the USB cable to the goSecure Client to the device (i.e. your laptop).</li>
+                            <li>Wait 60 seconds.</li>
+                            <li>Open a web browser and navigate to "https://setup.gosecure"</li>
+                            <li>Follow the instructions on the web page that appears. The default login username is "admin" and the password is "gosecure". You will be prompted to change them once you login.</li>
+                            <li>You can access your enterprise resources now.</li>
+                        </ol>
+                        <br>
+                        
+                        Normal use:
+                        <ol>
+                            <li>Plug in the Ethernet cable from the goSecure Client to the device (i.e. your laptop).</li>
+                            <li>Plug in the USB cable to the goSecure Client to the device (i.e. your laptop).</li>
+                            <li>Wait 60 seconds.</li>
+                            <li>You can access your enterprise resources now.</li>
+                        </ol>
+                    </ol>
+                    <br>
                     
                 </section>
 
