@@ -490,7 +490,16 @@ network={
                         <ol>
                             <li>sudo mkdir /etc/iptables/</li>
                             <li>sudo vi /etc/iptables/rules.v4</li>
-                            <pre>*filter
+                            <pre>*mangle
+:PREROUTING ACCEPT [0:0]
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:POSTROUTING ACCEPT [0:0]
+-A FORWARD -p tcp -m tcp --tcp-flags SYN,RST SYN -j TCPMSS --set-mss 1300
+COMMIT
+
+*filter                    
 :INPUT ACCEPT [0:0]
 :FORWARD ACCEPT [0:0]
 :OUTPUT ACCEPT [0:0]
