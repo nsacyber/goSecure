@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block title %}VPN{% endblock %}
+
+{% block heading_title %} VPN Settings {% endblock %}
+{% block heading_description %} Configure VPN {% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3 form-box">
+            <form id="vpnpskform" name="vpnpskform" role="form" action="" method="post" class="registration-form">
+                <fieldset>
+                    <div class="form-top">
+                        <div class="form-top-left">
+                            <p>VPN Setup:</p>
+                        </div>
+                        <div class="form-top-right">
+                            <i class="fa fa-lock"></i>
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+                        <div class="form-group">
+                            {{ form.vpn_server.label }} {{ form.vpn_server(class="form-control", placeholder="Server Hostname or IP") }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.user_id.label }} {{ form.user_id(class="form-control", placeholder="User ID") }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.user_psk.label }} {{ form.user_psk(class="form-control", placeholder="User PSK") }}
+                        </div>
+                        {{ form.vpnPskSubmit(class="btn btn-next") }}
+                    </div>
+                </fieldset>
+                {{ form.csrf_token }}
+            </form>
+        </div>
+    </div> 
+
+{% endblock %}

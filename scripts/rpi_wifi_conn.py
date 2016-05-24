@@ -41,7 +41,9 @@ def add_wifi(wifi_ssid, wifi_key):
         for line in lines:
             fout.write(line)
     
-    process = subprocess.Popen(["sudo", "service", "networking", "restart"])
+    process = subprocess.Popen(["sudo", "ifdown", "wlan0"])
+    process.wait()
+    process = subprocess.Popen(["sudo", "ifup", "wlan0"])
     process.wait()
 
 def check_wifi_status():

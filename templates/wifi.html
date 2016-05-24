@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block title %}Wifi{% endblock %}
+
+{% block heading_title %} Wifi Settings {% endblock %}
+{% block heading_description %} Configure Wifi {% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3 form-box">
+            <form id="wifiform" name="wifiform" role="form" action="" method="post" class="registration-form">
+                <fieldset>
+                    <div class="form-top">
+                        <div class="form-top-left">
+                            <p>Wifi Setup:</p>
+                        </div>
+                        <div class="form-top-right">
+                            <i class="fa fa-wifi"></i>
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+                        <div class="form-group">
+                            {{ form.ssid.label }}
+                            <br> {{ form.ssid(class="form-control") }}
+
+                        </div>
+                        <div class="form-group">
+                            {{ form.psk.label }}
+                            <br> {{ form.psk(class="form-control", placeholder="Wifi Password") }}
+                            <div id="wifi_pass_div" name="wifi_pass_div">
+                            </div>
+                        </div>
+                        {{ form.wifiSubmit(class="btn btn-next") }}
+                    </div>
+                </fieldset>
+                {{ form.csrf_token }}
+            </form>
+        </div>
+    </div> 
+
+{% endblock %}

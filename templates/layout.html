@@ -6,7 +6,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>goSecure Setup</title>
+        <title>{% block title %}{% endblock %}</title>
 
         <!-- CSS -->
         <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
@@ -39,6 +39,12 @@
                     <a href="#top" onclick="location.href = '/user'">User Management</a>
                 </li>
                 <li>
+                    <a href="#top" onclick="location.href = '/wifi'">Configure Wifi</a>
+                </li>
+                <li>
+                    <a href="#top" onclick="location.href = '/vpn_psk'">Configure VPN</a>
+                </li>
+                <li>
                     <a href="#top" onclick="post('/action', {action: 'start_vpn'});">Start VPN</a>
                 </li>
                 </li>
@@ -68,10 +74,10 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-8 col-sm-offset-2 text">
-                            <h1><strong>goSecure</strong> Setup</h1>
+                            <h1>{% block heading_title %}{% endblock %}</h1>
                             <div class="description">
                             	<p>
-	                            	Follow the steps below to configure your goSecure client.
+	                            	{% block heading_description %}{% endblock %}
                             	</p>
                             </div>
                         </div>
@@ -101,65 +107,10 @@
                                 </div>
                             </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-6 col-sm-offset-3 form-box">
-                            <form id="wifiandvpnform" name="wifiandvpnform" role="form" action="" method="post" class="registration-form">
-                                <fieldset>
-                                    <div class="form-top">
-                                        <div class="form-top-left">
-                                            <h3>Step 1 / 2</h3>
-                                            <p>Wifi Setup:</p>
-                                        </div>
-                                        <div class="form-top-right">
-                                            <i class="fa fa-wifi"></i>
-                                        </div>
-                                    </div>
-                                    <div class="form-bottom">
-                                        <div class="form-group">
-                                            {{ form.ssid.label }}
-                                            <br> {{ form.ssid(class="form-control") }}
-
-                                        </div>
-                                        <div class="form-group">
-                                            {{ form.psk.label }}
-                                            <br> {{ form.psk(class="form-control", placeholder="Wifi Password") }}
-                                            <div id="wifi_pass_div" name="wifi_pass_div">
-                                            </div>
-                                        </div>
-                                        <button type="button" class="btn btn-next">Next</button>
-                                    </div>
-                                </fieldset>
-
-                                <fieldset>
-                                    <div class="form-top">
-                                        <div class="form-top-left">
-                                            <h3>Step 2 / 2</h3>
-                                            <p>VPN Setup:</p>
-                                        </div>
-                                        <div class="form-top-right">
-                                            <i class="fa fa-lock"></i>
-                                        </div>
-                                    </div>
-                                    <div class="form-bottom">
-                                        <div class="form-group">
-                                            {{ form.vpn_server.label }} {{ form.vpn_server(class="form-control", placeholder="Server Hostname or IP") }}
-                                        </div>
-                                        <div class="form-group">
-                                            {{ form.user_id.label }} {{ form.user_id(class="form-control", placeholder="User ID") }}
-                                        </div>
-                                        <div class="form-group">
-                                            {{ form.user_psk.label }} {{ form.user_psk(class="form-control", placeholder="User PSK") }}
-                                        </div>
-                                        <button type="button" class="btn btn-previous">Previous</button>
-                                        {{ form.initialSetupSubmit(class="btn btn-next") }}
-                                    </div>
-                                </fieldset>
-                                {{ form.csrf_token }}
-                            </form>
-                        </div>
-                    </div>       
+                    {% block content %}{% endblock %}
                 </div>
             </div>
+            
             
         </div>
 
@@ -169,7 +120,8 @@
         <script src="/static/bootstrap/js/bootstrap.min.js"></script>
         <script src="/static/js/jquery.backstretch.min.js"></script>
         <script src="/static/js/retina-1.1.0.min.js"></script>
-        <script src="/static/js/setup.js"></script>
+        <script src="/static/js/default.js"></script>
+        {% block import_js %}{% endblock %}
         
         <!--[if lt IE 10]>
             <script src="/static/js/placeholder.js"></script>

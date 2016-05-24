@@ -5,7 +5,7 @@ from functools import wraps
 import flask.ext.login as flask_login
 import hashlib
 import pickle
-from forms import loginForm, initialSetupForm, userForm
+from forms import loginForm, initialSetupForm, userForm, wifiForm, vpnPskForm
 from scripts.rpi_wifi_conn import add_wifi, check_wifi_status, reset_wifi
 from scripts.vpn_server_conn import set_vpn_params, reset_vpn_params, start_vpn, stop_vpn, restart_vpn
 from scripts.pi_mgmt import pi_reboot, pi_shutdown
@@ -218,7 +218,63 @@ def initial_setup():
 
     else:
         return render_template("setup.html", form=form)
- 
+
+#Wifi page
+@app.route("/wifi", methods=["GET", "POST"])
+@flask_login.login_required
+def wifi():
+    form = wifiForm()
+
+    if(request.method == "GET"):
+        return render_template("wifi.html", form=form)
+    
+    elif(request.method == "POST"):
+        if(form.validate()):
+            ssid = (form.ssid.data).rsplit("-", 1)[0]
+            psk = form.psk.data
+            add_wifi(ssid, psk)
+
+            time.sleep(15)
+
+            if(check_wifi_status() == True):
+                flash("Wifi settings saved!", "success")
+                return render_template("wifi.html", form=form)
+            else:
+                flash("Error! Cannot reach the internet...", "error")
+                return render_template("wifi.html", form=form)
+
+        else:
+            flash("Error! " + str(form.data), "error")
+            return render_template("wifi.html", form=form)
+
+    else:
+        return render_template("setup.html", form=form)
+
+#VPN psk page
+@app.route("/vpn_psk", methods=["GET", "POST"])
+@flask_login.login_required
+def vpn_psk():
+    form = vpnPskForm()
+
+    if(request.method == "GET"):
+        return render_template("vpn_psk.html", form=form)
+    
+    elif(request.method == "POST"):
+        if(form.validate()):
+            vpn_server = form.vpn_server.data
+            user_id = form.user_id.data
+            user_psk = form.user_psk.data
+            set_vpn_params(vpn_server, user_id, user_psk)
+            restart_vpn()
+
+            flash("VPN settings saved and VPN restarted!", "success")
+            return render_template("vpn_psk.html", form=form)
+        else:
+            flash("Error! " + str(form.data), "error")
+            return render_template("vpn_psk.html", form=form)
+
+    else:
+        return render_template("vpn_psk.html", form=form)
 
 @app.route("/action", methods=["POST"])
 @flask_login.login_required
