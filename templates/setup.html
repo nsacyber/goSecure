@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+
+{% block title %}Setup{% endblock %}
+
+{% block heading_title %} <strong>goSecure</strong> Setup {% endblock %}
+{% block heading_description %} Follow the steps below to configure your goSecure client. {% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-6 col-sm-offset-3 form-box">
+        <form id="wifiandvpnform" name="wifiandvpnform" role="form" action="" method="post" class="registration-form">
+            <fieldset>
+                <div class="form-top">
+                    <div class="form-top-left">
+                        <h3>Step 1 / 2</h3>
+                        <p>Wifi Setup:</p>
+                    </div>
+                    <div class="form-top-right">
+                        <i class="fa fa-wifi"></i>
+                    </div>
+                </div>
+                <div class="form-bottom">
+                    <div class="form-group">
+                        {{ form.ssid.label }}
+                        <br> {{ form.ssid(class="form-control") }}
+
+                    </div>
+                    <div class="form-group">
+                        {{ form.psk.label }}
+                        <br> {{ form.psk(class="form-control", placeholder="Wifi Password") }}
+                        <div id="wifi_pass_div" name="wifi_pass_div">
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-next">Next</button>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <div class="form-top">
+                    <div class="form-top-left">
+                        <h3>Step 2 / 2</h3>
+                        <p>VPN Setup:</p>
+                    </div>
+                    <div class="form-top-right">
+                        <i class="fa fa-lock"></i>
+                    </div>
+                </div>
+                <div class="form-bottom">
+                    <div class="form-group">
+                        {{ form.vpn_server.label }} {{ form.vpn_server(class="form-control", placeholder="Server Hostname or IP") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.user_id.label }} {{ form.user_id(class="form-control", placeholder="User ID") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.user_psk.label }} {{ form.user_psk(class="form-control", placeholder="User PSK") }}
+                    </div>
+                    <button type="button" class="btn btn-previous">Previous</button>
+                    {{ form.initialSetupSubmit(class="btn btn-next") }}
+                </div>
+            </fieldset>
+            {{ form.csrf_token }}
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block import_js %}
+<script src="/static/js/setup.js"></script>
+{% endblock %}
