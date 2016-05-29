@@ -25,45 +25,59 @@
 
     <body>
         
-        <a id="menu-toggle" href="#" class="btn btn-dark btn-lg toggle"><i class="fa fa-gear fa-2x"></i></a>
+        <a id="menu-toggle" href="#" class="btn btn-dark btn-lg toggle">Menu <i class="fa fa-wrench"></i></a>
         <nav id="sidebar-wrapper">
             <ul class="sidebar-nav">
                 <a id="menu-close" href="#" class="btn btn-light btn-lg pull-right toggle"><i class="fa fa-times"></i></a>
                 <li class="sidebar-brand">
-                    <a href="#top" onclick="$(&quot;#menu-close&quot;).click();">Actions</a>
+                    <a href="#top" onclick="$(&quot;#menu-close&quot;).click();">Menu</a>
                 </li>
                 <li>
-                    <a href="#top" onclick="location.href = '/logout'">Logout</a>
+                    <a href="#top" onclick="location.href = '/logout'"><i class="fa fa-sign-out"></i> Logout</a>
                 </li>
+                
                 <li>
-                    <a href="#top" onclick="location.href = '/user'">User Management</a>
+                    <a href="#top" onclick="location.href = '/setup'"><i class="fa fa-gear"></i> Setup</a>
                 </li>
-                <li>
-                    <a href="#top" onclick="location.href = '/wifi'">Configure Wifi</a>
-                </li>
-                <li>
-                    <a href="#top" onclick="location.href = '/vpn_psk'">Configure VPN</a>
-                </li>
-                <li>
-                    <a href="#top" onclick="post('/action', {action: 'start_vpn'});">Start VPN</a>
-                </li>
-                </li>
-                <li>
-                    <a href="#top" onclick="post('/action', {action: 'restart_vpn'});">Restart VPN</a>
-                </li>
-                </li>
-                <li>
-                    <a href="#top" onclick="post('/action', {action: 'stop_vpn'});">Stop VPN</a>
-                </li>
-                <li>
-                    <a href="#top" onclick="post('/action', {action: 'reboot'});">Reboot</a>
-                </li>
-                <li>
-                    <a href="#top" onclick="post('/action', {action: 'shutdown'});">Shutdown</a>
-                </li>
-                <li>
-                    <a href="#top" onclick="post('/action', {action: 'reset_settings'});">Reset to Factory Settings</a>
-                </li>
+                
+                <li><a href="#top" data-toggle="collapse" data-target="#manage_network"><i class="fa fa-globe"></i> Manage Network</a></li>
+                <div id="manage_network" class="collapse">
+                    <li>
+                        <a href="#top" onclick="location.href = '/wifi'">Configure Wifi</a>
+                    </li>
+                </div>
+                
+                <li><a href="#top" data-toggle="collapse" data-target="#manage_vpn"><i class="fa fa-lock"></i> Manage VPN</a></li>
+                <div id="manage_vpn" class="collapse">
+                    <li>
+                        <a href="#top" onclick="location.href = '/vpn_psk'">Configure VPN</a>
+                    </li>
+                    <li>
+                        <a href="#top" onclick="post('/action', {action: 'start_vpn'});">Start VPN</a>
+                    </li>
+                    <li>
+                        <a href="#top" onclick="post('/action', {action: 'restart_vpn'});">Restart VPN</a>
+                    </li>
+                    <li>
+                        <a href="#top" onclick="post('/action', {action: 'stop_vpn'});">Stop VPN</a>
+                    </li>
+                </div>
+        
+            <li><a href="#top" data-toggle="collapse" data-target="#client_options"><i class="fa fa-power-off"></i> Client Options</a></li>
+                <div id="client_options" class="collapse">
+                    <li>
+                        <a href="#top" onclick="location.href = '/user'">User Management</a>
+                    </li>
+                    <li>
+                        <a href="#top" onclick="post('/action', {action: 'reboot'});">Reboot</a>
+                    </li>
+                    <li>
+                        <a href="#top" onclick="post('/action', {action: 'shutdown'});">Shutdown</a>
+                    </li>
+                    <li>
+                        <a href="#top" onclick="post('/action', {action: 'reset_settings'});">Reset to Factory Settings</a>
+                    </li>
+                </div>
             </ul>
         </nav>
 
