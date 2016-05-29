@@ -55,7 +55,8 @@ def request_loader(request):
 
 @login_manager.unauthorized_handler
 def unauthorized_handler():
-    return "Unauthorized"
+    flash("Unauthorized, please log in.", "error")
+    return redirect(url_for("login"))
 
 
 #Flask HTTP Basic Auth (for API)
@@ -127,6 +128,11 @@ def user_reset_credentials(username, password):
         return False
 
 #Routes for web pages
+
+#404 page
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 #Login Page
 @app.route("/", methods=["GET", "POST"])
@@ -398,4 +404,4 @@ if __name__ == "__main__":
         os.system('sudo chown pi:pi ssl.crt ssl.key')
         os.system('sudo chmod 440 ssl.crt ssl.key')
     
-    app.run(host="192.168.50.1", port=443, debug=True, ssl_context=("ssl.crt", "ssl.key"))
+    app.run(host="192.168.50.1", port=443, ssl_context=("ssl.crt", "ssl.key"))
