@@ -5,7 +5,7 @@ from functools import wraps
 import flask.ext.login as flask_login
 import hashlib
 import pickle
-from forms import loginForm, initialSetupForm, userForm, wifiForm, vpnPskForm
+from forms import loginForm, initialSetupForm, userForm, wifiForm, vpnPskForm, resetToDefaultForm
 from scripts.rpi_wifi_conn import add_wifi, check_wifi_status, reset_wifi
 from scripts.vpn_server_conn import set_vpn_params, reset_vpn_params, start_vpn, stop_vpn, restart_vpn
 from scripts.pi_mgmt import pi_reboot, pi_shutdown
@@ -118,6 +118,13 @@ def user_change_credentials(username, password, new_password):
         else:
             return False
 
+#return True if credentials are reset
+#else return False
+def user_reset_credentials(username, password):
+    if(user_change_credentials(username, password, "gosecure")):
+        return True
+    else:
+        return False
 
 #Routes for web pages
 
@@ -182,14 +189,14 @@ def user():
             flash_form_errors(form)
             return render_template("user.html", form=form)
 
-#Setup page
-@app.route("/setup", methods=["GET", "POST"])
+#Initial setup page
+@app.route("/initial_setup", methods=["GET", "POST"])
 @flask_login.login_required
 def initial_setup():
     form = initialSetupForm()
 
     if(request.method == "GET"):
-        return render_template("setup.html", form=form) 
+        return render_template("initial_setup.html", form=form) 
 
     elif(request.method == "POST"):
         if(form.validate()):
@@ -207,17 +214,14 @@ def initial_setup():
                 restart_vpn()
             
                 flash("Wifi and VPN settings saved!", "success")
-                return render_template("setup.html", form=form)
+                return render_template("initial_setup.html", form=form)
             else:
                 flash("Error! Cannot reach the internet...", "error")
-                return render_template("setup.html", form=form)
+                return render_template("initial_setup.html", form=form)
             
         else:
             flash("Error! " + str(form.data), "error")
-            return render_template("setup.html", form=form)
-
-    else:
-        return render_template("setup.html", form=form)
+            return render_template("initial_setup.html", form=form)
 
 #Wifi page
 @app.route("/wifi", methods=["GET", "POST"])
@@ -247,9 +251,6 @@ def wifi():
             flash("Error! " + str(form.data), "error")
             return render_template("wifi.html", form=form)
 
-    else:
-        return render_template("setup.html", form=form)
-
 #VPN psk page
 @app.route("/vpn_psk", methods=["GET", "POST"])
 @flask_login.login_required
@@ -272,9 +273,36 @@ def vpn_psk():
         else:
             flash("Error! " + str(form.data), "error")
             return render_template("vpn_psk.html", form=form)
+    
+#Reset to default page
+@app.route("/reset_to_default", methods=["GET", "POST"])
+@flask_login.login_required
+def reset_to_default():
+    form = resetToDefaultForm()
 
-    else:
-        return render_template("vpn_psk.html", form=form)
+    if(request.method == "GET"):
+        form.username.data = flask_login.current_user.id
+        return render_template("reset_to_default.html", form=form)
+
+    elif(request.method == "POST"):
+        if(form.validate()):
+            username = form.username.data
+            password = form.password.data
+            
+            stop_vpn()
+            reset_wifi()
+            reset_vpn_params()
+            if(user_reset_credentials(username, password)):
+                flash("Your client has been successfully reset to default settings.", "success")
+                return redirect(url_for("logout"))
+            else:
+                flash("Invalid current username or password. Please try again.", "error")
+                return render_template("reset_to_default.html", form=form)
+
+        else:
+            flash_form_errors(form)
+            return render_template("reset_to_default.html", form=form)
+
 
 @app.route("/action", methods=["POST"])
 @flask_login.login_required
@@ -284,31 +312,23 @@ def execute_action():
         pi_reboot()
     elif(action == "shutdown"):
         pi_shutdown()
-    elif(action == "reset_settings"):
-        form = initialSetupForm()
-        reset_wifi()
-        reset_vpn_params()
-        flash("Wifi and VPN settings reset!", "notice")
-        return render_template("setup.html", form=form)
     elif(action == "start_vpn"):
         form = initialSetupForm()
         start_vpn()
         flash("VPN Started!", "notice")
-        return render_template("setup.html", form=form)
     elif(action == "stop_vpn"):
         form = initialSetupForm()
         stop_vpn()
         flash("VPN Stopped!", "notice")
-        return render_template("setup.html", form=form)
     elif(action == "restart_vpn"):
         form = initialSetupForm()
         restart_vpn()
         flash("VPN Restarted!", "notice")
-        return render_template("setup.html", form=form)
     else:
         form = initialSetupForm()
         flash("Error! Invalid Action!", "error")
-        return render_template("setup.html", form=form)
+        
+    return render_template("initial_setup.html", form=form)
 
 
 #REST API
@@ -367,6 +387,7 @@ def api_vpn_actions():
     else:
         return "Only POST method is supported. Refer to the API Documentation"
 
+    
 if __name__ == "__main__":
     app.secret_key=os.urandom(24)
     
@@ -377,4 +398,4 @@ if __name__ == "__main__":
         os.system('sudo chown pi:pi ssl.crt ssl.key')
         os.system('sudo chmod 440 ssl.crt ssl.key')
     
-    app.run(host="192.168.50.1", port=443, ssl_context=("ssl.crt", "ssl.key"))
+    app.run(host="192.168.50.1", port=443, debug=True, ssl_context=("ssl.crt", "ssl.key"))

@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block title %}Reset to Default{% endblock %}
+
+{% block heading_title %} goSecure {% endblock %}
+{% block heading_description %} Reset the goSecure client to default settings. {% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3 form-box">
+            <form role="form" action="" method="post" class="registration-form">
+                <fieldset>
+                    <div class="form-top">
+                        <div class="form-top-left">
+                            <h2>{{ current_user.id }}</h2>
+                        </div>
+                        <div class="form-top-right">
+                            <i class="fa fa-user"></i>
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+                        <div class="form-group">
+                            {{ form.username.label }}
+                            <br> {{ form.username(class="form-control") }}
+
+                        </div>
+                        <div class="form-group">
+                            {{ form.password.label }}
+                            <br> {{ form.password(class="form-control") }}
+                        </div>
+                        {{ form.resetToDefaultSubmit(class="btn btn-next") }}
+                    </div>
+                </fieldset>
+                {{ form.csrf_token }}
+            </form>
+        </div>
+    </div>
+
+{% endblock %}     
