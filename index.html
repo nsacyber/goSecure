@@ -107,12 +107,6 @@
                         </ol>
                     </p>
                     <br>
-                
-                    <p class="lead">
-                        Network flow diagram:<br><br>
-                        <img class="img-responsive" src="./files/images/goSecure_Network_Diagram_1.png" style="width:850px; height:500px;">
-                    </p>
-                    <br>
                 </section>
                 
                 <section id="components" data-spy="scroll" data-target="#scrollspy-components">
@@ -326,7 +320,7 @@ conn rw-client1
         rightid=&lt;unique_id_of_client&gt;
 
 #To add additional clients:
-#conn rw-client1 #increment the last number by 1 for each additional client
+#conn rw-client2 #increment the last number by 1 for each additional client
 #        rightid=&lt;unique_id_of_client&gt; #set a unique id for each client</pre>
                             <li>vi /etc/ipsec.secrets</li>
                             Note: replace &lt;unique_id_of_client&gt; with the unique ID and &lt;password_for_client&gt; with the password for the goSecure VPN client. 
@@ -429,7 +423,7 @@ conn rw-client1
                                 <img class="img-responsive" src="./files/images/client_install/raspi-config_wifi_2.png" width="797" height="553">
                                 <li>Select "US United States" or the Country you reside in and press the "Enter" key.</li>
                                 <img class="img-responsive" src="./files/images/client_install/raspi-config_wifi_3.png" width="797" height="553">
-                                <li>A new prompt stating "Wi-fi sountry set to US" will appear, press the "Enter" key to continue.</li>
+                                <li>A new prompt stating "Wi-fi country set to US" will appear, press the "Enter" key to continue.</li>
                                 <img class="img-responsive" src="./files/images/client_install/raspi-config_wifi_4.png" width="797" height="553">
                             </ol>
                             <li>Press the "Tab" key 2 times to select "&lt;Finish&gt;" and press the "Enter" key.</li>
@@ -714,12 +708,22 @@ WantedBy=multi-user.target</pre>
                         <br>
 
                     </ol>
+                    <br>
+                        Follow the <a href="#documentation-instructions-user-client">instructions</a> in the Documentation section to use the goSecure client.
                     
                 </section>
                     
                 <section id="documentation" data-spy="scroll" data-target="#scrollspy-documentation">
                     <h2 class="page-header"><a href="#documentation">Documentation</a></h2>
                     
+                    <br>
+                    
+                    <h3 id="documentation-network">Network:</h3>
+                    <p class="lead">
+                        Network flow diagram:<br><br>
+                        <img class="img-responsive" src="./files/images/goSecure_Network_Diagram_1.png" style="width:850px; height:500px;">
+                        <br>
+                    </p>
                     <br>
                     
                     <h3 id="documentation-instructions-user-client">Client - User Instructions:</h3>
@@ -756,8 +760,23 @@ WantedBy=multi-user.target</pre>
                     <h2 class="page-header"><a href="#faq">FAQ</a></h2>
                     <h3>What is goSecure?</h3>
                     <p class="lead">goSecure is an easy to use and portable VPN system.</p>
+                    
                     <h3>How do I add more clients to the system?</h3>
                     <p>Refer to the comments in the configuration file created in #7 step 3 of the "Server" section in the "Build Components" heading. Also add a new line to the configuration file used in #7 step 4 of the "Server" section in the "Build Components" heading that contains the new &lt;unique_id_of_client&gt; and a new unique password.</p>
+                    
+                    <h3>How do I upgrade to the latest version of the goSecure Client Web GUI?</h3>
+                    <p class="lead">
+                        <ol>
+                            <li>wget https://github.com/iadgov/goSecure/archive/master.zip</li>
+                            <li>unzip master.zip</li>
+                            <li>rm master.zip</li>
+                            <li>mv goSecure-master goSecure_Web_GUI</li>
+                            <li>find goSecure_Web_GUI -type d -exec chmod 550 {} \;</li>
+                            <li>find goSecure_Web_GUI -type f -exec chmod 440 {} \;</li>
+                            <li>sudo chmod 660 ./goSecure_Web_GUI/users_db.p</li>
+                            <li>sudo reboot</li>
+                        </ol>
+                    </p>
                 </section>
                     
                 <section id="api">
