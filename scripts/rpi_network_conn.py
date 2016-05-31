@@ -1,7 +1,15 @@
-import subprocess, urllib2
+from subprocess import CalledProcessError, check_output, Popen
+import urllib2
 
 def get_wifi_list():
-    iw_list = (subprocess.check_output(["sudo", "iwlist", "wlan0", "scan"])).split("\n")
+    try:
+        wlan_status = check_output(["sudo", "ifup", "wlan0"])
+        returncode = 0
+    except CalledProcessError as e:
+        returncode = e.returncode
+
+
+    iw_list = (check_output(["sudo", "iwlist", "wlan0", "scan"])).split("\n")
 
     #contains a tuple of the (ESSID, Encryption key)
     wifi_list = []
@@ -41,12 +49,12 @@ def add_wifi(wifi_ssid, wifi_key):
         for line in lines:
             fout.write(line)
     
-    process = subprocess.Popen(["sudo", "ifdown", "wlan0"])
+    process = Popen(["sudo", "ifdown", "wlan0"])
     process.wait()
-    process = subprocess.Popen(["sudo", "ifup", "wlan0"])
+    process = Popen(["sudo", "ifup", "wlan0"])
     process.wait()
 
-def check_wifi_status():
+def internet_status():
     try:
         response = urllib2.urlopen("https://aws.amazon.com",timeout=1)
         return True
@@ -60,3 +68,14 @@ def reset_wifi():
     with open("/etc/wpa_supplicant/wpa_supplicant.conf", "w") as fout:
         for line in lines:
             fout.write(line)
+    
+    try:
+        vpn_status = (check_output(["sudo", "ifdown", "wlan0"]))
+        returncode = 0
+    except CalledProcessError as e:
+        returncode = e.returncode
+
+    if(returncode == 0):
+        return True
+    else:
+        return False

@@ -1,11 +1,14 @@
 from wtforms import PasswordField, SelectField, SubmitField, StringField, validators
 from flask.ext.wtf import Form
-from scripts.rpi_wifi_conn import get_wifi_list
+from scripts.rpi_network_conn import get_wifi_list
 
 class loginForm(Form):
     username = StringField("Username", [validators.DataRequired("Please enter the username."), validators.Length(min=2,max=25, message="Please enter a username between 2 and 25 characters.")])
     password = PasswordField("Password", [validators.DataRequired("Please enter the password."), validators.Length(min=8,max=128, message="Please enter a password between 8 and 128 characters.")])
     loginSubmit = SubmitField("Login", [validators.DataRequired()])
+    
+class statusForm(Form):
+    pass
     
 class userForm(Form):
     username = StringField("Username", [validators.DataRequired("Please enter the username."), validators.Length(min=2,max=25, message="Please enter a username between 2 and 25 characters.")])

@@ -65,10 +65,10 @@ jQuery(document).ready(function() {
     		}
     	});
         if(isValid == true){
-            $(".error").html("You will be connected in 30 seconds...");
+            $("#message-div").html('You will be connected in less than 30 seconds...<br><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span>');
         }
     });
-    
+
     $("#ssid").change(function() {
         if( $(this).val().substr($(this).length-4) == "off" ){
             $("#psk").val("key_mgmt_none");

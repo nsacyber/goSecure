@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block title %}Status{% endblock %}
+
+{% block heading_title %} Status {% endblock %}
+{% block heading_description %} State of services {% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3 form-box">
+            <form id="statusform" name="statusform" role="form" action="" method="post" class="registration-form">
+                <fieldset class="description" style="color:#fff;">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3 style="color:#fff;">Internet</h3>
+                            <i class="fa fa-globe fa-5x" style="color:{{ internet_status_color | default('red') }};"></i>
+                            <br>
+                            {% if internet_status_color == "green" %}
+                                Connected!
+                            {% else %}
+                                Not Connected!
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <h3 style="color:#fff;">VPN</h3>
+                            <i class="fa fa-lock fa-5x" style="color:{{ vpn_status_color | default('red') }};"></i>
+                            <br>
+                            {% if vpn_status_color == "green" %}
+                                Connected!
+                            {% else %}
+                                Not Connected!
+                            {% endif %}
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        {% if vpn_status_color == "green" %}
+                            <h2 style="color:green;font-weight:bold;">You are now secured.</h2>
+                        {% else %}
+                            <h2 style="color:red;font-weight:bold;">You are NOT secured!</h2>
+                        {% endif %}
+                        
+                    </div>
+                </fieldset>
+                {{ form.csrf_token }}
+            </form>
+        </div>
+    </div> 
+
+{% endblock %}

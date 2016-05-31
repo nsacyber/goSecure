@@ -35,7 +35,9 @@
                 <li>
                     <a href="logout"><i class="fa fa-sign-out"></i> Logout</a>
                 </li>
-                
+                <li>
+                    <a href="status"><i class="fa fa-dashboard"></i> Status</a>
+                </li>
                 <li>
                     <a href="initial_setup"><i class="fa fa-gear"></i> Initial Setup</a>
                 </li>
@@ -98,7 +100,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-8 col-sm-offset-2 text">
-                                <div class="description">
+                                <div class="description" name="message-div" id="message-div">
                                     <p>
                                         {% with messages = get_flashed_messages(with_categories=true) %}
                                             {% if messages %}

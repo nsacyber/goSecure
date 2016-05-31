@@ -5,9 +5,9 @@ from functools import wraps
 import flask.ext.login as flask_login
 import hashlib
 import pickle
-from forms import loginForm, initialSetupForm, userForm, wifiForm, vpnPskForm, resetToDefaultForm
-from scripts.rpi_wifi_conn import add_wifi, check_wifi_status, reset_wifi
-from scripts.vpn_server_conn import set_vpn_params, reset_vpn_params, start_vpn, stop_vpn, restart_vpn
+from forms import loginForm, initialSetupForm, userForm, wifiForm, vpnPskForm, resetToDefaultForm, statusForm
+from scripts.rpi_network_conn import add_wifi, internet_status, reset_wifi
+from scripts.vpn_server_conn import set_vpn_params, reset_vpn_params, start_vpn, stop_vpn, restart_vpn, vpn_status
 from scripts.pi_mgmt import pi_reboot, pi_shutdown
 import time
 import os
@@ -127,6 +127,7 @@ def user_reset_credentials(username, password):
     else:
         return False
 
+    
 #Routes for web pages
 
 #404 page
@@ -156,7 +157,22 @@ def login():
                     flash("Please change the default password.", "notice")
                     return redirect(url_for("user"))
                 else:
-                    return redirect(request.args.get("next") or url_for("initial_setup"))
+                    internet_status_bool = internet_status()
+                    vpn_status_bool = vpn_status()
+
+                    #check to see if network and vpn are up. If not, redirect to initial setup page
+                    if(internet_status_bool == False and vpn_status_bool == False):
+                        return redirect(url_for("initial_setup"))
+                    #check to see if network is up. If not, redirect to network page
+                    elif(internet_status_bool == False):
+                        flash("Internet is not reachable.", "notice")
+                        return redirect(url_for("wifi"))
+                    #check to see if vpn is up. If not, redirect to vpn page
+                    elif(vpn_status_bool == False):
+                        flash("VPN is not established.", "notice")
+                        return redirect(url_for("vpn_psk"))
+                    else:
+                        return redirect(request.args.get("next") or url_for("status"))
             else:
                 flash("Invalid username or password. Please try again.", "error")
                 return render_template("login.html", form=form)
@@ -169,6 +185,22 @@ def logout():
     flask_login.logout_user()
     return redirect(url_for("login"))
 
+#User page
+@app.route("/status", methods=["GET", "POST"])
+@flask_login.login_required
+def status():
+    form = statusForm()
+    
+    if(request.method == "GET"):
+        #check to see if network and vpn are active, red=not active, green=active
+        internet_status_color = "red"
+        if(internet_status()):
+            internet_status_color = "green"
+        vpn_status_color = "red"
+        if(vpn_status()):
+            vpn_status_color = "green"
+
+        return render_template("status.html", form=form, internet_status_color=internet_status_color, vpn_status_color=vpn_status_color)
 
 #User page
 @app.route("/user", methods=["GET", "POST"])
@@ -179,6 +211,7 @@ def user():
     if(request.method == "GET"):
         form.username.data = flask_login.current_user.id
         return render_template("user.html", form=form)
+    
     elif(request.method == "POST"):
         if(form.validate()):
             username = form.username.data
@@ -212,7 +245,7 @@ def initial_setup():
             
             time.sleep(15)
             
-            if(check_wifi_status() == True):
+            if(internet_status() == True):
                 vpn_server = form.vpn_server.data
                 user_id = form.user_id.data
                 user_psk = form.user_psk.data
@@ -220,7 +253,7 @@ def initial_setup():
                 restart_vpn()
             
                 flash("Wifi and VPN settings saved!", "success")
-                return render_template("initial_setup.html", form=form)
+                return redirect(url_for("status"))
             else:
                 flash("Error! Cannot reach the internet...", "error")
                 return render_template("initial_setup.html", form=form)
@@ -246,7 +279,7 @@ def wifi():
 
             time.sleep(15)
 
-            if(check_wifi_status() == True):
+            if(internet_status() == True):
                 flash("Wifi settings saved!", "success")
                 return render_template("wifi.html", form=form)
             else:
@@ -295,14 +328,14 @@ def reset_to_default():
             username = form.username.data
             password = form.password.data
             
-            stop_vpn()
-            reset_wifi()
             reset_vpn_params()
+            reset_wifi()
+            
             if(user_reset_credentials(username, password)):
                 flash("Your client has been successfully reset to default settings.", "success")
                 return redirect(url_for("logout"))
             else:
-                flash("Invalid current username or password. Please try again.", "error")
+                flash("Error resetting client.", "error")
                 return render_template("reset_to_default.html", form=form)
 
         else:
@@ -319,22 +352,19 @@ def execute_action():
     elif(action == "shutdown"):
         pi_shutdown()
     elif(action == "start_vpn"):
-        form = initialSetupForm()
         start_vpn()
         flash("VPN Started!", "notice")
     elif(action == "stop_vpn"):
-        form = initialSetupForm()
         stop_vpn()
         flash("VPN Stopped!", "notice")
     elif(action == "restart_vpn"):
-        form = initialSetupForm()
         restart_vpn()
         flash("VPN Restarted!", "notice")
     else:
         form = initialSetupForm()
         flash("Error! Invalid Action!", "error")
         
-    return render_template("initial_setup.html", form=form)
+    return redirect(url_for("status"))
 
 
 #REST API
