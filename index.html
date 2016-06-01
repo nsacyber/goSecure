@@ -111,6 +111,36 @@
                 
                 <section id="components" data-spy="scroll" data-target="#scrollspy-components">
                     <h2 class="page-header"><a href="#components">Build Components</a></h2>
+                    
+                    <br>
+                    Decide on values for the following before starting:
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Variable</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Server ID</td>
+                                <td>i.e. vpn.ix.mil</td>
+                            </tr>
+                        </tbody>
+                        <tbody>
+                            <tr>
+                                <td>Client ID</td>
+                                <td>i.e. client1.ix.mil</td>
+                            </tr>
+                        </tbody>
+                        <tbody>
+                            <tr>
+                                <td>Client Pre-Shared Key</td>
+                                <td>i.e. "cxvljals@fj09q2jasdf#dsjvk(asdjf"<br>Note: the PSK must be surrounded in double quotes and cannot contain a double quote within.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br>
 
                     <h3 id="component-server">Server</h3>
                     Note: The server component build instructions are simply an example that can be used by affaliates that desire a complete solution, but the client component can interoperate with any VPN server that can be configured using the NSA CSFC guidelines.
@@ -133,7 +163,7 @@
                         <li>Install OS</li>
                         <ol>
                             <li>Install CentOS 6.7 64-bit (minimal)</li>
-                            <ol>
+                            <ol><!--
                                 Disk partition overview:
                                 <br>
                                 <pre>Partitioning:
@@ -180,18 +210,19 @@ Physical Volume
                             <br>
                             <li>Select “Minimal” and select “Customize later”.</li>
                             <br><img class="img-responsive" src="./files/images/server_install/centos_package_selection.png" width="797" height="553">
-                        </ol>
+                        </ol>-->
                             
                         </ol>
                         <br>
                         
+                        <!--
                         <li>Configure OS</li>
                         <ol>
                             <li>vi /etc/sysctl.conf</li>
                             <li>change "net.ipv4.ip_forward" from "0" to "1" in the file.</li>
                             <li>sysctl -p</li>
                         </ol>
-                        <br>
+                        <br>-->
                         
                         <li>Configure Networking</li>
                         <br>
@@ -232,7 +263,7 @@ Physical Volume
                         </ol>
                         <br>
                         
-                        
+                        <!--
                         <li>Configure Firewall</li>
                         <br>
                         <ol>
@@ -324,7 +355,7 @@ conn rw-client1
 #        rightid=&lt;unique_id_of_client&gt; #set a unique id for each client</pre>
                             <li>vi /etc/ipsec.secrets</li>
                             Note: replace &lt;unique_id_of_client&gt; with the unique ID and &lt;password_for_client&gt; with the password for the goSecure VPN client. 
-                            <pre>&lt;unique_id_of_client&gt; : PSK &lt;password_for_client&gt;</pre>
+                            <pre>&lt;unique_id_of_client&gt; : PSK "&lt;password_for_client&gt;"</pre>
                             <li>service network restart</li>
                         </ol>
                         <br>
@@ -333,6 +364,15 @@ conn rw-client1
                         <ol>
                             <li>ipsec start</li>
                             <li>echo "ipsec start" >> /etc/rc.d/rc.local</li>
+                        </ol>-->
+                            
+                        <li>Run the goSecure Server Install Script</li>
+                        <ol>
+                            <li>yum install -y wget</li>
+                            <li>cd ~</li>
+                            <li>wget https://iadgov.github.io/goSecure/files/install_scripts/gosecure_server_install.py</li>
+                            <li>sudo chmod 550 gosecure_server_install.py</li>
+                            <li>sudo ./gosecure_server_install.py</li>
                         </ol>
                         
                     </ol>
@@ -592,7 +632,7 @@ conn work
         aggressive=yes #this is required to support multiple road warrior clients that use just a pre-shared key.</pre>
                             <li>sudo vi /etc/ipsec.secrets</li>
                             Note: type it in exactly the way it's shown, it will get over written by the web interface during the setup procedure.
-                            <pre>&lt;unique_id_of_client&gt; : PSK &lt;password_for_client&gt;</pre>
+                            <pre>&lt;unique_id_of_client&gt; : PSK "&lt;password_for_client&gt;"</pre>
                             <li>sudo service networking restart</li>
                         </ol>
                         <br>
