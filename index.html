@@ -476,9 +476,9 @@ conn rw-client1
                         
                         <li>Configure Networking</li>
                         <ol>
-                            <li>sudo sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"</li>
+                            <!--<li>sudo sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"</li>
                             <li>sudo vi /etc/sysctl.conf</li>
-                            <li>uncomment the line "net.ipv4.ip_forward=1" in the file.</li>
+                            <li>uncomment the line "net.ipv4.ip_forward=1" in the file.</li>-->
                             <li>sudo vi /etc/network/interfaces</li>
                             <pre># interfaces(5) file used by ifup(8) and ifdown(8)
 
@@ -500,7 +500,7 @@ netmask 255.255.255.0
 auto wlan0
 allow-hotplug wlan0
 iface wlan0 inet manual
-wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf</pre>
+    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf</pre>
                         <li>sudo vi /etc/wpa_supplicant/wpa_supplicant.conf</li>
                         <br>
                         Note: replace the &lt;YOUR_WIFI_SSID&gt; with your WIFI SSID and &lt;YOUR_WIFI_PASSWORD&gt; with your WIFI Password.
@@ -516,10 +516,11 @@ network={
                         </ol>
                         <br>
                         
-                        Note: you now have the option to SSH into the goSecure client. Copying and pasting the commands and configuration files is recommended. Be sure to change variables where specified.
+                        Note: you now have the option to SSH into the goSecure client if your computer is on the same Wifi network. Copying and pasting the commands and configuration files is recommended. Be sure to change variables where specified.
                         
                         <br><br>
                         
+                        <!--
                         <li>Configure Firewall</li>
                         <ol>
                             <li>sudo mkdir /etc/iptables/</li>
@@ -562,7 +563,7 @@ sudo /sbin/iptables-restore < /etc/iptables/rules.v4</pre>
                             <li>sudo modprobe bcm2835-rng</li>
                             <li>sudo sh -c "echo bcm2835-rng >> /etc/modules"</li>
                         </ol>
-                        <br>
+                        <br>-->
                         
                         <li>Update OS and Raspberry Pi</li>
                             Note: These commands will run for a long time.
@@ -578,6 +579,7 @@ sudo /sbin/iptables-restore < /etc/iptables/rules.v4</pre>
                         </ol>
                         <br>
                         
+                        <!--
                         <li>Install strongSwan</li>
                         <ol>
                             <li>cd /tmp/</li>
@@ -729,10 +731,21 @@ WantedBy=multi-user.target</pre>
                         <li>sudo chmod 550 /home/pi/goSecure_Web_GUI/gosecure_app.py</li>
                         <li>sudo reboot</li>
                         </ol>
+                        <br>-->
+                        
+                        <li>Run the goSecure Client Install Script</li>
+                        <ol>
+                            <li>cd ~</li>
+                            <li>wget https://iadgov.github.io/goSecure/files/install_scripts/gosecure_client_install.py</li>
+                            <li>sudo chmod 550 gosecure_client_install.py</li>
+                            <li>sudo ./gosecure_client_install.py</li>
+                        </ol>
+                        
                         <br>
-                            
+                        
                         <li>Clean up</li>
                         <ol>
+                            <li>sudo rm /home/pi/gosecure_client_install.py</li>
                             <li>sudo apt-get purge `sudo dpkg --get-selections | grep "\-dev" | sed s/install//` gcc-4\.[0-6].*</li>
                             <li>sudo apt-get --yes autoremove</li>
                             <li>sudo rm -rf /usr/share/doc/* /opt/vc/src/hello_pi/</li>
@@ -742,10 +755,16 @@ WantedBy=multi-user.target</pre>
                             <li>sudo rm -rf /var/backups/* /var/lib/apt/lists/* ~/.bash_history</li>
                             <li>find /var/log/ -type f |xargs sudo rm -rf</li>
                             <li>sudo cp /dev/null /etc/resolv.conf</li>
-                            <li>sudo systemctl disable ssh</li>
+                            <br>
+                            <li>Unplug the HDMI cable and SSH into the goSecure Client</li>
                             <li>sudo reboot</li>
+                            <li>SSH into the goSecure Client</li>
+                            <li>sudo systemctl disable ssh</li>
+                            <li>sudo init 0</li>
                         </ol>
                         <br>
+                        
+                        
 
                     </ol>
                     <br>
@@ -802,7 +821,7 @@ WantedBy=multi-user.target</pre>
                     <p class="lead">goSecure is an easy to use and portable VPN system.</p>
                     
                     <h3>How do I add more clients to the system?</h3>
-                    <p>Refer to the comments in the configuration file created in #7 step 3 of the "Server" section in the "Build Components" heading. Also add a new line to the configuration file used in #7 step 4 of the "Server" section in the "Build Components" heading that contains the new &lt;unique_id_of_client&gt; and a new unique password.</p>
+                    <p>Refer to the comments in the "/etc/ipsec.conf" configuration file on the goSecure server. Also add a new line to the "/etc/ipsec.secrets" configuration file on the goSecure server that contains the new &lt;unique_id_of_client&gt; and a new unique password.</p>
                     
                     <h3>How do I upgrade to the latest version of the goSecure Client Web GUI?</h3>
                     <p class="lead">

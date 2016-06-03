@@ -4,6 +4,7 @@ from subprocess import call
 
 
 def enable_ip_forward():
+    print "goSecure_Client_Script - Enable IP Forward\n"
     with open("/etc/sysctl.conf") as fin:
         lines = fin.readlines()
 
@@ -19,6 +20,7 @@ def enable_ip_forward():
 
 
 def configure_firewall():
+    print "goSecure_Client_Script - Configure Firewall\n"
     iptables_rules = """# Firewall configuration written by system-config-firewall
 # Manual customization of this file is not recommended.
 *filter
@@ -54,22 +56,24 @@ COMMIT"""
 
     
 def install_strongswan():
-    install_strongswan_commands = """yum groupinstall -y "Development Tools"
-yum install -y unzip
-yum install -y openssl-devel pam-devel
+    print "goSecure_Client_Script - Install strongSwan\n"
+    install_strongswan_commands = """sudo yum groupinstall -y "Development Tools"
+sudo yum install -y unzip
+sudo yum install -y openssl-devel pam-devel
 wget -P /tmp https://download.strongswan.org/strongswan-5.4.0.tar.gz
-tar -xvzf /tmp/strongswan-5.4.0.tar.gz
+tar -xvzf /tmp/strongswan-5.4.0.tar.gz -C /tmp
 cd /tmp/strongswan-5.4.0/ && ./configure --prefix=/usr --sysconfdir=/etc --enable-gcm --enable-kernel-libipsec --enable-openssl --with-fips-mode=2 --disable-vici --disable-des --disable-ikev2 --disable-gmp
 make -C /tmp/strongswan-5.4.0/
-make -C /tmp/strongswan-5.4.0/ install"""
+sudo make -C /tmp/strongswan-5.4.0/ install"""
     
     for command in install_strongswan_commands.splitlines():
         call(command, shell=True)
         
 def configure_strongswan():
-    leftid_name = raw_input("1) Please enter the server id (i.e. vpn.ix.mil): ")
-    rightid_name = raw_input("2) Please enter the client id (i.e. client1.ix.mil): ")
-    rightid_psk = raw_input("3) Please enter the client's pre-shared key: ")
+    print "goSecure_Client_Script - Configure strongSwan\n"
+    server_name = raw_input("1) Please enter the server id (i.e. vpn.ix.mil): ")
+    client_id = raw_input("2) Please enter the client id (i.e. client1.ix.mil): ")
+    client_psk = raw_input("3) Please enter the client's pre-shared key: ")
     
     strongswan_conf = """charon {
         interfaces_use = eth0
@@ -112,14 +116,14 @@ conn rw-client1
 
 #To add additional clients:
 #conn rw-client2 #increment the last number by 1 for each additional client
-#        rightid=<unique_id_of_client> #set a unique id for each client""".format(leftid_name, rightid_name)
+#        rightid=<unique_id_of_client> #set a unique id for each client""".format(server_name, client_id)
     
     ipsec_conf_file = open("/etc/ipsec.conf", "w")
     ipsec_conf_file.write(ipsec_conf)
     ipsec_conf_file.close()
     
     
-    ipsec_secrets = """{0} : PSK {1}""".format(rightid_name, rightid_psk)
+    ipsec_secrets = """{0} : PSK {1}""".format(client_id, client_psk)
     
     ipsec_secrets_file = open("/etc/ipsec.secrets", "w")
     ipsec_secrets_file.write(ipsec_secrets)
@@ -129,8 +133,9 @@ conn rw-client1
     call(["sudo", "service", "network", "restart"])
     
 def start_strongswan():
+    print "goSecure_Client_Script - Start strongSwan\n"
     call(["sudo", "ipsec", "start"])
-    call('echo "ipsec start" >> /etc/rc.d/rc.local', shell=True)
+    call('sudo echo "ipsec start" >> /etc/rc.d/rc.local', shell=True)
     
 def main():
     enable_ip_forward()
