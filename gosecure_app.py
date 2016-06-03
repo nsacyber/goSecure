@@ -8,7 +8,7 @@ import pickle
 from forms import loginForm, initialSetupForm, userForm, wifiForm, vpnPskForm, resetToDefaultForm, statusForm
 from scripts.rpi_network_conn import add_wifi, internet_status, reset_wifi
 from scripts.vpn_server_conn import set_vpn_params, reset_vpn_params, start_vpn, stop_vpn, restart_vpn, vpn_status
-from scripts.pi_mgmt import pi_reboot, pi_shutdown
+from scripts.pi_mgmt import pi_reboot, pi_shutdown, start_ssh_service
 import time
 import os
 import json
@@ -308,7 +308,7 @@ def vpn_psk():
             restart_vpn()
 
             flash("VPN settings saved and VPN restarted!", "success")
-            return render_template("vpn_psk.html", form=form)
+            return redirect(url_for("status"))
         else:
             flash("Error! " + str(form.data), "error")
             return render_template("vpn_psk.html", form=form)
@@ -360,6 +360,9 @@ def execute_action():
     elif(action == "restart_vpn"):
         restart_vpn()
         flash("VPN Restarted!", "notice")
+    elif(action == "ssh_service"):
+        start_ssh_service()
+        flash("SSH Service Started! It will be turned off on reboot.")
     else:
         form = initialSetupForm()
         flash("Error! Invalid Action!", "error")

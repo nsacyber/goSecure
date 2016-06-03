@@ -7,6 +7,9 @@ def pi_reboot():
 def pi_shutdown():
     os.system("sudo shutdown -h now")
     
+def start_ssh_service():
+    os.system("sudo service ssh start")
+    
 def turn_on_led_green():
     GPIO.setmode(GPIO.BCM)
     GPIO.setwarnings(False)
