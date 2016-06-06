@@ -281,7 +281,7 @@ def wifi():
 
             if(internet_status() == True):
                 flash("Wifi settings saved!", "success")
-                return render_template("wifi.html", form=form)
+                return redirect(url_for("status"))
             else:
                 flash("Error! Cannot reach the internet...", "error")
                 return render_template("wifi.html", form=form)
@@ -307,8 +307,12 @@ def vpn_psk():
             set_vpn_params(vpn_server, user_id, user_psk)
             restart_vpn()
 
-            flash("VPN settings saved and VPN restarted!", "success")
-            return redirect(url_for("status"))
+            if(vpn_status()):
+                flash("VPN settings saved and VPN restarted!", "success")
+                return redirect(url_for("status"))
+            else:
+                flash("VPN settings saved and VPN restarted! Unable to establish VPN connection.", "error")
+                return render_template("vpn_psk.html", form=form)
         else:
             flash("Error! " + str(form.data), "error")
             return render_template("vpn_psk.html", form=form)
