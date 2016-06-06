@@ -232,7 +232,7 @@ Physical Volume
                             <li>vi /etc/sysconfig/network-scripts/ifcfg-eth0</li>
                             <li>Change "ONBOOT=no" to "ONBOOT=yes" in the file.</li>
                             <li>service network restart</li>
-                            <li>yum update -y</li>
+                            <li>sudo yum update -y</li>
                             <li>reboot</li>
                             <br>
                             Install eth1 (SIIG) driver:
@@ -368,7 +368,7 @@ conn rw-client1
                             
                         <li>Run the goSecure Server Install Script</li>
                         <ol>
-                            <li>yum install -y wget</li>
+                            <li>sudo yum install -y wget</li>
                             <li>cd ~</li>
                             <li>wget https://iadgov.github.io/goSecure/files/install_scripts/gosecure_server_install.py</li>
                             <li>sudo chmod 550 gosecure_server_install.py</li>

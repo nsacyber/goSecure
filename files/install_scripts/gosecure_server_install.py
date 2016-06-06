@@ -4,7 +4,7 @@ from subprocess import call
 
 
 def enable_ip_forward():
-    print "goSecure_Client_Script - Enable IP Forward\n"
+    print "goSecure_Server_Script - Enable IP Forward\n"
     with open("/etc/sysctl.conf") as fin:
         lines = fin.readlines()
 
@@ -20,7 +20,7 @@ def enable_ip_forward():
 
 
 def configure_firewall():
-    print "goSecure_Client_Script - Configure Firewall\n"
+    print "goSecure_Server_Script - Configure Firewall\n"
     iptables_rules = """# Firewall configuration written by system-config-firewall
 # Manual customization of this file is not recommended.
 *filter
@@ -47,7 +47,7 @@ COMMIT
 :OUTPUT ACCEPT [0:0]
 -A POSTROUTING -o eth0 -j MASQUERADE
 -A POSTROUTING -o eth1 -j MASQUERADE
-COMMIT"""
+COMMIT\n"""
     
     iptables_file = open("/etc/sysconfig/iptables", "w")
     iptables_file.write(iptables_rules)
@@ -56,7 +56,7 @@ COMMIT"""
 
     
 def install_strongswan():
-    print "goSecure_Client_Script - Install strongSwan\n"
+    print "goSecure_Server_Script - Install strongSwan\n"
     install_strongswan_commands = """sudo yum groupinstall -y "Development Tools"
 sudo yum install -y unzip
 sudo yum install -y openssl-devel pam-devel
@@ -70,7 +70,7 @@ sudo make -C /tmp/strongswan-5.4.0/ install"""
         call(command, shell=True)
         
 def configure_strongswan():
-    print "goSecure_Client_Script - Configure strongSwan\n"
+    print "goSecure_Server_Script - Configure strongSwan\n"
     server_name = raw_input("1) Please enter the server id (i.e. vpn.ix.mil): ")
     client_id = raw_input("2) Please enter the client id (i.e. client1.ix.mil): ")
     client_psk = raw_input("3) Please enter the client's pre-shared key: ")
@@ -133,7 +133,7 @@ conn rw-client1
     call(["sudo", "service", "network", "restart"])
     
 def start_strongswan():
-    print "goSecure_Client_Script - Start strongSwan\n"
+    print "goSecure_Server_Script - Start strongSwan\n"
     call(["sudo", "ipsec", "start"])
     call('sudo echo "ipsec start" >> /etc/rc.d/rc.local', shell=True)
     
