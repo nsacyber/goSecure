@@ -24,8 +24,8 @@ def configure_firewall():
     iptables_rules = """# Firewall configuration written by system-config-firewall
 # Manual customization of this file is not recommended.
 *filter
-:INPUT ACCEPT [0:0]
-:FORWARD ACCEPT [0:0]
+:INPUT DROP [0:0]
+:FORWARD DROP [0:0]
 :OUTPUT ACCEPT [0:0]
 -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 #-A INPUT -p icmp -j ACCEPT
@@ -33,6 +33,8 @@ def configure_firewall():
 -A INPUT -m state --state NEW -m tcp -p tcp --dport 22 -j ACCEPT
 -A INPUT -m udp -p udp --dport 500 -j ACCEPT
 -A INPUT -m udp -p udp --dport 4500 -j ACCEPT
+-A FORWARD -i eth0 -o eth1 -j ACCEPT
+-A FORWARD -i eth1 -o eth0 -j ACCEPT
 -A FORWARD -i ipsec0 -o eth0 -j ACCEPT
 -A FORWARD -i eth0 -o ipsec0 -j ACCEPT
 -A FORWARD -i ipsec0 -o eth1 -j ACCEPT

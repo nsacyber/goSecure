@@ -35,10 +35,16 @@ def configure_firewall():
 -A FORWARD -p tcp -m tcp --tcp-flags SYN,RST SYN -j TCPMSS --set-mss 1300
 COMMIT
 
-*filter                    
-:INPUT ACCEPT [0:0]
-:FORWARD ACCEPT [0:0]
+*filter
+:INPUT DROP [0:0]
+:FORWARD DROP [0:0]
 :OUTPUT ACCEPT [0:0]
+-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 22 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 443 -j ACCEPT
+-A INPUT -m udp -p udp --dport 53 -j ACCEPT
+-A INPUT -m udp -p udp --dport 67 -j ACCEPT
+-A INPUT -m udp -p udp --dport 68 -j ACCEPT
 -A FORWARD -i ipsec0 -o eth0 -m state --state RELATED,ESTABLISHED -j ACCEPT
 -A FORWARD -i eth0 -o ipsec0 -j ACCEPT
 COMMIT
