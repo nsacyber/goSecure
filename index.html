@@ -150,7 +150,7 @@
                         <ul>
                             <li>Hardware</li>
                             <ul>
-                                <li>A laptop, desktop, or server with 2 network interfaces. In this example we will be using a laptop and an external USB to Ethernet adapter (SIIG JU-NE0211-S1 USB 3.0 to Gigabit Ethernet).</li>
+                                <li>A laptop, desktop, or server with 2 network interfaces. In this example we will be using a laptop that has only 1 ethernet port on it and an external USB to Ethernet adapter (SIIG JU-NE0211-S1 USB 3.0 to Gigabit Ethernet) to add a second port.</li>
                             </ul>
 
                             <li>Software</li>
@@ -226,19 +226,22 @@ Physical Volume
                         
                         <li>Configure Networking</li>
                         <br>
-                        Note:<br>
                         <ol>
                             Configure external (Internet) facing interface and update the OS:<br>
                             <li>vi /etc/sysconfig/network-scripts/ifcfg-eth0</li>
                             <li>Change "ONBOOT=no" to "ONBOOT=yes" in the file.</li>
                             <li>service network restart</li>
                             <li>sudo yum update -y</li>
-                            <li>reboot</li>
+                            <li>sudo yum groupinstall -y "Development Tools"</li>
+                            <li>sudo yum install wget unzip</li>
+                            <li>sudo reboot</li>
+                            <br>
+                            
+                            Note: If you have the exact same SIIG USB-to-Ethernet adapter, please follow the "Install eth1 (SIIG) driver" section. Otherwise, please follow the instructions that were provided by the manufacturer of your USB-to-Ethernet device to install the driver.
                             <br>
                             Install eth1 (SIIG) driver:
                             <li>Ensure the SIIG USB-to-Ethernet adapter is plugged in.</li>
-                            <li>yum groupinstall -y "Development Tools"</li>
-                            <li>yum install wget unzip</li>
+
                             <li>wget http://www.siig.com/media/files/drivers/0010/02-1634d-linux-v1.13.0.zip</li>
                             <li>unzip 02-1634d-linux-v1.13.0.zip</li>
                             <li>cd Linux</li>
@@ -247,6 +250,7 @@ Physical Volume
                             <li>make</li>
                             <li>make install</li>
                             <li>Unplug the SIIG USB-to-Ethernet adapter and plug it back in.</li>
+                            <br>
                             <br>
                             
                             Configure internal (Enterprise) facing interface:<br>
