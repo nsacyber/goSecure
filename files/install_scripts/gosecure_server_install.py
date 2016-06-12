@@ -1,7 +1,12 @@
 #!/usr/bin/env python
 
+import sys
 from subprocess import call
 
+
+def update_os():
+    print "goSecure_Server_Script - Update OS\n"
+    call("sudo yum update -y", shell=True)
 
 def enable_ip_forward():
     print "goSecure_Server_Script - Enable IP Forward\n"
@@ -71,11 +76,8 @@ sudo make -C /tmp/strongswan-5.4.0/ install"""
     for command in install_strongswan_commands.splitlines():
         call(command, shell=True)
         
-def configure_strongswan():
+def configure_strongswan(server_name, client_id, client_psk):
     print "goSecure_Server_Script - Configure strongSwan\n"
-    server_name = raw_input("1) Please enter the server id (i.e. vpn.ix.mil): ")
-    client_id = raw_input("2) Please enter the client id (i.e. client1.ix.mil): ")
-    client_psk = raw_input("3) Please enter the client's pre-shared key (at least 16 characters): ")
     
     strongswan_conf = """charon {
         interfaces_use = eth0
@@ -140,10 +142,20 @@ def start_strongswan():
     call('sudo echo "ipsec start" >> /etc/rc.d/rc.local', shell=True)
     
 def main():
+    #server_name = raw_input("1) Please enter the server id (i.e. vpn.ix.mil): ")
+    #client_id = raw_input("2) Please enter the client id (i.e. client1.ix.mil): ")
+    #client_psk = raw_input("3) Please enter the client's pre-shared key (at least 16 characters): ")
+    
+    cmdargs = str(sys.argv)
+    server_name = str(sys.argv[1])
+    client_id = str(sys.argv[2])
+    client_psk = str(sys.argv[3])
+    
+    update_os()
     enable_ip_forward()
     configure_firewall()
     install_strongswan()
-    configure_strongswan()
+    configure_strongswan(server_name, client_id, client_psk)
     start_strongswan()
     
 if __name__ == "__main__":

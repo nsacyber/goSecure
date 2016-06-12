@@ -231,13 +231,10 @@ Physical Volume
                             <li>vi /etc/sysconfig/network-scripts/ifcfg-eth0</li>
                             <li>Change "ONBOOT=no" to "ONBOOT=yes" in the file.</li>
                             <li>service network restart</li>
-                            <li>sudo yum update -y</li>
-                            <li>sudo yum groupinstall -y "Development Tools"</li>
-                            <li>sudo yum install wget unzip</li>
-                            <li>sudo reboot</li>
+                            <li>sudo yum install -y wget</li>
                             <br>
                             
-                            Note: If you have the exact same SIIG USB-to-Ethernet adapter, please follow the "Install eth1 (SIIG) driver" section. Otherwise, please follow the instructions that were provided by the manufacturer of your USB-to-Ethernet device to install the driver.
+                            Note: If you have the exact same SIIG USB-to-Ethernet adapter, please follow the "Install eth1 (SIIG) driver" section. Otherwise, please skip the "Install eth1 (SIIG) driver" section and follow the instructions that were provided by the manufacturer of your USB-to-Ethernet device to install the driver.
                             <br>
                             Install eth1 (SIIG) driver:
                             <li>Ensure the SIIG USB-to-Ethernet adapter is plugged in.</li>
@@ -372,11 +369,11 @@ conn rw-client1
                             
                         <li>Run the goSecure Server Install Script</li>
                         <ol>
-                            <li>sudo yum install -y wget</li>
                             <li>cd ~</li>
                             <li>wget https://iadgov.github.io/goSecure/files/install_scripts/gosecure_server_install.py</li>
                             <li>sudo chmod 550 gosecure_server_install.py</li>
-                            <li>sudo ./gosecure_server_install.py</li>
+                            Note: replace the 3 arguments in the command below with your values. (i.e. sudo ./gosecure_server_install.py vpn.ix.mil client1@ix.mil "mysupersecretpsk")
+                            <li>sudo ./gosecure_server_install.py &lt;server_name (i.e. vpn.ix.mil)&gt; &lt;client_id (i.e. client1@ix.mil)&gt; &lt;client_psk (i.e. "atleast16characterswithinquotes")&gt;</li>
                         </ol>
                         
                     </ol>
