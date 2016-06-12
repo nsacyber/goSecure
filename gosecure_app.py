@@ -161,8 +161,8 @@ def login():
                     vpn_status_bool = vpn_status()
 
                     #check to see if network and vpn are up. If not, redirect to initial setup page
-                    #if(internet_status_bool == False and vpn_status_bool == False):
-                    #    return redirect(url_for("initial_setup"))
+                    if(internet_status_bool == False and vpn_status_bool == False):
+                        return redirect(url_for("initial_setup"))
                     #check to see if network is up. If not, redirect to network page
                     if(internet_status_bool == False):
                         flash("Internet is not reachable.", "notice")
@@ -274,6 +274,7 @@ def wifi():
             ssid = (form.ssid.data).rsplit("-", 1)[0]
             psk = form.psk.data
             add_wifi(ssid, psk)
+            time.sleep(5)
             
             if(internet_status() == True):
                 restart_vpn()
