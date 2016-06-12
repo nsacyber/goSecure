@@ -1,5 +1,7 @@
 from subprocess import CalledProcessError, check_output, Popen
+import wifi_captive_portal
 import urllib2
+import time
 
 def get_wifi_list():
     try:
@@ -16,7 +18,7 @@ def get_wifi_list():
 
     for x in range(0, len(iw_list)):
         if((iw_list[x].strip())[0:5] == "ESSID"):
-            if((iw_list[x].strip())[7:-1] != ""):
+            if((iw_list[x].strip())[7:-1] != "" and (not ( iw_list[x].strip())[7:-1].startswith("\\"))):
                 wifi_list.append((((iw_list[x].strip())[7:-1] + "-" + ((iw_list[x-1].strip())[15:])), (iw_list[x].strip())[7:-1]))
 
     return sorted(list(set(wifi_list)), key=lambda wifilist: wifilist[0])
@@ -53,6 +55,11 @@ def add_wifi(wifi_ssid, wifi_key):
     process.wait()
     process = Popen(["sudo", "ifup", "wlan0"])
     process.wait()
+    
+    time.sleep(15)
+    
+    if(not internet_status()):
+        wifi_captive_portal.captive_portal(wifi_ssid, "", "")
 
 def internet_status():
     try:

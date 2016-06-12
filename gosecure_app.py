@@ -161,10 +161,10 @@ def login():
                     vpn_status_bool = vpn_status()
 
                     #check to see if network and vpn are up. If not, redirect to initial setup page
-                    if(internet_status_bool == False and vpn_status_bool == False):
-                        return redirect(url_for("initial_setup"))
+                    #if(internet_status_bool == False and vpn_status_bool == False):
+                    #    return redirect(url_for("initial_setup"))
                     #check to see if network is up. If not, redirect to network page
-                    elif(internet_status_bool == False):
+                    if(internet_status_bool == False):
                         flash("Internet is not reachable.", "notice")
                         return redirect(url_for("wifi"))
                     #check to see if vpn is up. If not, redirect to vpn page
@@ -243,8 +243,6 @@ def initial_setup():
             psk = form.psk.data
             add_wifi(ssid, psk)
             
-            time.sleep(15)
-            
             if(internet_status() == True):
                 vpn_server = form.vpn_server.data
                 user_id = form.user_id.data
@@ -276,11 +274,11 @@ def wifi():
             ssid = (form.ssid.data).rsplit("-", 1)[0]
             psk = form.psk.data
             add_wifi(ssid, psk)
-
-            time.sleep(15)
-
+            
             if(internet_status() == True):
-                flash("Wifi settings saved!", "success")
+                restart_vpn()
+                time.sleep(5)
+                flash("Wifi settings saved! VPN Restarted!", "success")
                 return redirect(url_for("status"))
             else:
                 flash("Error! Cannot reach the internet...", "error")
@@ -435,7 +433,7 @@ if __name__ == "__main__":
     app.secret_key=os.urandom(24)
     
     #if SSL key and certificate pair do not exist, create them.
-    if (os.path.exists("ssl.key") and os.path.exists("ssl.crt")) != True:
+    if ((os.path.exists("ssl.key") and os.path.exists("ssl.crt")) != True):
         os.system('openssl genrsa 2048 > ssl.key')
         os.system('openssl req -new -x509 -nodes -sha256 -days 1095 -subj "/C=US/O=goSecure/CN=goSecureClient" -key ssl.key > ssl.crt')
         os.system('sudo chown pi:pi ssl.crt ssl.key')
