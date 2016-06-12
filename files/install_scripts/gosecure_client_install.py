@@ -231,7 +231,7 @@ log-dhcp
 def setup_user_interface():
     print "goSecure_Client_Script - Setup User Interface\n"
     setup_user_interface_commands = """sudo apt-get install python-pip -y
-sudo pip install Flask Flask-WTF Flask-Login
+sudo pip install Flask Flask-WTF Flask-Login mechanize
 wget -P /home/pi https://github.com/iadgov/goSecure/archive/master.zip
 unzip /home/pi/master.zip
 rm /home/pi/master.zip

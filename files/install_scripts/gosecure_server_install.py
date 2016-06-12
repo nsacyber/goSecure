@@ -75,7 +75,7 @@ def configure_strongswan():
     print "goSecure_Server_Script - Configure strongSwan\n"
     server_name = raw_input("1) Please enter the server id (i.e. vpn.ix.mil): ")
     client_id = raw_input("2) Please enter the client id (i.e. client1.ix.mil): ")
-    client_psk = raw_input("3) Please enter the client's pre-shared key: ")
+    client_psk = raw_input("3) Please enter the client's pre-shared key (at least 16 characters): ")
     
     strongswan_conf = """charon {
         interfaces_use = eth0
