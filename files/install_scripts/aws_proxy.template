@@ -1,0 +1,315 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+    "Parameters" : {
+    "InstanceType" : {
+      "Description" : "goSecure Server instance type",
+      "Type" : "String",
+      "Default" : "t2.micro",
+      "AllowedValues" : [ "t2.micro", "t2.small", "t2.medium", "t2.large", "c4.large", "c4.xlarge", "c4.2xlarge", "c4.4xlarge", "c4.8xlarge" ],
+      "ConstraintDescription" : "must be a valid EC2 instance type."
+    },
+    "KeyName": {
+      "Description" : "Name of an existing EC2 KeyPair to enable SSH access to the instances",
+      "Type": "AWS::EC2::KeyPair::KeyName",
+      "ConstraintDescription" : "must be the name of an existing EC2 KeyPair."
+    }
+  },
+  "Resources": {
+    "goSecureProxyVPC": {
+      "Type": "AWS::EC2::VPC",
+      "Properties": {
+        "CidrBlock": "172.16.0.0/16",
+        "InstanceTenancy": "default",
+        "EnableDnsSupport": "true",
+        "EnableDnsHostnames": "true",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "goSecure_Proxy-VPC"
+          }
+        ]
+      }
+    },
+    "goSecureProxySubnet": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "172.16.150.0/24",
+        "AvailabilityZone": "us-west-2b",
+        "VpcId": {
+          "Ref": "goSecureProxyVPC"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "goSecure_Proxy-Subnet"
+          }
+        ]
+      }
+    },
+    "goSecureProxyIG": {
+      "Type": "AWS::EC2::InternetGateway",
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "goSecure_Proxy-Internet_Gateway"
+          }
+        ]
+      }
+    },
+    "goSecureProxyDHCP": {
+      "Type": "AWS::EC2::DHCPOptions",
+      "Properties": {
+        "DomainName": "us-west-2.compute.internal",
+        "DomainNameServers": [
+          "AmazonProvidedDNS"
+        ]
+      }
+    },
+    "goSecureProxyNACL": {
+      "Type": "AWS::EC2::NetworkAcl",
+      "Properties": {
+        "VpcId": {
+          "Ref": "goSecureProxyVPC"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "goSecure_Proxy-Network_ACL"
+          }
+        ]
+      }
+    },
+    "goSecureProxyRT1": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "goSecureProxyVPC"
+        }
+      }
+    },
+    "goSecureProxyRT2": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "goSecureProxyVPC"
+        }
+      }
+    },
+    "goSecureProxyEIP": {
+      "Type": "AWS::EC2::EIP",
+      "DependsOn": [
+        "gw4"
+      ],
+      "Properties": {
+        "Domain": "vpc"
+      }
+    },
+    "goSecureProxyServerInstance": {
+      "Type": "AWS::EC2::Instance",
+      "DependsOn": [
+        "goSecureProxyEIP"
+      ],
+      "Properties": {
+        "DisableApiTermination": "false",
+        "InstanceInitiatedShutdownBehavior": "stop",
+        "ImageId": "ami-f303fb93",
+        "InstanceType" : { "Ref" : "InstanceType" },
+        "KeyName": { "Ref" : "KeyName" },
+        "Monitoring": "false",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "goSecure_Proxy-Server"
+          }
+        ],
+        "NetworkInterfaces": [
+          {
+            "DeleteOnTermination": "true",
+            "Description": "Primary network interface",
+            "DeviceIndex": 0,
+            "SubnetId": {
+              "Ref": "goSecureProxySubnet"
+            },
+            "PrivateIpAddresses": [
+              {
+                "PrivateIpAddress": "172.16.150.101",
+                "Primary": "true"
+              }
+            ],
+            "GroupSet": [
+              {
+                "Ref": "goSecureProxySG"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "goSecureProxySG": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "default VPC security group",
+        "VpcId": {
+          "Ref": "goSecureProxyVPC"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "goSecure_Proxy-Security_Group"
+          }
+        ]
+      }
+    },
+    "acl9": {
+      "Type": "AWS::EC2::NetworkAclEntry",
+      "Properties": {
+        "CidrBlock": "0.0.0.0/0",
+        "Egress": "true",
+        "Protocol": "-1",
+        "RuleAction": "allow",
+        "RuleNumber": "100",
+        "NetworkAclId": {
+          "Ref": "goSecureProxyNACL"
+        }
+      }
+    },
+    "acl10": {
+      "Type": "AWS::EC2::NetworkAclEntry",
+      "Properties": {
+        "CidrBlock": "0.0.0.0/0",
+        "Protocol": "-1",
+        "RuleAction": "allow",
+        "RuleNumber": "100",
+        "NetworkAclId": {
+          "Ref": "goSecureProxyNACL"
+        }
+      }
+    },
+    "subnetacl5": {
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties": {
+        "NetworkAclId": {
+          "Ref": "goSecureProxyNACL"
+        },
+        "SubnetId": {
+          "Ref": "goSecureProxySubnet"
+        }
+      }
+    },
+    "gw4": {
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+        "VpcId": {
+          "Ref": "goSecureProxyVPC"
+        },
+        "InternetGatewayId": {
+          "Ref": "goSecureProxyIG"
+        }
+      }
+    },
+    "subnetroute8": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "goSecureProxyRT1"
+        },
+        "SubnetId": {
+          "Ref": "goSecureProxySubnet"
+        }
+      }
+    },
+    "route5": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "RouteTableId": {
+          "Ref": "goSecureProxyRT1"
+        },
+        "GatewayId": {
+          "Ref": "goSecureProxyIG"
+        }
+      },
+      "DependsOn": "gw4"
+    },
+    "dchpassoc4": {
+      "Type": "AWS::EC2::VPCDHCPOptionsAssociation",
+      "Properties": {
+        "VpcId": {
+          "Ref": "goSecureProxyVPC"
+        },
+        "DhcpOptionsId": {
+          "Ref": "goSecureProxyDHCP"
+        }
+      }
+    },
+    "assoc4": {
+      "Type": "AWS::EC2::EIPAssociation",
+      "Properties": {
+        "AllocationId": {
+          "Fn::GetAtt": [
+            "goSecureProxyEIP",
+            "AllocationId"
+          ]
+        },
+        "InstanceId": {
+          "Ref": "goSecureProxyServerInstance"
+        }
+      }
+    },
+    "ingress11": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "goSecureProxySG"
+        },
+        "IpProtocol": "tcp",
+        "FromPort": "22",
+        "ToPort": "22",
+        "CidrIp": "0.0.0.0/0"
+      }
+    },
+    "ingress12": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "goSecureProxySG"
+        },
+        "IpProtocol": "udp",
+        "FromPort": "4500",
+        "ToPort": "4500",
+        "CidrIp": "0.0.0.0/0"
+      }
+    },
+    "ingress13": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "goSecureProxySG"
+        },
+        "IpProtocol": "udp",
+        "FromPort": "500",
+        "ToPort": "500",
+        "CidrIp": "0.0.0.0/0"
+      }
+    },
+    "egress5": {
+      "Type": "AWS::EC2::SecurityGroupEgress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "goSecureProxySG"
+        },
+        "IpProtocol": "-1",
+        "CidrIp": "0.0.0.0/0"
+      }
+    }
+  },
+  "Description": "goSecure Proxy Template",
+  "Outputs": {
+    "goSecureProxyVPCId": {
+      "Value": {
+        "Ref": "goSecureProxyVPC"
+      }
+    }
+  }
+}

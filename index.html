@@ -51,6 +51,7 @@
                         <a href="javascript:void(0)"><i class="fa fa-circle-o"></i> Build Components</a>
                         <ul class="nav treeview-menu">
                             <li><a href="#component-server"><i class="fa fa-square-o"></i> Server</a></li>
+                            <li><a href="#component-server-aws"><i class="fa fa-square-o"></i> Server AWS</a></li>
                             <li><a href="#component-client"><i class="fa fa-square-o"></i> Client</a></li>
                         </ul>
                     </li>
@@ -72,7 +73,7 @@
             <div class="content-header">
                 <h1>
             goSecure Documentation
-            <small>Current version 0.9.8</small>
+            <small>Current version 0.9.9</small>
           </h1>
                 <ol class="breadcrumb">
                     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -163,219 +164,108 @@
                         <li>Install OS</li>
                         <ol>
                             <li>Install CentOS 6.7 64-bit (minimal)</li>
-                            <ol><!--
-                                Disk partition overview:
-                                <br>
-                                <pre>Partitioning:
-Logical Volume
-    /home           approx. 40% of hard drive size
-    /tmp            approx. 5% of hard drive size
-    /var            approx. 5% of hard drive size
-    /var/log        approx. 10% of hard drive size
-    /var/log/audit  approx. 10% of hard drive size
-    /               approx. 30% of hard drive size
-
-Physical Volume
-    /boot           200MB
-    swap            2x amount of RAM</pre>
-                                <li>When you reach the prompt stating “Which type of installation would you like?”, select “Create Custom Layout”.</li>
-                                <br>
-                                <img class="img-responsive" src="./files/images/server_install/centos_disk_layout.png" width="797" height="553">
-                                <br>
-                                <li>Create a “Standard Partition” for the “/boot” partition of size “200” (MB), and check the box “Force to be a primary partition”.</li>
-                                <br>
-                                <img class="img-responsive" src="./files/images/server_install/centos_partition_layout.png" width="797" height="553">
-                                <br>
-                                <img class="img-responsive" src="./files/images/server_install/centos_partition_layout_boot.png" width="797" height="553">
-                                <br>
-                                <li>Create a “Standard Partition” for the “swap” partition. Select “swap” as the “File System Type”.</li>
-                                <br>
-                                <img class="img-responsive" src="./files/images/server_install/centos_partition_layout_swap.png" width="797" height="553">
-                                <br>      
-                                <li>Create a “LVM Physical Volume”. Select “Fill to maximum allowable size”.</li>
-                                <br>
-                                <img class="img-responsive" src="./files/images/server_install/centos_lvm_group.png" width="797" height="553">
-                                <br> 
-                                <li>Create a “LVM Volume Group”. Create all the logical volumes at their specified mount points (depicted above in the Disk partition overview).</li>
-                                <br>
-                                <img class="img-responsive" src="./files/images/server_install/centos_final_partition_layout.png" width="797" height="553">
-                                <br> 
-                                <li>Click “Format” when prompted with the warning.</li>
-                                <li>Click “Write changes to disk” when prompted.</li>
-                            </ol>
-                            <br>
-
-                        <ol>
-                            Package Selection:
-                            <br>
-                            <li>Select “Minimal” and select “Customize later”.</li>
-                            <br><img class="img-responsive" src="./files/images/server_install/centos_package_selection.png" width="797" height="553">
-                        </ol>-->
-                            
-                        </ol>
                         <br>
-                        
-                        <!--
-                        <li>Configure OS</li>
-                        <ol>
-                            <li>vi /etc/sysctl.conf</li>
-                            <li>change "net.ipv4.ip_forward" from "0" to "1" in the file.</li>
-                            <li>sysctl -p</li>
-                        </ol>
-                        <br>-->
                         
                         <li>Configure Networking</li>
                         <br>
-                        <ol>
-                            Configure external (Internet) facing interface and update the OS:<br>
-                            <li>vi /etc/sysconfig/network-scripts/ifcfg-eth0</li>
-                            <li>Change "ONBOOT=no" to "ONBOOT=yes" in the file.</li>
-                            <li>service network restart</li>
-                            <li>sudo yum install -y wget</li>
-                            <br>
-                            
-                            Note: If you have the exact same SIIG USB-to-Ethernet adapter, please follow the "Install eth1 (SIIG) driver" section. Otherwise, please skip the "Install eth1 (SIIG) driver" section and follow the instructions that were provided by the manufacturer of your USB-to-Ethernet device to install the driver.
-                            <br>
-                            Install eth1 (SIIG) driver:
-                            <li>Ensure the SIIG USB-to-Ethernet adapter is plugged in.</li>
+                            <ol>
+                                Configure external (Internet) facing interface and update the OS:<br>
+                                <li>vi /etc/sysconfig/network-scripts/ifcfg-eth0</li>
+                                <li>Change "ONBOOT=no" to "ONBOOT=yes" in the file.</li>
+                                <li>service network restart</li>
+                                <li>sudo yum install -y wget</li>
+                                <br>
 
-                            <li>wget http://www.siig.com/media/files/drivers/0010/02-1634d-linux-v1.13.0.zip</li>
-                            <li>unzip 02-1634d-linux-v1.13.0.zip</li>
-                            <li>cd Linux</li>
-                            <li>tar -xf AX88179_178A_LINUX_DRIVER_v1.13.0_SOURCE.tar</li>
-                            <li> cd AX88179_178A_LINUX_DRIVER_v1.13.0_SOURCE</li>
-                            <li>make</li>
-                            <li>make install</li>
-                            <li>Unplug the SIIG USB-to-Ethernet adapter and plug it back in.</li>
+                                Note: If you have the exact same SIIG USB-to-Ethernet adapter, please follow the "Install eth1 (SIIG) driver" section. Otherwise, please skip the "Install eth1 (SIIG) driver" section and follow the instructions that were provided by the manufacturer of your USB-to-Ethernet device to install the driver.
+                                <br>
+                                Install eth1 (SIIG) driver:
+                                <li>Ensure the SIIG USB-to-Ethernet adapter is plugged in.</li>
+
+                                <li>wget http://www.siig.com/media/files/drivers/0010/02-1634d-linux-v1.13.0.zip</li>
+                                <li>unzip 02-1634d-linux-v1.13.0.zip</li>
+                                <li>cd Linux</li>
+                                <li>tar -xf AX88179_178A_LINUX_DRIVER_v1.13.0_SOURCE.tar</li>
+                                <li> cd AX88179_178A_LINUX_DRIVER_v1.13.0_SOURCE</li>
+                                <li>make</li>
+                                <li>make install</li>
+                                <li>Unplug the SIIG USB-to-Ethernet adapter and plug it back in.</li>
+                                <br>
+                                <br>
+
+                                Configure internal (Enterprise) facing interface:<br>
+                                <li>cp /etc/sysconfig/network-scripts/ifcfg-eth0 /etc/sysconfig/network-scripts/ifcfg-eth1</li>
+                                <li>vi /etc/sysconfig/network-scripts/ifcfg-eth1</li>
+                                <li>Change "DEVICE=eth0" to "DEVICE=eth1"</li>
+                                <li>Change the "HWADDR=&lt;eth0 MAC address&gt;" to "HWADDR=&lt;eth1 MAC address&gt;"</li><br>
+                                Note: Use the same format for the MAC address, i.e. "00:00:BA:XX:XX:XX". The MAC address for eth1 can be found on the back of the SIIG USB-to-Ethernet adapter.
+                                <br>
+                                <li>Delete the "UUID" line.</li>
+                                <li>Change "BOOTPROTO=dhcp" to "BOOTPROTO=static" in the file.</li>
+                                <li>Add "IPADDR=172.16.166.1" and  "NETMASK=255.255.255.0" to the bottom of the file.</li>
+                                <li>service network restart</li>
+                            </ol>
                             <br>
-                            <br>
-                            
-                            Configure internal (Enterprise) facing interface:<br>
-                            <li>cp /etc/sysconfig/network-scripts/ifcfg-eth0 /etc/sysconfig/network-scripts/ifcfg-eth1</li>
-                            <li>vi /etc/sysconfig/network-scripts/ifcfg-eth1</li>
-                            <li>Change "DEVICE=eth0" to "DEVICE=eth1"</li>
-                            <li>Change the "HWADDR=&lt;eth0 MAC address&gt;" to "HWADDR=&lt;eth1 MAC address&gt;"</li><br>
-                            Note: Use the same format for the MAC address, i.e. "00:00:BA:XX:XX:XX". The MAC address for eth1 can be found on the back of the SIIG USB-to-Ethernet adapter.
-                            <br>
-                            <li>Delete the "UUID" line.</li>
-                            <li>Change "BOOTPROTO=dhcp" to "BOOTPROTO=static" in the file.</li>
-                            <li>Add "IPADDR=172.16.166.1" and  "NETMASK=255.255.255.0" to the bottom of the file.</li>
-                            <li>service network restart</li>
+
+                            <li>Run the goSecure Server Install Script</li>
+                            <ol>
+                                <li>cd ~</li>
+                                <li>wget https://iadgov.github.io/goSecure/files/install_scripts/gosecure_server_install.py</li>
+                                <li>sudo chmod 550 gosecure_server_install.py</li>
+                                Note: replace the 3 arguments in the command below with your values. (i.e. sudo ./gosecure_server_install.py vpn.ix.mil client1@ix.mil "mysupersecretpsk")
+                                <li>sudo ./gosecure_server_install.py &lt;server_name (i.e. vpn.ix.mil)&gt; &lt;client_id (i.e. client1@ix.mil)&gt; &lt;client_psk (i.e. "atleast16characterswithinquotes")&gt;</li>
+                            </ol>
+
+                        </ol>
+                    </ol>
+                    
+                    <h3 id="component-server-aws">Server on Amazon Web Services (AWS)</h3>
+                    <br><br>
+                    <ol type="1">
+                        <li>Prerequisites</li>
+                        <ul>
+                            <li>AWS SSH Key</li>
+                            <ul>
+                                <li>Create your own SSH key pair using these instructions: <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair">http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair</a></li>
+                            </ul>
+                        </ul>
+                        <br>
+                        
+                        <li>Deploy template using AWS CloudFormation</li>
+                        <ol>
+                            <li>Download the goSecure Proxy CloudFormation template from here: <a href="https://iadgov.github.io/goSecure/files/install_scripts/aws_proxy.template">https://iadgov.github.io/goSecure/files/install_scripts/aws_proxy.template</a></li>
+                            <li>Log in to the AWS console.</li>
+                            <li>In the top menu bar, click on "Services" and then click on "CloudFormation"</li>
+                            <li>Click on the "Create Stack" button.</li>
+                            <li>Under the "Choose a template" heading, select "Upload a template to Amazon S3" and then click on the "Choose File" button.</li>
+                            <li>Select the "aws_proxy.template" that you downloaded.</li>
+                            <li>Click on the "Next" button.</li>
+                            <li>Type in "goSecureProxyStack" in the "Stack name" textbox.</li>
+                            <li>Select your instance type for the "InstanceType" dropdown menu.</li>
+                            <li>Select the existing SSH key pair in the "KeyName" dropdown menu.</li>
+                            <li>Click on the "Next" button.</li>
+                            <li>Click on the "Next" button.</li>
+                            <li>Click on the "Create" button.</li>
+                            <li>Wait until the Stack "Status" changes to "CREATE_COMPLETE".</li>
                         </ol>
                         <br>
                         
-                        <!--
-                        <li>Configure Firewall</li>
-                        <br>
-                        <ol>
-                            <li>vi /etc/sysconfig/iptables</li>
-                            <pre># Firewall configuration written by system-config-firewall
-# Manual customization of this file is not recommended.
-*filter
-:INPUT ACCEPT [0:0]
-:FORWARD ACCEPT [0:0]
-:OUTPUT ACCEPT [0:0]
--A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
-#-A INPUT -p icmp -j ACCEPT
--A INPUT -i lo -j ACCEPT
-#-A INPUT -m state --state NEW -m tcp -p tcp --dport 22 -j ACCEPT
--A INPUT -m udp -p udp --dport 500 -j ACCEPT
--A INPUT -m udp -p udp --dport 4500 -j ACCEPT
--A FORWARD -i ipsec0 -o eth0 -j ACCEPT
--A FORWARD -i eth0 -o ipsec0 -j ACCEPT
--A FORWARD -i ipsec0 -o eth1 -j ACCEPT
--A FORWARD -i eth1 -o ipsec0 -j ACCEPT
--A INPUT -j REJECT --reject-with icmp-host-prohibited
--A FORWARD -j REJECT --reject-with icmp-host-prohibited
-COMMIT
-
-*nat
-:PREROUTING ACCEPT [0:0]
-:POSTROUTING ACCEPT [0:0]
-:OUTPUT ACCEPT [0:0]
--A POSTROUTING -o eth0 -j MASQUERADE
--A POSTROUTING -o eth1 -j MASQUERADE
-COMMIT</pre><br>
-                            <li>service iptables restart</li>
-                        </ol>
-                        <br>
-                        
-                        <li>Install strongSwan</li>
-                        <ol>
-                            <li>yum install -y openssl-devel pam-devel</li>
-                            <li>wget https://download.strongswan.org/strongswan-5.4.0.tar.gz</li>
-                            <li>tar -xvzf strongswan-5.4.0.tar.gz</li>
-                            <li>cd ./strongswan-5.4.0/</li>
-                            <li>./configure --prefix=/usr --sysconfdir=/etc --enable-gcm --enable-kernel-libipsec --enable-openssl --with-fips-mode=2 --disable-vici --disable-des --disable-ikev2 --disable-gmp</li> Note: This command will run for a long time.
-                            <li>make</li> Note: This command will run for a long time.
-                            <li>make install</li> Note: This command will run for a long time.
-                            <li>cd ~</li>
-                        </ol>
-                        <br>
-                        
-                        <li>Configure strongSwan</li>
-                        <ol>
-                            <li>vi /etc/strongswan.conf</li>
-                            <pre>charon {
-        interfaces_use = eth0
-        load_modular = yes
-        i_dont_care_about_security_and_use_aggressive_mode_psk=yes
-        plugins {
-                include strongswan.d/charon/*.conf
-        }
-}
-
-include strongswan.d/*.conf</pre>
-                            <li>vi /etc/ipsec.conf</li>
-                            <pre>config setup
-
-conn %default
-        ikelifetime=60m
-        keylife=20m
-        rekeymargin=3m
-        keyingtries=1
-        keyexchange=ikev1
-        left=%defaultroute
-        leftsubnet=0.0.0.0/0
-        leftid=@vpn.ix.mil
-        leftfirewall=yes
-        right=%any
-        rightsourceip=172.16.176.100/27
-        auto=add
-        authby=secret
-        ike=aes256-sha384-ecp384!
-        esp=aes256gcm128!
-        aggressive=yes
-
-
-conn rw-client1
-        rightid=&lt;unique_id_of_client&gt;
-
-#To add additional clients:
-#conn rw-client2 #increment the last number by 1 for each additional client
-#        rightid=&lt;unique_id_of_client&gt; #set a unique id for each client</pre>
-                            <li>vi /etc/ipsec.secrets</li>
-                            Note: replace &lt;unique_id_of_client&gt; with the unique ID and &lt;password_for_client&gt; with the password for the goSecure VPN client. 
-                            <pre>&lt;unique_id_of_client&gt; : PSK "&lt;password_for_client&gt;"</pre>
-                            <li>service network restart</li>
-                        </ol>
-                        <br>
-                        
-                        <li>Start strongSwan</li>
-                        <ol>
-                            <li>ipsec start</li>
-                            <li>echo "ipsec start" >> /etc/rc.d/rc.local</li>
-                        </ol>-->
-                            
                         <li>Run the goSecure Server Install Script</li>
                         <ol>
+                            <li>Log in to the AWS console.</li>
+                            <li>In the top menu bar, click on "Services" and then click on "EC2".</li>
+                            <li>In the left menu bar, click on "Instances".</li>
+                            <li>Right click on the instance with the name "goSecure_Proxy-Server" and then click on "Connect".</li>
+                            <li>Follow the instructions stated to SSH into the goSecure server.</li>
+                            <li>i.e. 'ssh -i "~/.ssh/gosecure_key_pair.pem" ec2-user@ec2-xx-xx-xx-xx.us-west-2.compute.amazonaws.com' where the "xx" are replaced by the IP address octets.</li>
+                            
+                            <br><br>
+                            Once SSHed in, run the following commands.<br>
                             <li>cd ~</li>
                             <li>wget https://iadgov.github.io/goSecure/files/install_scripts/gosecure_server_install.py</li>
                             <li>sudo chmod 550 gosecure_server_install.py</li>
                             Note: replace the 3 arguments in the command below with your values. (i.e. sudo ./gosecure_server_install.py vpn.ix.mil client1@ix.mil "mysupersecretpsk")
                             <li>sudo ./gosecure_server_install.py &lt;server_name (i.e. vpn.ix.mil)&gt; &lt;client_id (i.e. client1@ix.mil)&gt; &lt;client_psk (i.e. "atleast16characterswithinquotes")&gt;</li>
                         </ol>
-                        
                     </ol>
                     
                     <h3 id="component-client">Client</h3>
@@ -477,9 +367,6 @@ conn rw-client1
                         
                         <li>Configure Networking</li>
                         <ol>
-                            <!--<li>sudo sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"</li>
-                            <li>sudo vi /etc/sysctl.conf</li>
-                            <li>uncomment the line "net.ipv4.ip_forward=1" in the file.</li>-->
                             <li>sudo vi /etc/network/interfaces</li>
                             <pre># interfaces(5) file used by ifup(8) and ifdown(8)
 
@@ -521,51 +408,6 @@ network={
                         
                         <br><br>
                         
-                        <!--
-                        <li>Configure Firewall</li>
-                        <ol>
-                            <li>sudo mkdir /etc/iptables/</li>
-                            <li>sudo vi /etc/iptables/rules.v4</li>
-                            <pre>*mangle
-:PREROUTING ACCEPT [0:0]
-:INPUT ACCEPT [0:0]
-:FORWARD ACCEPT [0:0]
-:OUTPUT ACCEPT [0:0]
-:POSTROUTING ACCEPT [0:0]
--A FORWARD -p tcp -m tcp --tcp-flags SYN,RST SYN -j TCPMSS --set-mss 1300
-COMMIT
-
-*filter                    
-:INPUT ACCEPT [0:0]
-:FORWARD ACCEPT [0:0]
-:OUTPUT ACCEPT [0:0]
--A FORWARD -i ipsec0 -o eth0 -m state --state RELATED,ESTABLISHED -j ACCEPT
--A FORWARD -i eth0 -o ipsec0 -j ACCEPT
-COMMIT
-
-*nat
-:PREROUTING ACCEPT [0:0]
-:INPUT ACCEPT [0:0]
-:OUTPUT ACCEPT [0:0]
-:POSTROUTING ACCEPT [0:0]
--A POSTROUTING -o ipsec0 -j MASQUERADE
-COMMIT</pre>
-                            <li>sudo vi /etc/network/if-pre-up.d/firewall</li>
-                            <pre>#!/bin/sh
-sudo /sbin/iptables-restore < /etc/iptables/rules.v4</pre>
-                            <li>sudo chmod 550 /etc/network/if-pre-up.d/firewall</li>
-                        </ol>
-                        <br>
-                        
-                        <li>Enable hardware random</li>
-                        <ol>
-                            Note: replace "bcm2835-rng" with "bcm2708-rng" in the commands below if you have a Raspberry Pi 2.
-                            <br><br>
-                            <li>sudo modprobe bcm2835-rng</li>
-                            <li>sudo sh -c "echo bcm2835-rng >> /etc/modules"</li>
-                        </ol>
-                        <br>-->
-                        
                         <li>Update OS and Raspberry Pi</li>
                             Note: These commands will run for a long time.
                             <br><br>
@@ -579,160 +421,6 @@ sudo /sbin/iptables-restore < /etc/iptables/rules.v4</pre>
                             <li>After reboot, on login prompt, login.</li>
                         </ol>
                         <br>
-                        
-                        <!--
-                        <li>Install strongSwan</li>
-                        <ol>
-                            <li>cd /tmp/</li>
-                            <li>sudo apt-get install -y libssl-dev libpam-dev</li>
-                            <li>wget https://download.strongswan.org/strongswan-5.4.0.tar.gz</li>
-                            <li>tar -xvzf strongswan-5.4.0.tar.gz</li>
-                            <li>cd strongswan-5.4.0</li>
-                            <li>./configure --prefix=/usr --sysconfdir=/etc --enable-gcm --with-random-device=/dev/hwrng --enable-kernel-libipsec --enable-openssl --with-fips-mode=2 --disable-vici --disable-des --disable-ikev2 --disable-gmp</li> Note: This command will run for a long time.
-                            <li>make</li> Note: This command will run for a long time.
-                            <li>sudo make install</li> Note: This command will run for a long time.
-                        </ol>
-                        <br>
-                        
-                        <li>Configure strongSwan</li>
-                        <ol>
-                            <li>sudo vi /etc/strongswan.d/charon/openssl.conf</li>
-                            <li>uncomment "fips_mode = 0" in the file.</li>
-                            <li>sudo vi /etc/strongswan.conf</li>
-                            <pre>charon {
-        interfaces_use = wlan0 #the external/WAN interface
-        load_modular = yes
-        i_dont_care_about_security_and_use_aggressive_mode_psk=yes
-        plugins {
-                include strongswan.d/charon/*.conf
-        }
-}
-
-include strongswan.d/*.conf</pre>
-                            <li>sudo vi /etc/ipsec.conf</li>
-                            <br>
-                            <pre>config setup
-
-conn %default
-        ikelifetime=60m
-        keylife=20m
-        rekeymargin=3m
-        keyingtries=1
-        keyexchange=ikev1
-
-conn work
-        left=%defaultroute      #external IP address
-        leftsourceip=%config    #external IP address
-        leftid=&lt;unique_id_of_client&gt;   #unique id of client i.e. client1@ix.mil
-        leftfirewall=yes        #automatically add firewall rules
-        right=&lt;eth0_ip_of_server&gt;       #strongSwan server external IP or DNS name
-        rightsubnet=0.0.0.0/0     #route all traffic to the strongSwan server
-        rightid=@vpn.ix.mil     #unique id of server
-        auto=start      #start tunnel when strongSwan service starts
-        authby=secret
-        ike=aes256-sha384-ecp384!
-        esp=aes256gcm128!
-        aggressive=yes #this is required to support multiple road warrior clients that use just a pre-shared key.</pre>
-                            <li>sudo vi /etc/ipsec.secrets</li>
-                            Note: type it in exactly the way it's shown, it will get over written by the web interface during the setup procedure.
-                            <pre>&lt;unique_id_of_client&gt; : PSK "&lt;password_for_client&gt;"</pre>
-                            <li>sudo service networking restart</li>
-                        </ol>
-                        <br>
-                            
-                        <li>Start strongSwan</li>
-                        <ol>
-                            <li>sudo ipsec start</li>
-                            <li>sudo sh -c "echo 'sudo ipsec start' >> /etc/network/if-pre-up.d/firewall"</li>
-                            <li>sudo ip route add table 220 192.168.50.0/24 dev eth0</li>
-                            <li>sudo sed -i '$ d' /etc/rc.local</li>
-                            <li>sudo sh -c "echo 'ip route add table 220 192.168.50.0/24 dev eth0' >> /etc/rc.local"</li>
-                            <li>sudo sh -c "echo 'exit 0' >> /etc/rc.local"</li>
-                        </ol>
-                        <br>
-                        
-                        <li>Install DHCP and DNS Server</li>
-                        <ol>
-                            <li>sudo apt-get install dnsmasq -y</li>
-                        </ol>
-                        <br>
-                        
-                        <li>Configure DHCP and DNS Server</li>
-                        <ol>
-                            <li>sudo vi /etc/dnsmasq.conf</li>
-                            <pre>######## dns ########
-# Never forward plain names (without a dot or domain part)
-domain-needed
-# Never forward addresses in the non-routed address spaces
-bogus-priv
-# dont read resolv.conf   use the defined servers instead
-#no-resolv
-server=8.8.8.8
-server=8.8.4.4
-# increase dns cache form 512 to 4096
-cache-size=4096
-
-
-######### dhcp ##########
-# Add local-only domains here, queries in these domains are answered
-# from /etc/hosts or DHCP only
-local=/home/
-# Set this (and domain: see below) if you want to have a domain
-# automatically added to simple names in a hosts-file.
-expand-hosts
-# adds my localdomain to each dhcp host
-domain=gosecure
-# my private dhcp range + subnetmask + 14d lease time
-dhcp-range=192.168.50.101,192.168.50.200,255.255.255.0,14d
-# set route to my local network router
-dhcp-option=option:router,192.168.50.1
-#windows 7 float fix
-dhcp-option=252,"\n"
-
-###### logging ############
-# own logfile
-log-facility=/var/log/dnsmasq.log
-log-async
-# log dhcp infos
-log-dhcp
-# debugging dns
-#log-queries</pre>
-                            <li>sudo sh -c 'echo "192.168.50.1 setup" >> /etc/hosts'</li>
-                            <li>sudo service dnsmasq start</li>
-                            <li>sudo update-rc.d dnsmasq enable</li>
-                        </ol>
-                        <br>
-                            
-                        <li>Install User Interface</li>
-                        <ol>
-                            <li>sudo apt-get install python-pip -y</li>
-                            <li>sudo pip install Flask Flask-WTF Flask-Login</li>
-                            <li>cd ~</li>
-                            <li>wget https://github.com/iadgov/goSecure/archive/master.zip</li>
-                            <li>unzip master.zip</li>
-                            <li>rm master.zip</li>
-                            <li>mv goSecure-master goSecure_Web_GUI</li>
-                            <li>find goSecure_Web_GUI -type d -exec chmod 550 {} \;</li>
-                            <li>find goSecure_Web_GUI -type f -exec chmod 440 {} \;</li>
-                            <li>sudo chmod 660 ./goSecure_Web_GUI/users_db.p</li>
-                            <li>sudo vi /lib/systemd/system/gosecure.service</li>
-                            <pre>[Unit]
-Description=goSecure Web GUI Service
-After=multi-user.target
-
-[Service]
-Type=idle
-ExecStart=/usr/bin/python /home/pi/goSecure_Web_GUI/gosecure_app.py
-
-[Install]
-WantedBy=multi-user.target</pre>
-                        <li>sudo chmod 644 /lib/systemd/system/gosecure.service</li>
-                        <li>sudo systemctl daemon-reload</li>
-                        <li>sudo systemctl enable gosecure.service</li>
-                        <li>sudo chmod 550 /home/pi/goSecure_Web_GUI/gosecure_app.py</li>
-                        <li>sudo reboot</li>
-                        </ol>
-                        <br>-->
                         
                         <li>Run the goSecure Client Install Script</li>
                         <ol>
@@ -910,7 +598,7 @@ WantedBy=multi-user.target</pre>
 
         <footer class="main-footer">
             <div class="pull-right hidden-xs">
-                <b>Version</b> 0.9.8
+                <b>Version</b> 0.9.9
             </div>
             <strong>IAD IX - goSecure</strong>
         </footer>
