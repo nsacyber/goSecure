@@ -164,7 +164,7 @@ def login():
                     if(internet_status_bool == False and vpn_status_bool == False):
                         return redirect(url_for("initial_setup"))
                     #check to see if network is up. If not, redirect to network page
-                    if(internet_status_bool == False):
+                    elif(internet_status_bool == False):
                         flash("Internet is not reachable.", "notice")
                         return redirect(url_for("wifi"))
                     #check to see if vpn is up. If not, redirect to vpn page
