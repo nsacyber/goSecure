@@ -234,7 +234,8 @@
                         <ol>
                             <li>Download the goSecure Proxy CloudFormation template from here: <a href="https://iadgov.github.io/goSecure/files/install_scripts/aws_proxy.template">https://iadgov.github.io/goSecure/files/install_scripts/aws_proxy.template</a></li>
                             <li>Log in to the AWS console.</li>
-                            <li>In the top menu bar, click on "Services" and then click on "CloudFormation"</li>
+                            <li>In the top menu bar, ensure the region is set to "N. Virginia". (Instructions for changing the region <a href="http://docs.aws.amazon.com/awsconsolehelpdocs/latest/gsg/getting-started.html#select-region">here</a>.</li>
+                            <li>In the top menu bar, click on "Services" and then click on "CloudFormation".</li>
                             <li>Click on the "Create Stack" button.</li>
                             <li>Under the "Choose a template" heading, select "Upload a template to Amazon S3" and then click on the "Choose File" button.</li>
                             <li>Select the "aws_proxy.template" that you downloaded.</li>
@@ -518,9 +519,9 @@ network={
                             <li>wget https://github.com/iadgov/goSecure/archive/master.zip</li>
                             <li>unzip master.zip</li>
                             <li>rm master.zip</li>
-                            <li>mv goSecure-master goSecure_Web_GUI</li>
-                            <li>find goSecure_Web_GUI -type d -exec chmod 550 {} \;</li>
-                            <li>find goSecure_Web_GUI -type f -exec chmod 440 {} \;</li>
+                            <li>sudo mv goSecure-master goSecure_Web_GUI</li>
+                            <li>sudo find goSecure_Web_GUI -type d -exec chmod 550 {} \;</li>
+                            <li>sudo find goSecure_Web_GUI -type f -exec chmod 440 {} \;</li>
                             <li>sudo chmod 660 ./goSecure_Web_GUI/users_db.p</li>
                             <li>sudo reboot</li>
                         </ol>
