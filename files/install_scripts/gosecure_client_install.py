@@ -76,17 +76,17 @@ def enable_hardware_random():
     pi_hardware_version = check_output(["cat", "/proc/cpuinfo"]).split("\n")[-4]
     
     #if Pi 2
-    if("bcm2708" in pi_hardware_version):
+    if("BCM2708" in pi_hardware_version):
         call("sudo modprobe bcm2708-rng", shell=True)
         call("sudo sh -c 'echo bcm2708-rng >> /etc/modules'")
         
     #else if Pi 3
-    elif("bcm2709" in pi_hardware_version):
-        call("sudo modprobe bcm2835-rng")
-        call("sudo sh -c 'echo bcm2835-rng >> /etc/modules'")
+    elif("BCM2709" in pi_hardware_version):
+        call("sudo modprobe bcm2835-rng", shell=True)
+        call("sudo sh -c 'echo bcm2835-rng >> /etc/modules'", shell=True)
     
 def install_strongswan():
-     print "goSecure_Client_Script - Install strongSwan\n"
+    print "goSecure_Client_Script - Install strongSwan\n"
     install_strongswan_commands = """sudo apt-get install -y libssl-dev libpam-dev
 wget -P /tmp https://download.strongswan.org/strongswan-5.4.0.tar.gz
 tar -xvzf /tmp/strongswan-5.4.0.tar.gz -C /tmp
@@ -98,7 +98,7 @@ sudo make -C /tmp/strongswan-5.4.0/ install"""
         call(command, shell=True)
         
 def configure_strongswan():
-     print "goSecure_Client_Script - Configure strongSwan\n"
+    print "goSecure_Client_Script - Configure strongSwan\n"
     server_name = raw_input("1) Please enter the server id (i.e. vpn.ix.mil): ")
     
     strongswan_conf = """charon {
