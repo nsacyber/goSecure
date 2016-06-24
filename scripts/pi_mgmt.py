@@ -1,5 +1,6 @@
 import os
 import RPi.GPIO as GPIO
+from subprocess import call
 
 def pi_reboot():
     os.system("sudo reboot")
@@ -9,6 +10,21 @@ def pi_shutdown():
     
 def start_ssh_service():
     os.system("sudo service ssh start")
+    
+def update_client():
+    update_user_interface_commands = """sudo rm -rf /home/pi/goSecure_Web_GUI/
+wget -P /home/pi https://github.com/iadgov/goSecure/archive/master.zip
+unzip -d /home/pi/ /home/pi/master.zip
+rm /home/pi/master.zip
+sudo mv /home/pi/goSecure-master/ /home/pi/goSecure_Web_GUI/
+sudo chown -R pi:pi /home/pi/goSecure_Web_GUI
+sudo find /home/pi/goSecure_Web_GUI -type d -exec chmod 550 {} \;
+sudo find /home/pi/goSecure_Web_GUI -type f -exec chmod 440 {} \;
+sudo chmod 660 /home/pi/goSecure_Web_GUI/users_db.p
+sudo reboot"""
+    
+    for command in update_user_interface_commands.splitlines():
+        call(command, shell=True)
     
 def turn_on_led_green():
     GPIO.setmode(GPIO.BCM)
