@@ -512,20 +512,6 @@ network={
                     
                     <h3>How do I add more clients to the system?</h3>
                     <p>Refer to the comments in the "/etc/ipsec.conf" configuration file on the goSecure server. Also add a new line to the "/etc/ipsec.secrets" configuration file on the goSecure server that contains the new &lt;unique_id_of_client&gt; and a new unique password.</p>
-                    
-                    <h3>How do I upgrade to the latest version of the goSecure Client Web GUI?</h3>
-                    <p class="lead">
-                        <ol>
-                            <li>wget https://github.com/iadgov/goSecure/archive/master.zip</li>
-                            <li>unzip master.zip</li>
-                            <li>rm master.zip</li>
-                            <li>sudo mv goSecure-master goSecure_Web_GUI</li>
-                            <li>sudo find goSecure_Web_GUI -type d -exec chmod 550 {} \;</li>
-                            <li>sudo find goSecure_Web_GUI -type f -exec chmod 440 {} \;</li>
-                            <li>sudo chmod 660 ./goSecure_Web_GUI/users_db.p</li>
-                            <li>sudo reboot</li>
-                        </ol>
-                    </p>
                 </section>
                     
                 <section id="api">
