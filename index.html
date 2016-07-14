@@ -52,6 +52,7 @@
                         <ul class="nav treeview-menu">
                             <li><a href="#component-server"><i class="fa fa-square-o"></i> Server</a></li>
                             <li><a href="#component-server-aws"><i class="fa fa-square-o"></i> Server AWS</a></li>
+                            <li><a href="#component-server-pi"><i class="fa fa-square-o"></i> Server Pi</a></li>
                             <li><a href="#component-client"><i class="fa fa-square-o"></i> Client</a></li>
                         </ul>
                     </li>
@@ -93,7 +94,7 @@
                     </p>
                     <br>
                     <p class="lead">
-                        The <b>server</b> component is a multi-homed laptop/server that runs strongSwan using the NSA <a href="https://www.nsa.gov/ia/programs/csfc_program/">Commercial Solutions for Classified (CSfC)</a> guidelines for protecting classified data. It is built upon a minimal and hardened Linux instance per DISA <a href="http://iase.disa.mil/stigs/Pages/index.aspx">Security Technical Implementation Guides (STIGs)</a>.
+                        The <b>server</b> component is a multi-homed [laptop/server/cloud instance/Raspberry Pi 3] that runs strongSwan using the NSA <a href="https://www.nsa.gov/ia/programs/csfc_program/">Commercial Solutions for Classified (CSfC)</a> guidelines for protecting classified data. It is built upon a minimal and hardened Linux instance per DISA <a href="http://iase.disa.mil/stigs/Pages/index.aspx">Security Technical Implementation Guides (STIGs)</a>.
                     </p>
                     <br>
 
@@ -210,9 +211,8 @@
                             <ol>
                                 <li>cd ~</li>
                                 <li>wget https://iadgov.github.io/goSecure/files/install_scripts/gosecure_server_install.py</li>
-                                <li>sudo chmod 550 gosecure_server_install.py</li>
-                                Note: replace the 3 arguments in the command below with your values. (i.e. sudo ./gosecure_server_install.py vpn.ix.mil client1@ix.mil "mysupersecretpsk")
-                                <li>sudo ./gosecure_server_install.py &lt;server_name (i.e. vpn.ix.mil)&gt; &lt;client_id (i.e. client1@ix.mil)&gt; &lt;client_psk (i.e. "atleast16characterswithinquotes")&gt;</li>
+                                Note: replace the 3 arguments in the command below with your values. (i.e. sudo python gosecure_server_install.py vpn.ix.mil client1@ix.mil "mysupersecretpsk")
+                                <li>sudo python gosecure_server_install.py &lt;server_name (i.e. vpn.ix.mil)&gt; &lt;client_id (i.e. client1@ix.mil)&gt; &lt;client_psk (i.e. "atleast16characterswithinquotes")&gt;</li>
                             </ol>
 
                         </ol>
@@ -234,7 +234,7 @@
                         <ol>
                             <li>Download the goSecure Proxy CloudFormation template from here: <a href="https://iadgov.github.io/goSecure/files/install_scripts/aws_proxy.template">https://iadgov.github.io/goSecure/files/install_scripts/aws_proxy.template</a></li>
                             <li>Log in to the AWS console.</li>
-                            <li>In the top menu bar, ensure the region is set to "N. Virginia". (Instructions for changing the region <a href="http://docs.aws.amazon.com/awsconsolehelpdocs/latest/gsg/getting-started.html#select-region">here</a>.</li>
+                            <li>In the top menu bar, ensure the region is set to "N. Virginia". (Instructions for changing the region <a href="http://docs.aws.amazon.com/awsconsolehelpdocs/latest/gsg/getting-started.html#select-region">here)</a>.</li>
                             <li>In the top menu bar, click on "Services" and then click on "CloudFormation".</li>
                             <li>Click on the "Create Stack" button.</li>
                             <li>Under the "Choose a template" heading, select "Upload a template to Amazon S3" and then click on the "Choose File" button.</li>
@@ -263,9 +263,172 @@
                             Once SSHed in, run the following commands.<br>
                             <li>cd ~</li>
                             <li>wget https://iadgov.github.io/goSecure/files/install_scripts/gosecure_server_install.py</li>
-                            <li>sudo chmod 550 gosecure_server_install.py</li>
-                            Note: replace the 3 arguments in the command below with your values. (i.e. sudo ./gosecure_server_install.py vpn.ix.mil client1@ix.mil "mysupersecretpsk")
-                            <li>sudo ./gosecure_server_install.py &lt;server_name (i.e. vpn.ix.mil)&gt; &lt;client_id (i.e. client1@ix.mil)&gt; &lt;client_psk (i.e. "atleast16characterswithinquotes")&gt;</li>
+                            Note: replace the 3 arguments in the command below with your values. (i.e. sudo python gosecure_server_install.py vpn.ix.mil client1@ix.mil "mysupersecretpsk")
+                            <li>sudo python gosecure_server_install.py &lt;server_name (i.e. vpn.ix.mil)&gt; &lt;client_id (i.e. client1@ix.mil)&gt; &lt;client_psk (i.e. "atleast16characterswithinquotes")&gt;</li>
+                        </ol>
+                    </ol>
+                    
+                    <h3 id="component-server-pi">Server on Raspberry Pi</h3>
+                    <br><br>
+                    <ol type="1">
+                        <li>Prerequisites</li>
+                        <ul>
+                            <li>Hardware</li>
+                            <ul>
+                                <li>Raspberry Pi 3 Model B</li>
+                                <li>2GB (minimum size) SD Card</li>
+                                <li>Ensure an external USB to Ethernet adapter (SIIG JU-NE0211-S1 USB 3.0 to Gigabit Ethernet or Apple USB 2.0 to Ethernet) is plugged in an recognized (run "ifconfig" and ensure you see a "eth1").</li>
+                            </ul>
+
+                            <li>Software</li>
+                            <ul>
+                                <li>Raspbian Jessie Lite Image: <a href="https://downloads.raspberrypi.org/raspbian_lite_latest">https://downloads.raspberrypi.org/raspbian_lite_latest</a></li>
+                            </ul>
+                        </ul>
+                        <br>
+                        
+                                               <li>Install OS</li>
+                        <ol>
+                            <li>Install Raspbian Jessie Lite onto a SD Card using the instructions under the "WRITING AN IMAGE TO THE SD CARD" section from <a href="https://www.raspberrypi.org/documentation/installation/installing-images/">here</a>.</li>
+                            <li>Turn on the Raspberry Pi with the SD Card installed.</li>
+                            <li>Login with the default credentials (username: "pi" and password: "raspberry").</li>
+                        </ol>
+                        <br>
+                        
+                        <li>Configure OS</li>
+                        <ol>
+                            <li>sudo raspi-config</li>
+                            <li>Select "2 Change User Password" and press the "Enter" key.
+                            <ol>
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_change_user_password_1.png" width="797" height="553">
+                                <li>Press the "Enter" key when you receive a message stating "You will now be asked to enter a password for the pi user"</li>
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_change_user_password_2.png" width="797" height="553">
+                                <li>A new command line prompt stating "Enter new UNIX password:" will appear on the bottom of the screen, type in your new password and press the "Enter" key.</li>
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_change_user_password_3.jpg" width="797" height="553">
+                                <li>A new command line prompt stating "Retype new UNIX password:" will appear on the bottom of the screen, type in your new password again and press the "Enter" key.</li>
+                                <li>A new prompt stating "Password changed successfully" will appear, press the "Enter" key to continue.</li>
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_change_user_password_4.png" width="797" height="553">
+                            </ol>
+                            <li>Select "5 Internationalisation Options" and press the "Enter" key.</li>
+                            <img class="img-responsive" src="./files/images/client_install/raspi-config_timezone_1.png" width="797" height="553">
+                            <ol>
+                                <li>Select "I2 Change Timezone" and press the "Enter" key.</li>
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_timezone_2.png" width="797" height="553">
+                                <li>Select "America" or the Country you reside in and press the "Enter" key.</li>
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_timezone_3.png" width="797" height="553">
+                                <li>Select "New_York" or the location you reside in and press the "Enter" key.</li>
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_timezone_4.png" width="797" height="553">
+                            </ol>
+                            <li>Select "5 Internationalisation Options" and press the "Enter" key.</li>
+                            <img class="img-responsive" src="./files/images/client_install/raspi-config_keyboard_1.png" width="797" height="553">
+                            <ol>
+                                <li>Select "I3 Change Keyboard Layout" and press the "Enter" key.</li>
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_keyboard_2.png" width="797" height="553">
+                                <li>Select "Generic 105-key (Intl) PC" and press the "Enter" key.</li>
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_keyboard_3.jpg" width="797" height="553">
+                                <li>Select "Other" and press the "Enter" key.</li>
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_keyboard_4.jpg" width="797" height="553">
+                                <li>Select "English (US)" and press the "Enter" key.</li>
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_keyboard_5.jpg" width="797" height="553">
+                                <li>Select "English (US)" and press the "Enter" key.</li>
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_keyboard_6.jpg" width="797" height="553">
+                                <li>Select "Right Alt (AltGr)" and press the "Enter" key.</li>
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_keyboard_7.jpg" width="797" height="553">
+                                <li>Select "No compose key" and press the "Enter" key.</li>
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_keyboard_8.jpg" width="797" height="553">
+                            </ol>
+                            <li>Select "5 Internationalisation Options" and press the "Enter" key.</li>
+                            <img class="img-responsive" src="./files/images/client_install/raspi-config_wifi_1.png" width="797" height="553">
+                            <ol>
+                                <li>Select "I4 Change Wi-fi Country" and press the "Enter" key.</li>
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_wifi_2.png" width="797" height="553">
+                                <li>Select "US United States" or the Country you reside in and press the "Enter" key.</li>
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_wifi_3.png" width="797" height="553">
+                                <li>A new prompt stating "Wi-fi country set to US" will appear, press the "Enter" key to continue.</li>
+                                <img class="img-responsive" src="./files/images/client_install/raspi-config_wifi_4.png" width="797" height="553">
+                            </ol>
+                            <li>Press the "Tab" key 2 times to select "&lt;Finish&gt;" and press the "Enter" key.</li>
+                            <img class="img-responsive" src="./files/images/client_install/raspi-config_finish.png" width="797" height="553">
+                            <li>A new prompt stating "Would you like to reboot now?" will appear, press the "Enter" key to continue.</li>
+                            <img class="img-responsive" src="./files/images/client_install/raspi-config_reboot.png" width="797" height="553">
+                            <li>After reboot, on login prompt, login.</li>
+                        </ol>
+                        <br>
+                        
+                        <li>Configure Networking</li>
+                        <ol>
+                            <li>sudo vi /etc/network/interfaces</li>
+                            <pre># interfaces(5) file used by ifup(8) and ifdown(8)
+
+# Please note that this file is written to be used with dhcpcd
+# For static IP, consult /etc/dhcpcd.conf and 'man dhcpcd.conf'
+
+# Include files from /etc/network/interfaces.d:
+source-directory /etc/network/interfaces.d
+
+auto lo
+iface lo inet loopback
+
+auto eth0
+allow-hotplug eth0
+iface eth0 inet dhcp
+
+auto eth1
+allow-hotplug eth1
+iface eth1 inet static
+address 192.168.166.1
+netmask 255.255.255.0
+
+allow-hotplug wlan0
+iface wlan0 inet manual
+    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf</pre>
+                        <br>
+                        <li>sudo service networking restart</li>
+                        <br>Wait 30 seconds for eth0 to obtain an IP Address.
+                        </ol>
+                        <br>
+                        
+                        Note: you now have the option to SSH into the goSecure client through eth1 (the USB to Ethernet adapter). Copying and pasting the commands and configuration files is recommended. Be sure to change variables where specified.
+                        
+                        <br><br>
+                        
+                        <li>Update OS and Raspberry Pi</li>
+                            Note: These commands will run for a long time.
+                            <br><br>
+                        <ol>
+                            <li>sudo apt-get update -y</li>
+                            <li>sudo apt-get upgrade -y</li>
+                            <li>sudo apt-get dist-upgrade -y</li>
+                            <li>sudo apt-get install rpi-update</li>
+                            <li>sudo rpi-update</li>
+                            <li>sudo reboot</li>
+                            <li>After reboot, on login prompt, login.</li>
+                        </ol>
+                        <br>
+                        
+                        <li>Run the goSecure Server Install Script</li>
+                        <ol>
+                            <li>cd ~</li>
+                            <li>wget https://iadgov.github.io/goSecure/files/install_scripts/gosecure_server_install_pi.py</li>
+                            Note: replace the 3 arguments in the command below with your values. (i.e. sudo python gosecure_server_install_pi.py vpn.ix.mil client1@ix.mil "mysupersecretpsk")
+                            <li>sudo python gosecure_server_install_pi.py &lt;server_name (i.e. vpn.ix.mil)&gt; &lt;client_id (i.e. client1@ix.mil)&gt; &lt;client_psk (i.e. "atleast16characterswithinquotes")&gt;</li>
+                        </ol>
+                        
+                        <br>
+                        
+                        <li>Clean up</li>
+                        <ol>
+                            <li>sudo rm /home/pi/gosecure_server_install_pi.py</li>
+                            <br>
+                            <li>Unplug the HDMI cable and SSH into the goSecure Server</li>
+                            <li>sudo reboot</li>
+                            <li>SSH into the goSecure Server</li>
+                            <li>sudo systemctl disable ssh</li>
+                            <li>sudo init 0</li>
+                        </ol>
+                        <br>
+                            </ol>
+
                         </ol>
                     </ol>
                     
@@ -303,12 +466,6 @@
                         <li>Configure OS</li>
                         <ol>
                             <li>sudo raspi-config</li>
-                            <li>Select "1 Expand Filesystem" and press the "Enter" key.</li>
-                            <img class="img-responsive" src="./files/images/client_install/raspi-config_expand_filesystem_1.png" width="797" height="553">
-                            <ol>
-                                <li>A new prompt stating "Root partition has been resized." will appear, press the "Enter" key to continue.</li>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_expand_filesystem_2.png" width="797" height="553">
-                            </ol>
                             <li>Select "2 Change User Password" and press the "Enter" key.
                             <ol>
                                 <img class="img-responsive" src="./files/images/client_install/raspi-config_change_user_password_1.png" width="797" height="553">
@@ -405,7 +562,7 @@ network={
                         </ol>
                         <br>
                         
-                        Note: you now have the option to SSH into the goSecure client if your computer is on the same Wifi network. Copying and pasting the commands and configuration files is recommended. Be sure to change variables where specified.
+                        Note: you now have the option to SSH into the goSecure client through eth0 or wlan0 if your computer is on the same Wifi network. Copying and pasting the commands and configuration files is recommended. Be sure to change variables where specified.
                         
                         <br><br>
                         
@@ -427,8 +584,8 @@ network={
                         <ol>
                             <li>cd ~</li>
                             <li>wget https://iadgov.github.io/goSecure/files/install_scripts/gosecure_client_install.py</li>
-                            <li>sudo chmod 550 gosecure_client_install.py</li>
-                            <li>sudo ./gosecure_client_install.py</li>
+                            Note: replace the 1 argument in the command below with your value. (i.e. sudo python gosecure_client_install.py vpn.ix.mil)
+                            <li>sudo python gosecure_client_install.py &lt;server_id&gt;</li>
                         </ol>
                         
                         <br>
