@@ -142,11 +142,11 @@ def start_strongswan():
     call('sudo echo "ipsec start" >> /etc/rc.d/rc.local', shell=True)
     
 def main():
-    #server_name = raw_input("1) Please enter the server id (i.e. vpn.ix.mil): ")
-    #client_id = raw_input("2) Please enter the client id (i.e. client1.ix.mil): ")
-    #client_psk = raw_input("3) Please enter the client's pre-shared key (at least 16 characters): ")
-    
     cmdargs = str(sys.argv)
+    if(len(sys.argv) != 4):
+        print 'Syntax is: sudo python gosecure_server_install.py <server_id> <client1_id> "<client1_psk>"\nExample: sudo python gosecure_server_install.py vpn.ix.mil client1.ix.mil "mysupersecretpsk"\n'
+        exit()
+    
     server_name = str(sys.argv[1])
     client_id = str(sys.argv[2])
     client_psk = str(sys.argv[3])
