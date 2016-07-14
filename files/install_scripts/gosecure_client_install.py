@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
+import sys, time
 from subprocess import call, check_output
-import time
 
 
 def enable_ip_forward():
@@ -78,16 +78,31 @@ def enable_hardware_random():
     #if Pi 2
     if("BCM2708" in pi_hardware_version):
         call("sudo modprobe bcm2708-rng", shell=True)
-        call("sudo sh -c 'echo bcm2708-rng >> /etc/modules'")
+        
+        #call("sudo sh -c 'echo bcm2708-rng >> /etc/modules'")
+        with open("/etc/modules", "r+") as file:
+            for line in file:
+                if "bcm2708-rng" in line:
+                    break
+            else: # not found, we are at the eof
+                call("sudo sh -c 'echo bcm2708-rng >> /etc/modules'")
         
     #else if Pi 3
     elif("BCM2709" in pi_hardware_version):
         call("sudo modprobe bcm2835-rng", shell=True)
-        call("sudo sh -c 'echo bcm2835-rng >> /etc/modules'", shell=True)
+        
+        #call("sudo sh -c 'echo bcm2835-rng >> /etc/modules'")
+        with open("/etc/modules", "r") as file:
+            for line in file:
+                if "bcm2835-rng" in line:
+                    break
+            else: # not found, we are at the eof
+                call("sudo sh -c 'echo bcm2835-rng >> /etc/modules'", shell=True)
     
 def install_strongswan():
     print "goSecure_Client_Script - Install strongSwan\n"
-    install_strongswan_commands = """sudo apt-get install -y libssl-dev libpam-dev
+    install_strongswan_commands = """sudo apt-get update
+sudo apt-get install -y libssl-dev libpam-dev
 wget -P /tmp https://download.strongswan.org/strongswan-5.4.0.tar.gz
 tar -xvzf /tmp/strongswan-5.4.0.tar.gz -C /tmp
 cd /tmp/strongswan-5.4.0/ && ./configure --prefix=/usr --sysconfdir=/etc --enable-gcm --with-random-device=/dev/hwrng --enable-kernel-libipsec --enable-openssl --with-fips-mode=2 --disable-vici --disable-des --disable-ikev2 --disable-gmp
@@ -97,9 +112,8 @@ sudo make -C /tmp/strongswan-5.4.0/ install"""
     for command in install_strongswan_commands.splitlines():
         call(command, shell=True)
         
-def configure_strongswan():
+def configure_strongswan(server_name):
     print "goSecure_Client_Script - Configure strongSwan\n"
-    server_name = raw_input("1) Please enter the server id (i.e. vpn.ix.mil): ")
     
     strongswan_conf = """charon {
         interfaces_use = wlan0 #the external/WAN interface
@@ -168,18 +182,38 @@ conn work
     
 def start_strongswan():
     print "goSecure_Client_Script - Start strongSwan\n"
-    start_strongswan_commands = """sudo ipsec start
-sudo sh -c \"echo 'sudo ipsec start' >> /etc/network/if-pre-up.d/firewall\"
-sudo ip route add table 220 192.168.50.0/24 dev eth0
-sudo sed -i '$ d' /etc/rc.local
+    
+    #start strongSwan
+    call("sudo ipsec start", shell=True)
+    
+    #start strongSwan on boot
+    with open("/etc/network/if-pre-up.d/firewall", "r") as file:
+        for line in file:
+            if "sudo ipsec start" in line:
+                break
+        else: # not found, we are at the eof
+            call("sudo sh -c 'echo \"sudo ipsec start\" >> /etc/network/if-pre-up.d/firewall'", shell=True)
+    
+    #add temporary route for local eth0 interface
+    call("sudo ip route add table 220 192.168.50.0/24 dev eth0", shell=True)
+    
+    route_on_boot_commands = """sudo sed -i '$ d' /etc/rc.local
 sudo sh -c \"echo 'ip route add table 220 192.168.50.0/24 dev eth0' >> /etc/rc.local\"
 sudo sh -c \"echo 'exit 0' >> /etc/rc.local\""""
     
-    for command in start_strongswan_commands.splitlines():
-        call(command, shell=True)
+    #add route on boot
+    with open("/etc/rc.local", "r+") as file:
+        for line in file:
+            if "ip route add table 220 192.168.50.0/24 dev eth0" in line:
+                break
+                
+        else: # not found, we are at the eof
+            for command in route_on_boot_commands.splitlines():
+                call(command, shell=True)
         
 def setup_dhcp_and_dns_server():
     print "goSecure_Client_Script - Setup DHCP and DNS Server\n"
+    call("sudo apt-get update", shell=True)
     call("sudo apt-get install dnsmasq -y", shell=True)
     
     dhcp_and_dns_conf = """######## dns ########
@@ -224,7 +258,15 @@ log-dhcp
     dhcp_and_dns_conf_file.write(dhcp_and_dns_conf)
     dhcp_and_dns_conf_file.close()
     
-    call("sudo sh -c 'echo \"192.168.50.1 setup\" >> /etc/hosts'", shell=True)
+    #call("sudo sh -c 'echo \"192.168.50.1 setup\" >> /etc/hosts'", shell=True)
+    #add domain name to local dns lookup file
+    with open("/etc/hosts", "r+") as file:
+        for line in file:
+            if "192.168.50.1 setup" in line:
+                break
+        else: # not found, we are at the eof
+            call("sudo sh -c 'echo \"192.168.50.1 setup\" >> /etc/hosts'", shell=True)
+    
     call(["sudo", "service", "dnsmasq", "start"])
     call(["sudo", "update-rc.d", "dnsmasq", "enable"])
     
@@ -235,7 +277,7 @@ sudo pip install Flask Flask-WTF Flask-Login mechanize
 wget -P /home/pi https://github.com/iadgov/goSecure/archive/master.zip
 unzip /home/pi/master.zip
 rm /home/pi/master.zip
-mv /home/pi/goSecure-master /home/pi/goSecure_Web_GUI
+sudo mv /home/pi/goSecure-master /home/pi/goSecure_Web_GUI
 sudo chown -R pi:pi /home/pi/goSecure_Web_GUI
 sudo find /home/pi/goSecure_Web_GUI -type d -exec chmod 550 {} \;
 sudo find /home/pi/goSecure_Web_GUI -type f -exec chmod 440 {} \;
@@ -271,11 +313,18 @@ sudo reboot"""
         
         
 def main():
+    cmdargs = str(sys.argv)
+    if(len(sys.argv) != 2):
+        print 'Syntax is: sudo python gosecure_client_install.py <server_id>\nExample: sudo python gosecure_client_install.py vpn.ix.mil\n'
+        exit()
+        
+    server_name = str(sys.argv[1])
+    
     enable_ip_forward()
     configure_firewall()
     enable_hardware_random()
     install_strongswan()
-    configure_strongswan()
+    configure_strongswan(server_name)
     start_strongswan()
     setup_dhcp_and_dns_server()
     setup_user_interface()
