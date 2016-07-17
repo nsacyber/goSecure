@@ -94,12 +94,12 @@
                     </p>
                     <br>
                     <p class="lead">
-                        The <b>server</b> component is a multi-homed [laptop/server/cloud instance/Raspberry Pi 3] that runs strongSwan using the NSA <a href="https://www.nsa.gov/ia/programs/csfc_program/">Commercial Solutions for Classified (CSfC)</a> guidelines for protecting classified data. It is built upon a minimal and hardened Linux instance per DISA <a href="http://iase.disa.mil/stigs/Pages/index.aspx">Security Technical Implementation Guides (STIGs)</a>.
+                        The <b>server</b> component is a multi-homed [laptop/server/cloud instance/Raspberry Pi] that runs strongSwan using the NSA <a href="https://www.nsa.gov/ia/programs/csfc_program/">Commercial Solutions for Classified (CSfC)</a> guidelines for protecting classified data. It is built upon a minimal and hardened Linux instance per DISA <a href="http://iase.disa.mil/stigs/Pages/index.aspx">Security Technical Implementation Guides (STIGs)</a>.
                     </p>
                     <br>
 
                     <p class="lead">
-                        The <b>client</b> component is a Raspberry Pi 3 that runs strongSwan using the NSA CSFC guidelines for protecting classified data and it utilizes its hardware Random Number Generator (RNG). It is built upon a minimal and hardened Linux instance per DISA STIGs.
+                        The <b>client</b> component is a Raspberry Pi that runs strongSwan using the NSA CSFC guidelines for protecting classified data and it utilizes its hardware Random Number Generator (RNG). It is built upon a minimal and hardened Linux instance per DISA STIGs.
                         <br><br>
                         The client currently supports 3 modes of operation:
                         <ol>
@@ -152,7 +152,7 @@
                         <ul>
                             <li>Hardware</li>
                             <ul>
-                                <li>A laptop, desktop, or server with 2 network interfaces. In this example we will be using a laptop that has only 1 ethernet port on it and an external USB to Ethernet adapter (SIIG JU-NE0211-S1 USB 3.0 to Gigabit Ethernet) to add a second port.</li>
+                                <li>A laptop, desktop, or server with 2 network interfaces. In this example we will be using a laptop that has only 1 ethernet port on it and an external USB to Ethernet adapter (like the SIIG JU-NE0211-S1 USB 3.0 to Gigabit Ethernet or Apple USB 2.0 to Ethernet) to add a second port.</li>
                             </ul>
 
                             <li>Software</li>
@@ -275,9 +275,9 @@
                         <ul>
                             <li>Hardware</li>
                             <ul>
-                                <li>Raspberry Pi 3 Model B</li>
+                                <li>Raspberry Pi 3 Model B or Raspberry Pi 2 Model B</li>
                                 <li>2GB (minimum size) SD Card</li>
-                                <li>Ensure an external USB to Ethernet adapter (SIIG JU-NE0211-S1 USB 3.0 to Gigabit Ethernet or Apple USB 2.0 to Ethernet) is plugged in an recognized (run "ifconfig" and ensure you see a "eth1").</li>
+                                <li>Ensure an external USB to Ethernet adapter (like the SIIG JU-NE0211-S1 USB 3.0 to Gigabit Ethernet or Apple USB 2.0 to Ethernet) is plugged in an recognized (run "ifconfig" and ensure you see a "eth1").</li>
                             </ul>
 
                             <li>Software</li>
@@ -384,6 +384,7 @@ iface wlan0 inet manual
     wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf</pre>
                         <br>
                         <li>sudo service networking restart</li>
+                        <li></li>
                         <br>Wait 30 seconds for eth0 to obtain an IP Address.
                         </ol>
                         <br>
@@ -443,7 +444,7 @@ iface wlan0 inet manual
                         <ul>
                             <li>Hardware</li>
                             <ul>
-                                <li>Raspberry Pi 3 Model B</li>
+                                <li>Raspberry Pi 3 Model B or Raspberry Pi 2 Model B (and a USB Wifi adapter like the Edimax EW-7811Un)</li>
                                 <li>2GB (minimum size) SD Card</li>
                                 <li>Ensure nothing is plugged into the ethernet port.</li>
                             </ul>
@@ -553,11 +554,13 @@ iface wlan0 inet manual
                         <br>
                         <pre>ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
 update_config=1
+country=US
 network={
     ssid="&lt;YOUR_WIFI_SSID&gt;"
     psk="&lt;YOUR_WIFI_PASSWORD&gt;"
 }</pre>
                         <li>sudo service networking restart</li>
+                        <li>sudo ifdown wlan0 &amp;&amp; sudo ifup wlan0</li>
                         <br>Wait 30 seconds for the Wifi to obtain an IP Address.
                         </ol>
                         <br>
@@ -596,11 +599,11 @@ network={
                             <li>sudo apt-get purge `sudo dpkg --get-selections | grep "\-dev" | sed s/install//` gcc-4\.[0-6].*</li>
                             <li>sudo apt-get --yes autoremove</li>
                             <li>sudo rm -rf /usr/share/doc/* /opt/vc/src/hello_pi/</li>
-                            <li>find /usr/share/locale/* -maxdepth 0 -type d |grep -v en |xargs sudo rm -rf</li>
-                            <li>find /usr/share/man/* -maxdepth 0 -type d |grep -Pv 'man\d' |xargs sudo rm -rf</li>
+                            <li>sudo find /usr/share/locale/* -maxdepth 0 -type d |grep -v en |xargs sudo rm -rf</li>
+                            <li>sudo find /usr/share/man/* -maxdepth 0 -type d |grep -Pv 'man\d' |xargs sudo rm -rf</li>
                             <li>sudo find / -type f -name "*-old" |xargs sudo rm -rf</li>
                             <li>sudo rm -rf /var/backups/* /var/lib/apt/lists/* ~/.bash_history</li>
-                            <li>find /var/log/ -type f |xargs sudo rm -rf</li>
+                            <li>sudo find /var/log/ -type f |xargs sudo rm -rf</li>
                             <li>sudo cp /dev/null /etc/resolv.conf</li>
                             <br>
                             <li>Unplug the HDMI cable and SSH into the goSecure Client</li>
@@ -635,7 +638,7 @@ network={
                     <h3 id="documentation-instructions-user-client">Client - User Instructions:</h3>
                     
                     <br>
-                    Note: If you are using the goSecure Client for the first time, please follow the Setup section below. Also follow the Setup section if your Wifi network or goSecure Server information has changed.
+                    Note: If you are using the goSecure Client for the first time, please follow the Setup section below.
                     <br>
                     <br>
                     <ol>
