@@ -108,3 +108,37 @@ def vpn_status():
             return True
 
     return False
+
+def vpn_configuration_status():
+    leftid_set = 0 #unique id of client
+    right_set = 0 #strongSwan server external IP or DNS name
+    rightid_set = 0 #unique id of server
+    vpn_psk = 0 #unique id of client and psk for VPN
+
+    #check to see if the leftid, right, and rightid are set in the ipsec.conf file
+    with open("/etc/ipsec.conf") as fin:
+        lines = fin.readlines()
+
+    for x in range(0, len(lines)):
+        if((lines[x].strip())[0:7] == "leftid="):
+            if((lines[x].strip())[7:28] != "<unique_id_of_client>"):
+                leftid_set = 1
+        if((lines[x].strip())[0:6] == "right="):
+            if((lines[x].strip())[6:25] != "<eth0_ip_of_server>"):
+                right_set = 1
+        if((lines[x].strip())[0:8] == "rightid="):
+            if((lines[x].strip())[8:29] != "<unique_id_of_server>"):
+                rightid_set = 1
+
+    #check to see if the username and secret are set in the ipsec.secrets file
+    with open("/etc/ipsec.secrets") as fin:
+        lines = fin.readlines()
+
+        if((lines[0].strip())[0:49] != "<unique_id_of_client> : PSK <password_for_client>"):
+            vpn_psk = 1
+
+
+    if(leftid_set == 1 and right_set == 1 and rightid_set == 1 and vpn_psk == 1):
+        return True
+    else:
+        return False

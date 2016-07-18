@@ -7,7 +7,7 @@ import hashlib
 import pickle
 from forms import loginForm, initialSetupForm, userForm, wifiForm, vpnPskForm, resetToDefaultForm, statusForm
 from scripts.rpi_network_conn import add_wifi, internet_status, reset_wifi
-from scripts.vpn_server_conn import set_vpn_params, reset_vpn_params, start_vpn, stop_vpn, restart_vpn, vpn_status
+from scripts.vpn_server_conn import set_vpn_params, reset_vpn_params, start_vpn, stop_vpn, restart_vpn, vpn_status, vpn_configuration_status
 from scripts.pi_mgmt import pi_reboot, pi_shutdown, start_ssh_service, update_client
 import time
 import os
@@ -159,14 +159,15 @@ def login():
                 else:
                     internet_status_bool = internet_status()
                     vpn_status_bool = vpn_status()
+                    vpn_configuration_status_bool = vpn_configuration_status()
 
-                    #check to see if network and vpn are up. If not, redirect to initial setup page
-                    if(internet_status_bool == False and vpn_status_bool == False):
-                        return redirect(url_for("initial_setup"))
                     #check to see if network is up. If not, redirect to network page
-                    elif(internet_status_bool == False):
+                    if(internet_status_bool == False and vpn_configuration_status_bool == True):
                         flash("Internet is not reachable.", "notice")
                         return redirect(url_for("wifi"))
+                    #check to see if network and vpn are up. If not, redirect to initial setup page
+                    elif(internet_status_bool == False and vpn_status_bool == False):
+                        return redirect(url_for("initial_setup"))
                     #check to see if vpn is up. If not, redirect to vpn page
                     elif(vpn_status_bool == False):
                         flash("VPN is not established.", "notice")
