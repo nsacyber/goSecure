@@ -23,7 +23,7 @@ def set_vpn_params(vpn_server, user_id, user_psk):
     secrets.close()
 
 def reset_vpn_params():
-    set_vpn_params("", "", "")
+    set_vpn_params("<eth0_ip_of_server>", "<unique_id_of_client>", "<password_for_client>")
     stop_vpn()
 
 #add route for accessing local ip addresses on the LAN interface (prevents getting locked out from the goSecure Client web gui)
