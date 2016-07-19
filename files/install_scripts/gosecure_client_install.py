@@ -112,7 +112,7 @@ sudo make -C /tmp/strongswan-5.4.0/ install"""
     for command in install_strongswan_commands.splitlines():
         call(command, shell=True)
         
-def configure_strongswan(server_name):
+def configure_strongswan():
     print "goSecure_Client_Script - Configure strongSwan\n"
     
     strongswan_conf = """charon {
@@ -146,12 +146,12 @@ conn work
         leftfirewall=yes        #automatically add firewall rules
         right=<eth0_ip_of_server>       #strongSwan server external IP or DNS name
         rightsubnet=0.0.0.0/0     #route all traffic to the strongSwan server
-        rightid=@{0}     #unique id of server
+        rightid=@gosecure     #unique id of server
         auto=start      #start tunnel when strongSwan service starts
         authby=secret
         ike=aes256-sha384-ecp384!
         esp=aes256gcm128!
-        aggressive=yes #this is required to support multiple road warrior clients that use just a pre-shared key.""".format(server_name)
+        aggressive=yes #this is required to support multiple road warrior clients that use just a pre-shared key."""
     
     ipsec_conf_file = open("/etc/ipsec.conf", "w")
     ipsec_conf_file.write(ipsec_conf)
@@ -314,17 +314,15 @@ sudo reboot"""
         
 def main():
     cmdargs = str(sys.argv)
-    if(len(sys.argv) != 2):
-        print 'Syntax is: sudo python gosecure_client_install.py <server_id>\nExample: sudo python gosecure_client_install.py vpn.ix.mil\n'
+    if(len(sys.argv) != 1):
+        print 'Syntax is: sudo python gosecure_client_install.py\nExample: sudo python gosecure_client_install.py\n'
         exit()
-        
-    server_name = str(sys.argv[1])
     
     enable_ip_forward()
     configure_firewall()
     enable_hardware_random()
     install_strongswan()
-    configure_strongswan(server_name)
+    configure_strongswan()
     start_strongswan()
     setup_dhcp_and_dns_server()
     setup_user_interface()

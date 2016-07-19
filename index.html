@@ -125,12 +125,6 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Server ID</td>
-                                <td>i.e. vpn.ix.mil</td>
-                            </tr>
-                        </tbody>
-                        <tbody>
-                            <tr>
                                 <td>Client ID</td>
                                 <td>i.e. client1.ix.mil</td>
                             </tr>
@@ -211,8 +205,8 @@
                             <ol>
                                 <li>cd ~</li>
                                 <li>wget https://iadgov.github.io/goSecure/files/install_scripts/gosecure_server_install.py</li>
-                                Note: replace the 3 arguments in the command below with your values. (i.e. sudo python gosecure_server_install.py vpn.ix.mil client1@ix.mil "mysupersecretpsk")
-                                <li>sudo python gosecure_server_install.py &lt;server_name (i.e. vpn.ix.mil)&gt; &lt;client_id (i.e. client1@ix.mil)&gt; &lt;client_psk (i.e. "atleast16characterswithinquotes")&gt;</li>
+                                Note: replace the 3 arguments in the command below with your values. (i.e. sudo python gosecure_server_install.py client1@ix.mil "mysupersecretpsk")
+                                <li>sudo python gosecure_server_install.py &lt;client_id (i.e. client1@ix.mil)&gt; &lt;client_psk (i.e. "atleast16characterswithinquotes")&gt;</li>
                             </ol>
 
                         </ol>
@@ -257,14 +251,14 @@
                             <li>In the left menu bar, click on "Instances".</li>
                             <li>Right click on the instance with the name "goSecure_Proxy-Server" and then click on "Connect".</li>
                             <li>Follow the instructions stated to SSH into the goSecure server.</li>
-                            <li>i.e. 'ssh -i "~/.ssh/gosecure_key_pair.pem" ec2-user@ec2-xx-xx-xx-xx.us-west-2.compute.amazonaws.com' where the "xx" are replaced by the IP address octets.</li>
+                            <li>i.e. 'ssh -i ~/.ssh/gosecure_key_pair.pem ec2-user@ec2-xx-xx-xx-xx.us-east-1.compute.amazonaws.com' where the "xx" are replaced by the IP address octets.</li>
                             
                             <br><br>
                             Once SSHed in, run the following commands.<br>
                             <li>cd ~</li>
                             <li>wget https://iadgov.github.io/goSecure/files/install_scripts/gosecure_server_install.py</li>
-                            Note: replace the 3 arguments in the command below with your values. (i.e. sudo python gosecure_server_install.py vpn.ix.mil client1@ix.mil "mysupersecretpsk")
-                            <li>sudo python gosecure_server_install.py &lt;server_name (i.e. vpn.ix.mil)&gt; &lt;client_id (i.e. client1@ix.mil)&gt; &lt;client_psk (i.e. "atleast16characterswithinquotes")&gt;</li>
+                            Note: replace the 3 arguments in the command below with your values. (i.e. sudo python gosecure_server_install.py client1@ix.mil "mysupersecretpsk")
+                            <li>sudo python gosecure_server_install.py &lt;client_id (i.e. client1@ix.mil)&gt; &lt;client_psk (i.e. "atleast16characterswithinquotes")&gt;</li>
                         </ol>
                     </ol>
                     
@@ -411,8 +405,8 @@ iface wlan0 inet manual
                         <ol>
                             <li>cd ~</li>
                             <li>wget https://iadgov.github.io/goSecure/files/install_scripts/gosecure_server_install_pi.py</li>
-                            Note: replace the 3 arguments in the command below with your values. (i.e. sudo python gosecure_server_install_pi.py vpn.ix.mil client1@ix.mil "mysupersecretpsk")
-                            <li>sudo python gosecure_server_install_pi.py &lt;server_name (i.e. vpn.ix.mil)&gt; &lt;client_id (i.e. client1@ix.mil)&gt; &lt;client_psk (i.e. "atleast16characterswithinquotes")&gt;</li>
+                            Note: replace the 3 arguments in the command below with your values. (i.e. sudo python gosecure_server_install_pi.py client1@ix.mil "mysupersecretpsk")
+                            <li>sudo python gosecure_server_install_pi.py &lt;client_id (i.e. client1@ix.mil)&gt; &lt;client_psk (i.e. "atleast16characterswithinquotes")&gt;</li>
                         </ol>
                         
                         <br>
@@ -587,8 +581,7 @@ network={
                         <ol>
                             <li>cd ~</li>
                             <li>wget https://iadgov.github.io/goSecure/files/install_scripts/gosecure_client_install.py</li>
-                            Note: replace the 1 argument in the command below with your value. (i.e. sudo python gosecure_client_install.py vpn.ix.mil)
-                            <li>sudo python gosecure_client_install.py &lt;server_id&gt;</li>
+                            <li>sudo python gosecure_client_install.py</li>
                         </ol>
                         
                         <br>

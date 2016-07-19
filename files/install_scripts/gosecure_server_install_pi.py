@@ -114,8 +114,9 @@ sudo make -C /tmp/strongswan-5.4.0/ install"""
     
     for command in install_strongswan_commands.splitlines():
         call(command, shell=True)
-        
-def configure_strongswan(server_name, client_id, client_psk):
+
+
+def configure_strongswan(client_id, client_psk):
     print "goSecure_Server_Script - Configure strongSwan\n"
     
     strongswan_conf = """charon {
@@ -143,7 +144,7 @@ conn %default
         keyexchange=ikev1
         left=%defaultroute
         leftsubnet=0.0.0.0/0
-        leftid=@{0}
+        leftid=@gosecure
         leftfirewall=yes
         right=%any
         rightsourceip=172.16.176.100/27
@@ -155,72 +156,11 @@ conn %default
 
 
 conn rw-client1
-        rightid={1}
+        rightid={0}
 
 #To add additional clients:
 #conn rw-client2 #increment the last number by 1 for each additional client
-#        rightid=<unique_id_of_client> #set a unique id for each client""".format(server_name, client_id)
-    
-    ipsec_conf_file = open("/etc/ipsec.conf", "w")
-    ipsec_conf_file.write(ipsec_conf)
-    ipsec_conf_file.close()
-    
-    
-    ipsec_secrets = """{0} : PSK {1}""".format(client_id, client_psk)
-    
-    ipsec_secrets_file = open("/etc/ipsec.secrets", "w")
-    ipsec_secrets_file.write(ipsec_secrets)
-    ipsec_secrets_file.close()
-    
-    
-    call(["sudo", "service", "networking", "restart"])
-
-
-def configure_strongswan(server_name, client_id, client_psk):
-    print "goSecure_Server_Script - Configure strongSwan\n"
-    
-    strongswan_conf = """charon {
-        interfaces_use = eth0
-        load_modular = yes
-        i_dont_care_about_security_and_use_aggressive_mode_psk=yes
-        plugins {
-                include strongswan.d/charon/*.conf
-        }
-}
-
-include strongswan.d/*.conf"""
-    
-    strongswan_conf_file = open("/etc/strongswan.conf", "w")
-    strongswan_conf_file.write(strongswan_conf)
-    strongswan_conf_file.close()
-    
-    ipsec_conf = """config setup
-
-conn %default
-        ikelifetime=60m
-        keylife=20m
-        rekeymargin=3m
-        keyingtries=1
-        keyexchange=ikev1
-        left=%defaultroute
-        leftsubnet=0.0.0.0/0
-        leftid=@{0}
-        leftfirewall=yes
-        right=%any
-        rightsourceip=172.16.176.100/27
-        auto=add
-        authby=secret
-        ike=aes256-sha384-ecp384!
-        esp=aes256gcm128!
-        aggressive=yes
-
-
-conn rw-client1
-        rightid={1}
-
-#To add additional clients:
-#conn rw-client2 #increment the last number by 1 for each additional client
-#        rightid=<unique_id_of_client> #set a unique id for each client""".format(server_name, client_id)
+#        rightid=<unique_id_of_client> #set a unique id for each client""".format(client_id)
     
     ipsec_conf_file = open("/etc/ipsec.conf", "w")
     ipsec_conf_file.write(ipsec_conf)
@@ -265,20 +205,19 @@ def start_strongswan():
     
 def main():
     cmdargs = str(sys.argv)
-    if(len(sys.argv) != 4):
+    if(len(sys.argv) != 3):
         print 'Syntax is: sudo python gosecure_server_install_pi.py <server_id> <client1_id> "<client1_psk>"\nExample: sudo python gosecure_server_install_pi.py vpn.ix.mil client1.ix.mil "mysupersecretpsk"\n'
         exit()
         
-    server_name = str(sys.argv[1])
-    client_id = str(sys.argv[2])
-    client_psk = str(sys.argv[3])
+    client_id = str(sys.argv[1])
+    client_psk = str(sys.argv[2])
     
     update_os()
     enable_ip_forward()
     configure_firewall()
     enable_hardware_random()
     install_strongswan()
-    configure_strongswan(server_name, client_id, client_psk)
+    configure_strongswan(client_id, client_psk)
     start_strongswan()
     
 if __name__ == "__main__":

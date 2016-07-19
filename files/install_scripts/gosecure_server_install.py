@@ -76,7 +76,7 @@ sudo make -C /tmp/strongswan-5.4.0/ install"""
     for command in install_strongswan_commands.splitlines():
         call(command, shell=True)
         
-def configure_strongswan(server_name, client_id, client_psk):
+def configure_strongswan(client_id, client_psk):
     print "goSecure_Server_Script - Configure strongSwan\n"
     
     strongswan_conf = """charon {
@@ -104,7 +104,7 @@ conn %default
         keyexchange=ikev1
         left=%defaultroute
         leftsubnet=0.0.0.0/0
-        leftid=@{0}
+        leftid=@gosecure
         leftfirewall=yes
         right=%any
         rightsourceip=172.16.176.100/27
@@ -116,11 +116,11 @@ conn %default
 
 
 conn rw-client1
-        rightid={1}
+        rightid={0}
 
 #To add additional clients:
 #conn rw-client2 #increment the last number by 1 for each additional client
-#        rightid=<unique_id_of_client> #set a unique id for each client""".format(server_name, client_id)
+#        rightid=<unique_id_of_client> #set a unique id for each client""".format(client_id)
     
     ipsec_conf_file = open("/etc/ipsec.conf", "w")
     ipsec_conf_file.write(ipsec_conf)
@@ -143,19 +143,18 @@ def start_strongswan():
     
 def main():
     cmdargs = str(sys.argv)
-    if(len(sys.argv) != 4):
+    if(len(sys.argv) != 3):
         print 'Syntax is: sudo python gosecure_server_install.py <server_id> <client1_id> "<client1_psk>"\nExample: sudo python gosecure_server_install.py vpn.ix.mil client1.ix.mil "mysupersecretpsk"\n'
         exit()
     
-    server_name = str(sys.argv[1])
-    client_id = str(sys.argv[2])
-    client_psk = str(sys.argv[3])
+    client_id = str(sys.argv[1])
+    client_psk = str(sys.argv[2])
     
     update_os()
     enable_ip_forward()
     configure_firewall()
     install_strongswan()
-    configure_strongswan(server_name, client_id, client_psk)
+    configure_strongswan(client_id, client_psk)
     start_strongswan()
     
 if __name__ == "__main__":
