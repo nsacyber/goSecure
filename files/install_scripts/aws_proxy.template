@@ -12,6 +12,25 @@
             "Description": "Name of an existing EC2 KeyPair to enable SSH access to the instances",
             "Type": "AWS::EC2::KeyPair::KeyName",
             "ConstraintDescription": "must be the name of an existing EC2 KeyPair."
+        },
+        "ClientId": {
+            "Default": "client1@ix.mil",
+            "Description": "goSecure Client ID",
+            "Type": "String",
+            "MinLength": "4",
+            "MaxLength": "64",
+            "AllowedPattern": "^[A-Za-z0-9@.]*$",
+            "ConstraintDescription": "Must contain only alphanumeric characters or at symbol or period."
+        },
+        "Client0Psk": {
+            "Default": "\"mysupersecretpsk\"",
+            "Description": "The first client's pre-shared key.",
+            "Type": "String",
+            "MinLength": "16",
+            "MaxLength": "128",
+            "NoEcho": "True",
+            "AllowedPattern": "^\"[A-Za-z0-9!@#$%^&*(>)<=_-]*\"$",
+            "ConstraintDescription": "Must contain only alphanumeric characters or certain symbols. Must start and end in a double quote."
         }
     },
     "Resources": {
@@ -124,6 +143,72 @@
             "DependsOn": [
         "goSecureProxyEIP"
       ],
+            "Metadata" : {
+                "Comment1" : "Configure the bootstrap helpers to install wget and unzip",
+
+                "AWS::CloudFormation::Init" : {
+                  "configSets" : {
+                    "InstallAndRun" : [ "Install", "Configure" ]
+                  },
+
+                  "Install" : {
+                    "packages" : {
+                      "yum" : {
+                        "wget"  : []
+                      }
+                    },
+                    "files" : {
+                      "/home/ec2-user/gosecure-server-setup" : {
+                        "content" : { "Fn::Join" : [ "", [
+                          "#!/bin/bash -xe\n",
+                          "wget -P /home/ec2-user/ https://iadgov.github.io/goSecure/files/install_scripts/gosecure_server_install.py\n",
+                          "python /home/ec2-user/gosecure_server_install.py", " ", { "Ref" : "ClientId" }, " ", { "Ref" : "Client0Psk" }, "\n"
+                        ]]},
+                        "mode" : "000500",
+                        "owner" : "root",
+                        "group" : "root"
+                      },
+                      "/etc/cfn/cfn-hup.conf" : {
+                        "content" : { "Fn::Join" : ["", [
+                          "[main]\n",
+                          "stack=", { "Ref" : "AWS::StackId" }, "\n",
+                          "region=", { "Ref" : "AWS::Region" }, "\n"
+                        ]]},
+                        "mode"    : "000400",
+                        "owner"   : "root",
+                        "group"   : "root"
+                      },
+                      "/etc/cfn/hooks.d/cfn-auto-reloader.conf" : {
+                        "content": { "Fn::Join" : ["", [
+                          "[cfn-auto-reloader-hook]\n",
+                          "triggers=post.update\n",
+                          "path=Resources.goSecureProxyServerInstance.Metadata.AWS::CloudFormation::Init\n",
+                          "action=/opt/aws/bin/cfn-init -v ",
+                          "         --stack ", { "Ref" : "AWS::StackName" },
+                          "         --resource goSecureProxyServerInstance ",
+                          "         --configsets InstallAndRun ",
+                          "         --region ", { "Ref" : "AWS::Region" }, "\n",
+                          "runas=root\n"
+                        ]]}
+                      }
+                    },
+                    "services" : {
+                      "sysvinit" : {
+                        "cfn-hup" : { "enabled" : "true", "ensureRunning" : "true",
+                                      "files" : ["/etc/cfn/cfn-hup.conf", "/etc/cfn/hooks.d/cfn-auto-reloader.conf"]}
+                      }
+                    }
+                  },
+
+                  "Configure" : {
+                    "commands" : {
+                      "01_run_goSecure_server_setup_script" : {
+                        "command" : "/home/ec2-user/gosecure-server-setup"
+                      }
+                    }
+                  }
+                }
+              },
             "Properties": {
                 "DisableApiTermination": "false",
                 "InstanceInitiatedShutdownBehavior": "stop",
@@ -134,6 +219,22 @@
                 "KeyName": {
                     "Ref": "KeyName"
                 },
+                "UserData": { "Fn::Base64" : { "Fn::Join" : ["", [
+                     "#!/bin/bash -xe\n",
+
+                     "# Install the files and packages from the metadata\n",
+                     "/opt/aws/bin/cfn-init -v ",
+                     "         --stack ", { "Ref" : "AWS::StackName" },
+                     "         --resource goSecureProxyServerInstance ",
+                     "         --configsets InstallAndRun ",
+                     "         --region ", { "Ref" : "AWS::Region" }, "\n",
+
+                     "# Signal the status from cfn-init\n",
+                     "/opt/aws/bin/cfn-signal -e $? ",
+                     "         --stack ", { "Ref" : "AWS::StackName" },
+                     "         --resource goSecureProxyServerInstance ",
+                     "         --region ", { "Ref" : "AWS::Region" }, "\n"
+                ]]}},
                 "Monitoring": "false",
                 "Tags": [
                     {

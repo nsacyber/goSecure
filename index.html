@@ -219,6 +219,8 @@
                         <ul>
                             <li>AWS SSH Key</li>
                             <ul>
+                                <li>Log in to the AWS console.</li>
+                                <li>In the top menu bar, ensure the region is set to "N. Virginia". (Instructions for changing the region <a href="http://docs.aws.amazon.com/awsconsolehelpdocs/latest/gsg/getting-started.html#select-region">here)</a>.</li>
                                 <li>Create your own SSH key pair using these instructions: <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair">http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair</a></li>
                             </ul>
                         </ul>
@@ -235,31 +237,16 @@
                             <li>Select the "aws_proxy.template" that you downloaded.</li>
                             <li>Click on the "Next" button.</li>
                             <li>Type in "goSecureProxyStack" in the "Stack name" textbox.</li>
+                            <li>Type in the first client's pre-shared key (PSK) in the "Client0Psk" textbox. The PSK must be at least 16 characters. The PSK must also be surrounded in double quotes and cannot contain a double quote within.</li>
+                            <li>Type in the first client's client ID in the "ClientId" textbox.</li>
                             <li>Select your instance type for the "InstanceType" dropdown menu.</li>
                             <li>Select the existing SSH key pair in the "KeyName" dropdown menu.</li>
                             <li>Click on the "Next" button.</li>
                             <li>Click on the "Next" button.</li>
                             <li>Click on the "Create" button.</li>
-                            <li>Wait until the Stack "Status" changes to "CREATE_COMPLETE".</li>
+                            <li>Wait until the Stack "Status" changes to "CREATE_COMPLETE" and then wait another 5 minutes for the goSecure Server to initialize for the first time.</li>
                         </ol>
                         <br>
-                        
-                        <li>Run the goSecure Server Install Script</li>
-                        <ol>
-                            <li>Log in to the AWS console.</li>
-                            <li>In the top menu bar, click on "Services" and then click on "EC2".</li>
-                            <li>In the left menu bar, click on "Instances".</li>
-                            <li>Right click on the instance with the name "goSecure_Proxy-Server" and then click on "Connect".</li>
-                            <li>Follow the instructions stated to SSH into the goSecure server.</li>
-                            <li>i.e. 'ssh -i ~/.ssh/gosecure_key_pair.pem ec2-user@ec2-xx-xx-xx-xx.us-east-1.compute.amazonaws.com' where the "xx" are replaced by the IP address octets.</li>
-                            
-                            <br><br>
-                            Once SSHed in, run the following commands.<br>
-                            <li>cd ~</li>
-                            <li>wget https://iadgov.github.io/goSecure/files/install_scripts/gosecure_server_install.py</li>
-                            Note: replace the 2 arguments in the command below with your values. (i.e. sudo python gosecure_server_install.py client1@ix.mil "mysupersecretpsk")
-                            <li>sudo python gosecure_server_install.py &lt;client_id (i.e. client1@ix.mil)&gt; &lt;client_psk (i.e. "atleast16characterswithinquotes")&gt;</li>
-                        </ol>
                     </ol>
                     
                     <h3 id="component-server-pi">Server on Raspberry Pi</h3>
