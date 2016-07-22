@@ -1,5 +1,42 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
+    "Mappings": {
+        "RegionMap": {
+            "us-east-1": {
+                "64": "ami-6869aa05"
+            },
+            "us-west-1": {
+                "64": "ami-31490d51"
+            },
+            "us-west-2": {
+                "64": "ami-7172b611"
+            }, 
+            "ap-south-1": {
+                "64": "ami-ffbdd790"
+            },
+            "ap-northeast-2": {
+                "64": "ami-2b408b45"
+            },
+            "ap-southeast-1": {
+                "64": "ami-a59b49c6"
+            },
+           "ap-southeast-2": {
+                "64": "ami-dc361ebf"
+            },
+            "ap-northeast-1": {
+                "64": "ami-374db956"
+            },
+            "eu-central-1": {
+                "64": "ami-ea26ce85"
+            },
+            "eu-west-1": {
+                "64": "ami-f9dd458a"
+            },
+            "sa-east-1": {
+                "64": "ami-6dd04501"
+            }
+        }
+    },
     "Parameters": {
         "InstanceType": {
             "Description": "goSecure Server instance type",
@@ -212,7 +249,11 @@
             "Properties": {
                 "DisableApiTermination": "false",
                 "InstanceInitiatedShutdownBehavior": "stop",
-                "ImageId": "ami-a4827dc9",
+                "ImageId": {
+                   "Fn::FindInMap": ["RegionMap", {
+                       "Ref": "AWS::Region"
+                   }, "64"]
+                },
                 "InstanceType": {
                     "Ref": "InstanceType"
                 },
