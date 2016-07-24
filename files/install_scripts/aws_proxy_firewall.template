@@ -1,0 +1,506 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Resources": {
+    "vpce54eac81": {
+      "Type": "AWS::EC2::VPC",
+      "Properties": {
+        "CidrBlock": "172.16.0.0/16",
+        "InstanceTenancy": "default",
+        "EnableDnsSupport": "true",
+        "EnableDnsHostnames": "true",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "goSecure-VPC"
+          }
+        ]
+      }
+    },
+    "subnet0fa3536b": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "172.16.150.0/24",
+        "AvailabilityZone": "us-west-2a",
+        "VpcId": {
+          "Ref": "vpce54eac81"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "goSecure-Public-Subnet"
+          }
+        ]
+      }
+    },
+    "subnetdf8374bb": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "172.16.166.0/24",
+        "AvailabilityZone": "us-west-2a",
+        "VpcId": {
+          "Ref": "vpce54eac81"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "goSecure-Private-Subnet"
+          }
+        ]
+      }
+    },
+    "igw813762e4": {
+      "Type": "AWS::EC2::InternetGateway",
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "goSecure-Internet-Gateway"
+          }
+        ]
+      }
+    },
+    "doptc0913ba5": {
+      "Type": "AWS::EC2::DHCPOptions",
+      "Properties": {
+        "DomainName": "us-west-2.compute.internal",
+        "DomainNameServers": [
+          "AmazonProvidedDNS"
+        ]
+      }
+    },
+    "acl3e2a475a": {
+      "Type": "AWS::EC2::NetworkAcl",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpce54eac81"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "goSecure_Private_NACL"
+          }
+        ]
+      }
+    },
+    "aclb2aa5cd6": {
+      "Type": "AWS::EC2::NetworkAcl",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpce54eac81"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "goSecure_Public_NACL"
+          }
+        ]
+      }
+    },
+    "rtbf15f9895": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpce54eac81"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "goSecure_Public_Route_Table"
+          }
+        ]
+      }
+    },
+    "rtb4a04c72e": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpce54eac81"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "goSecure_Private_Route_Table"
+          }
+        ]
+      }
+    },
+    "eip5225212205": {
+      "Type": "AWS::EC2::EIP",
+      "DependsOn": [
+        "gw1"
+      ],
+      "Properties": {
+        "Domain": "vpc"
+      }
+    },
+    "eni3717374f": {
+      "Type": "AWS::EC2::NetworkInterface",
+      "Properties": {
+        "Description": "goSecure-VPN-Server-eth1",
+        "SubnetId": {
+          "Ref": "subnetdf8374bb"
+        },
+        "PrivateIpAddresses": [
+          {
+            "PrivateIpAddress": "172.16.166.51",
+            "Primary": "true"
+          }
+        ],
+        "GroupSet": [
+          {
+            "Ref": "sggoSecurePrivateSG"
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "goSecure-Server-eth1"
+          }
+        ]
+      }
+    },
+    "instanceib905627e": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "DisableApiTermination": "false",
+        "InstanceInitiatedShutdownBehavior": "stop",
+        "ImageId": "ami-1255b321",
+        "InstanceType": "t2.micro",
+        "KeyName": "gosecure_key_pair_1",
+        "Monitoring": "false",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "goSecure-Server"
+          }
+        ],
+        "NetworkInterfaces": [
+          {
+            "DeleteOnTermination": "true",
+            "Description": "Primary network interface",
+            "DeviceIndex": 0,
+            "SubnetId": {
+              "Ref": "subnet0fa3536b"
+            },
+            "PrivateIpAddresses": [
+              {
+                "PrivateIpAddress": "172.16.150.51",
+                "Primary": "true"
+              }
+            ],
+            "GroupSet": [
+              {
+                "Ref": "sggoSecureVPNServer"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "instancei975f3850": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "DisableApiTermination": "false",
+        "InstanceInitiatedShutdownBehavior": "stop",
+        "ImageId": "ami-1255b321",
+        "InstanceType": "t2.micro",
+        "KeyName": "gosecure_key_pair_1",
+        "Monitoring": "false",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "goSecure-Test-Web-Server"
+          }
+        ],
+        "NetworkInterfaces": [
+          {
+            "DeleteOnTermination": "true",
+            "Description": "Primary network interface",
+            "DeviceIndex": 0,
+            "SubnetId": {
+              "Ref": "subnetdf8374bb"
+            },
+            "PrivateIpAddresses": [
+              {
+                "PrivateIpAddress": "172.16.166.101",
+                "Primary": "true"
+              }
+            ],
+            "GroupSet": [
+              {
+                "Ref": "sggoSecurePrivateSG"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "sggoSecurePrivateSG": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "The security group for the goSecure private network.",
+        "VpcId": {
+          "Ref": "vpce54eac81"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "goSecure-Private-SG"
+          }
+        ]
+      }
+    },
+    "sggoSecureVPNServer": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "The security group for the goSecure VPN server",
+        "VpcId": {
+          "Ref": "vpce54eac81"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "goSecure-Public-SG"
+          }
+        ]
+      }
+    },
+    "acl1": {
+      "Type": "AWS::EC2::NetworkAclEntry",
+      "Properties": {
+        "CidrBlock": "0.0.0.0/0",
+        "Egress": "true",
+        "Protocol": "-1",
+        "RuleAction": "allow",
+        "RuleNumber": "100",
+        "NetworkAclId": {
+          "Ref": "acl3e2a475a"
+        }
+      }
+    },
+    "acl2": {
+      "Type": "AWS::EC2::NetworkAclEntry",
+      "Properties": {
+        "CidrBlock": "0.0.0.0/0",
+        "Protocol": "-1",
+        "RuleAction": "allow",
+        "RuleNumber": "100",
+        "NetworkAclId": {
+          "Ref": "acl3e2a475a"
+        }
+      }
+    },
+    "acl3": {
+      "Type": "AWS::EC2::NetworkAclEntry",
+      "Properties": {
+        "CidrBlock": "0.0.0.0/0",
+        "Egress": "true",
+        "Protocol": "-1",
+        "RuleAction": "allow",
+        "RuleNumber": "100",
+        "NetworkAclId": {
+          "Ref": "aclb2aa5cd6"
+        }
+      }
+    },
+    "acl4": {
+      "Type": "AWS::EC2::NetworkAclEntry",
+      "Properties": {
+        "CidrBlock": "0.0.0.0/0",
+        "Protocol": "-1",
+        "RuleAction": "allow",
+        "RuleNumber": "100",
+        "NetworkAclId": {
+          "Ref": "aclb2aa5cd6"
+        }
+      }
+    },
+    "subnetacl1": {
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties": {
+        "NetworkAclId": {
+          "Ref": "acl3e2a475a"
+        },
+        "SubnetId": {
+          "Ref": "subnetdf8374bb"
+        }
+      }
+    },
+    "subnetacl2": {
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties": {
+        "NetworkAclId": {
+          "Ref": "aclb2aa5cd6"
+        },
+        "SubnetId": {
+          "Ref": "subnet0fa3536b"
+        }
+      }
+    },
+    "gw1": {
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpce54eac81"
+        },
+        "InternetGatewayId": {
+          "Ref": "igw813762e4"
+        }
+      }
+    },
+    "subnetroute1": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "rtbf15f9895"
+        },
+        "SubnetId": {
+          "Ref": "subnet0fa3536b"
+        }
+      }
+    },
+    "subnetroute3": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "rtb4a04c72e"
+        },
+        "SubnetId": {
+          "Ref": "subnetdf8374bb"
+        }
+      }
+    },
+    "route1": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "RouteTableId": {
+          "Ref": "rtbf15f9895"
+        },
+        "GatewayId": {
+          "Ref": "igw813762e4"
+        }
+      },
+      "DependsOn": "gw1"
+    },
+    "route2": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "RouteTableId": {
+          "Ref": "rtb4a04c72e"
+        },
+        "NetworkInterfaceId": {
+          "Ref": "eni3717374f"
+        }
+      }
+    },
+    "dchpassoc1": {
+      "Type": "AWS::EC2::VPCDHCPOptionsAssociation",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpce54eac81"
+        },
+        "DhcpOptionsId": {
+          "Ref": "doptc0913ba5"
+        }
+      }
+    },
+    "assoc1": {
+      "Type": "AWS::EC2::EIPAssociation",
+      "Properties": {
+        "AllocationId": {
+          "Fn::GetAtt": [
+            "eip5225212205",
+            "AllocationId"
+          ]
+        },
+        "InstanceId": {
+          "Ref": "instanceib905627e"
+        }
+      }
+    },
+    "eniattach1": {
+      "Type": "AWS::EC2::NetworkInterfaceAttachment",
+      "Properties": {
+        "DeviceIndex": "1",
+        "NetworkInterfaceId": {
+          "Ref": "eni3717374f"
+        },
+        "InstanceId": {
+          "Ref": "instanceib905627e"
+        }
+      },
+      "DependsOn": [
+        "assoc1"
+      ]
+    },
+    "ingress1": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sggoSecurePrivateSG"
+        },
+        "IpProtocol": "-1",
+        "CidrIp": "0.0.0.0/0"
+      }
+    },
+    "ingress2": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sggoSecureVPNServer"
+        },
+        "IpProtocol": "tcp",
+        "FromPort": "22",
+        "ToPort": "22",
+        "CidrIp": "0.0.0.0/0"
+      }
+    },
+    "ingress3": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sggoSecureVPNServer"
+        },
+        "IpProtocol": "udp",
+        "FromPort": "4500",
+        "ToPort": "4500",
+        "CidrIp": "0.0.0.0/0"
+      }
+    },
+    "ingress4": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sggoSecureVPNServer"
+        },
+        "IpProtocol": "udp",
+        "FromPort": "500",
+        "ToPort": "500",
+        "CidrIp": "0.0.0.0/0"
+      }
+    },
+    "egress1": {
+      "Type": "AWS::EC2::SecurityGroupEgress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sggoSecurePrivateSG"
+        },
+        "IpProtocol": "-1",
+        "CidrIp": "0.0.0.0/0"
+      }
+    },
+    "egress2": {
+      "Type": "AWS::EC2::SecurityGroupEgress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sggoSecureVPNServer"
+        },
+        "IpProtocol": "-1",
+        "CidrIp": "0.0.0.0/0"
+      }
+    }
+  },
+  "Description": "goSecure Proxy and Firewall Template"
+}

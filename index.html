@@ -1,748 +1,140 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>goSecure | Documentation</title>
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <!-- Bootstrap 3.3.5 -->
-    <link rel="stylesheet" href="./files/bootstrap/css/bootstrap.min.css">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="./files/plugins/font-awesome-4.5.0/css/font-awesome.min.css">
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="./files/plugins/ionicons/ionicons.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="./files/dist/css/AdminLTE.min.css">
-    <link rel="stylesheet" href="./files/dist/css/skins/skin-blue.min.css">
-    <link rel="stylesheet" href="./files/documentation/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>goSecure - Landing</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="files/grayscale/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="files/grayscale/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+
+    <!-- Theme CSS -->
+    <link href="files/grayscale/css/grayscale.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
 </head>
 
-<body class="skin-blue fixed" data-spy="scroll" data-target="#scrollspy">
-    <div class="wrapper">
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
 
-        <header class="main-header">
-            <a href="#" class="logo">
-                <span class="logo-mini"><b>go</b>S</span>
-                <span class="logo-lg"><b>go</b>Secure</span>
-            </a>
-            <nav class="navbar navbar-static-top" role="navigation">
-                <!-- Sidebar toggle button-->
-                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-                    <span class="sr-only">Toggle navigation</span>
-                </a>
-            </nav>
-        </header>
-        
-        <aside class="main-sidebar">
-            <div class="sidebar" id="scrollspy">
+    <!-- Navigation -->
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                    Menu <i class="fa fa-bars"></i>
+                </button>
+                <!--<a class="navbar-brand page-scroll" href="https://iadgov.github.io/goSecure/documentation.html">
+                    <i class="fa fa-github"></i> <span class="light">Get</span> Started 
+                </a>-->
+            </div>
 
-                <ul class="nav sidebar-menu">
-                    <li class="header">TABLE OF CONTENTS</li>
-                    <li class="active"><a href="#introduction"><i class="fa fa-circle-o"></i> Introduction</a></li>
-                    <li class="treeview" id="scrollspy-components">
-                        <a href="javascript:void(0)"><i class="fa fa-circle-o"></i> Build Components</a>
-                        <ul class="nav treeview-menu">
-                            <li><a href="#component-server"><i class="fa fa-square-o"></i> Server</a></li>
-                            <li><a href="#component-server-aws"><i class="fa fa-square-o"></i> Server AWS</a></li>
-                            <li><a href="#component-server-pi"><i class="fa fa-square-o"></i> Server Pi</a></li>
-                            <li><a href="#component-client"><i class="fa fa-square-o"></i> Client</a></li>
-                        </ul>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+                <ul class="nav navbar-nav">
+                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                    <li class="hidden">
+                        <a href="#page-top"></a>
                     </li>
-                    <li class="treeview" id="scrollspy-documentation">
-                        <a href="javascript:void(0)"><i class="fa fa-circle-o"></i> Documentation</a>
-                        <ul class="nav treeview-menu">
-                            <li><a href="#documentation-instructions-user-client"><i class="fa fa-square-o"></i> Client - User Instructions</a></li>
-                        </ul>
+                    <!--<li>
+                        <a class="page-scroll" href="#about">Introduction</a>
+                    </li>-->
+                    <li>
+                        <a class="page-scroll" href="https://iadgov.github.io/goSecure/documentation.html">Documentation</a>
                     </li>
-                    <li><a href="#faq"><i class="fa fa-circle-o"></i> FAQ</a></li>
-                    <li><a href="#api"><i class="fa fa-circle-o"></i> API</a></li>
-                    <li><a href="#license"><i class="fa fa-circle-o"></i> License</a></li>
-                    <li><a href="#disclaimer"><i class="fa fa-circle-o"></i> Disclaimer</a></li>
+                    <li>
+                        <a class="page-scroll" href="https://github.com/iadgov/goSecure">Source</a>
+                    </li>
                 </ul>
             </div>
-        </aside>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
 
-        <div class="content-wrapper">
-            <div class="content-header">
-                <h1>
-            goSecure Documentation
-            <small>Current version 0.9.9</small>
-          </h1>
-                <ol class="breadcrumb">
-                    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                    <li class="active">Documentation</li>
-                </ol>
-            </div>
-
-            <div class="content body">
-
-                <section id="introduction">
-                    <h2 class="page-header"><a href="#introduction">Introduction</a></h2>
-                    <p class="lead">
-                        <b>goSecure</b> is an easy to use and portable Virtual Private Network (VPN) system.
-                        <br><br>
-                        The system consists of a single server and one or many clients.
-                        <a href="https://www.strongswan.org/">strongSwan</a> is used to establish a Suite B IPsec tunnel with pre-shared keys between the server and client(s). The core crypt implementation has been verified by NSA’s Cryptol tool.
-                    </p>
-                    <br>
-                    <p class="lead">
-                        The <b>server</b> component is a multi-homed [laptop/server/cloud instance/Raspberry Pi] that runs strongSwan using the NSA <a href="https://www.nsa.gov/ia/programs/csfc_program/">Commercial Solutions for Classified (CSfC)</a> guidelines for protecting classified data. It is built upon a minimal and hardened Linux instance per DISA <a href="http://iase.disa.mil/stigs/Pages/index.aspx">Security Technical Implementation Guides (STIGs)</a>.
-                    </p>
-                    <br>
-
-                    <p class="lead">
-                        The <b>client</b> component is a Raspberry Pi that runs strongSwan using the NSA CSFC guidelines for protecting classified data and it utilizes its hardware Random Number Generator (RNG). It is built upon a minimal and hardened Linux instance per DISA STIGs.
-                        <br><br>
-                        The client currently supports 3 modes of operation:
-                        <ol>
-                            <li>Ethernet (eth0) LAN - Wifi (wlan0) WAN</li>
-                            <li>Ethernet (eth1) LAN - Ethernet (eth0) WAN</li>
-                            <li>Wifi LAN (wlan0) - Ethernet (eth0) WAN</li>
-                        </ol>
-                    </p>
-                    <br>
-                </section>
-                
-                <section id="components" data-spy="scroll" data-target="#scrollspy-components">
-                    <h2 class="page-header"><a href="#components">Build Components</a></h2>
-                    
-                    <br>
-                    Decide on values for the following before starting:
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Variable</th>
-                                <th>Value</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Client ID</td>
-                                <td>i.e. client1.ix.mil</td>
-                            </tr>
-                        </tbody>
-                        <tbody>
-                            <tr>
-                                <td>Client Pre-Shared Key</td>
-                                <td>i.e. "cxvljals@fj09q2jasdf#dsjvk(asdjf"<br>Note: The PSK must be at least 16 characters. The PSK must also be surrounded in double quotes and cannot contain a double quote within.</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <br>
-
-                    <h3 id="component-server">Server</h3>
-                    Note: The server component build instructions are simply an example that can be used by affaliates that desire a complete solution, but the client component can interoperate with any VPN server that can be configured using the NSA CSFC guidelines.
-                    <br><br>
-                    <ol type="1">
-                        <li>Prerequisites</li>
-                        <ul>
-                            <li>Hardware</li>
-                            <ul>
-                                <li>A laptop, desktop, or server with 2 network interfaces. In this example we will be using a laptop that has only 1 ethernet port on it and an external USB to Ethernet adapter (like the SIIG JU-NE0211-S1 USB 3.0 to Gigabit Ethernet or Apple USB 2.0 to Ethernet) to add a second port.</li>
-                            </ul>
-
-                            <li>Software</li>
-                            <ul>
-                                <li>CentOS 6.8 64-bit (minimal): <a href="http://isoredirect.centos.org/centos/6.8/isos/x86_64/">http://isoredirect.centos.org/centos/6.8/isos/x86_64/</a></li>
-                            </ul>
-                        </ul>
-                        <br>
-                        
-                        <li>Install OS</li>
-                        <ol>
-                            <li>Install CentOS 6.8 64-bit (minimal)</li>
-                        <br>
-                        
-                        <li>Configure Networking</li>
-                        <br>
-                            <ol>
-                                Configure external (Internet) facing interface and update the OS:<br>
-                                <li>vi /etc/sysconfig/network-scripts/ifcfg-eth0</li>
-                                <li>Change "ONBOOT=no" to "ONBOOT=yes" in the file.</li>
-                                <li>service network restart</li>
-                                <li>sudo yum install -y wget</li>
-                                <br>
-
-                                Note: If you have the exact same SIIG USB-to-Ethernet adapter, please follow the "Install eth1 (SIIG) driver" section. Otherwise, please skip the "Install eth1 (SIIG) driver" section and follow the instructions that were provided by the manufacturer of your USB-to-Ethernet device to install the driver.
-                                <br>
-                                Install eth1 (SIIG) driver:
-                                <li>Ensure the SIIG USB-to-Ethernet adapter is plugged in.</li>
-
-                                <li>wget http://www.siig.com/media/files/drivers/0010/02-1634d-linux-v1.13.0.zip</li>
-                                <li>unzip 02-1634d-linux-v1.13.0.zip</li>
-                                <li>cd Linux</li>
-                                <li>tar -xf AX88179_178A_LINUX_DRIVER_v1.13.0_SOURCE.tar</li>
-                                <li> cd AX88179_178A_LINUX_DRIVER_v1.13.0_SOURCE</li>
-                                <li>make</li>
-                                <li>make install</li>
-                                <li>Unplug the SIIG USB-to-Ethernet adapter and plug it back in.</li>
-                                <br>
-                                <br>
-
-                                Configure internal (Enterprise) facing interface:<br>
-                                <li>cp /etc/sysconfig/network-scripts/ifcfg-eth0 /etc/sysconfig/network-scripts/ifcfg-eth1</li>
-                                <li>vi /etc/sysconfig/network-scripts/ifcfg-eth1</li>
-                                <li>Change "DEVICE=eth0" to "DEVICE=eth1"</li>
-                                <li>Change the "HWADDR=&lt;eth0 MAC address&gt;" to "HWADDR=&lt;eth1 MAC address&gt;"</li><br>
-                                Note: Use the same format for the MAC address, i.e. "00:00:BA:XX:XX:XX". The MAC address for eth1 can be found on the back of the SIIG USB-to-Ethernet adapter.
-                                <br>
-                                <li>Delete the "UUID" line.</li>
-                                <li>Change "BOOTPROTO=dhcp" to "BOOTPROTO=static" in the file.</li>
-                                <li>Add "IPADDR=172.16.166.1" and  "NETMASK=255.255.255.0" to the bottom of the file.</li>
-                                <li>service network restart</li>
-                            </ol>
-                            <br>
-
-                            <li>Run the goSecure Server Install Script</li>
-                            <ol>
-                                <li>cd ~</li>
-                                <li>wget https://iadgov.github.io/goSecure/files/install_scripts/gosecure_server_install.py</li>
-                                Note: replace the 2 arguments in the command below with your values. (i.e. sudo python gosecure_server_install.py client1@ix.mil "mysupersecretpsk")
-                                <li>sudo python gosecure_server_install.py &lt;client_id (i.e. client1@ix.mil)&gt; &lt;client_psk (i.e. "atleast16characterswithinquotes")&gt;</li>
-                            </ol>
-
-                        </ol>
-                    </ol>
-                    
-                    <h3 id="component-server-aws">Server on Amazon Web Services (AWS)</h3>
-                    <br><br>
-                    <ol type="1">
-                        <li>Prerequisites</li>
-                        <ul>
-                            <li>AWS SSH Key</li>
-                            <ul>
-                                <li>Log in to the AWS console.</li>
-                                <li>In the top menu bar, select the region of your choice. (Instructions for changing the region <a href="http://docs.aws.amazon.com/awsconsolehelpdocs/latest/gsg/getting-started.html#select-region">here)</a>.</li>
-                                <li>Create your own SSH key pair using these instructions: <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair">http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair</a></li>
-                            </ul>
-                        </ul>
-                        <br>
-                        
-                        <li>Deploy template using AWS CloudFormation</li>
-                        <ol>
-                            <li>Download the goSecure Proxy CloudFormation template from here: <a href="https://iadgov.github.io/goSecure/files/install_scripts/aws_proxy.template">https://iadgov.github.io/goSecure/files/install_scripts/aws_proxy.template</a></li>
-                            <li>Log in to the AWS console.</li>
-                            <li>In the top menu bar, select the region for which you created the SSH key. (Instructions for changing the region <a href="http://docs.aws.amazon.com/awsconsolehelpdocs/latest/gsg/getting-started.html#select-region">here)</a>.</li>
-                            <li>In the top menu bar, click on "Services" and then click on "CloudFormation".</li>
-                            <li>Click on the "Create Stack" button.</li>
-                            <li>Under the "Choose a template" heading, select "Upload a template to Amazon S3" and then click on the "Choose File" button.</li>
-                            <li>Select the "aws_proxy.template" that you downloaded.</li>
-                            <li>Click on the "Next" button.</li>
-                            <li>Type in "goSecureProxyStack" in the "Stack name" textbox.</li>
-                            <li>Type in the first client's pre-shared key (PSK) in the "Client0Psk" textbox. The PSK must be at least 16 characters. The PSK must also be surrounded in double quotes and cannot contain a double quote within.</li>
-                            <li>Type in the first client's client ID in the "ClientId" textbox.</li>
-                            <li>Select your instance type for the "InstanceType" dropdown menu.</li>
-                            <li>Select the existing SSH key pair in the "KeyName" dropdown menu.</li>
-                            <li>Click on the "Next" button.</li>
-                            <li>Click on the "Next" button.</li>
-                            <li>Click on the "Create" button.</li>
-                            <li>Wait until the Stack "Status" changes to "CREATE_COMPLETE" and then wait another 5 minutes for the goSecure Server to initialize for the first time.</li>
-                        </ol>
-                        <br>
-                    </ol>
-                    
-                    <h3 id="component-server-pi">Server on Raspberry Pi</h3>
-                    <br><br>
-                    <ol type="1">
-                        <li>Prerequisites</li>
-                        <ul>
-                            <li>Hardware</li>
-                            <ul>
-                                <li>Raspberry Pi 3 Model B or Raspberry Pi 2 Model B</li>
-                                <li>2GB (minimum size) SD Card</li>
-                                <li>Ensure an external USB to Ethernet adapter (like the SIIG JU-NE0211-S1 USB 3.0 to Gigabit Ethernet or Apple USB 2.0 to Ethernet) is plugged in an recognized (run "ifconfig" and ensure you see a "eth1").</li>
-                            </ul>
-
-                            <li>Software</li>
-                            <ul>
-                                <li>Raspbian Jessie Lite Image: <a href="https://downloads.raspberrypi.org/raspbian_lite_latest">https://downloads.raspberrypi.org/raspbian_lite_latest</a></li>
-                            </ul>
-                        </ul>
-                        <br>
-                        
-                                               <li>Install OS</li>
-                        <ol>
-                            <li>Install Raspbian Jessie Lite onto a SD Card using the instructions under the "WRITING AN IMAGE TO THE SD CARD" section from <a href="https://www.raspberrypi.org/documentation/installation/installing-images/">here</a>.</li>
-                            <li>Turn on the Raspberry Pi with the SD Card installed.</li>
-                            <li>Login with the default credentials (username: "pi" and password: "raspberry").</li>
-                        </ol>
-                        <br>
-                        
-                        <li>Configure OS</li>
-                        <ol>
-                            <li>sudo raspi-config</li>
-                            <li>Select "2 Change User Password" and press the "Enter" key.
-                            <ol>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_change_user_password_1.png" width="797" height="553">
-                                <li>Press the "Enter" key when you receive a message stating "You will now be asked to enter a password for the pi user"</li>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_change_user_password_2.png" width="797" height="553">
-                                <li>A new command line prompt stating "Enter new UNIX password:" will appear on the bottom of the screen, type in your new password and press the "Enter" key.</li>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_change_user_password_3.jpg" width="797" height="553">
-                                <li>A new command line prompt stating "Retype new UNIX password:" will appear on the bottom of the screen, type in your new password again and press the "Enter" key.</li>
-                                <li>A new prompt stating "Password changed successfully" will appear, press the "Enter" key to continue.</li>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_change_user_password_4.png" width="797" height="553">
-                            </ol>
-                            <li>Select "5 Internationalisation Options" and press the "Enter" key.</li>
-                            <img class="img-responsive" src="./files/images/client_install/raspi-config_timezone_1.png" width="797" height="553">
-                            <ol>
-                                <li>Select "I2 Change Timezone" and press the "Enter" key.</li>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_timezone_2.png" width="797" height="553">
-                                <li>Select "America" or the Country you reside in and press the "Enter" key.</li>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_timezone_3.png" width="797" height="553">
-                                <li>Select "New_York" or the location you reside in and press the "Enter" key.</li>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_timezone_4.png" width="797" height="553">
-                            </ol>
-                            <li>Select "5 Internationalisation Options" and press the "Enter" key.</li>
-                            <img class="img-responsive" src="./files/images/client_install/raspi-config_keyboard_1.png" width="797" height="553">
-                            <ol>
-                                <li>Select "I3 Change Keyboard Layout" and press the "Enter" key.</li>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_keyboard_2.png" width="797" height="553">
-                                <li>Select "Generic 105-key (Intl) PC" and press the "Enter" key.</li>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_keyboard_3.jpg" width="797" height="553">
-                                <li>Select "Other" and press the "Enter" key.</li>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_keyboard_4.jpg" width="797" height="553">
-                                <li>Select "English (US)" and press the "Enter" key.</li>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_keyboard_5.jpg" width="797" height="553">
-                                <li>Select "English (US)" and press the "Enter" key.</li>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_keyboard_6.jpg" width="797" height="553">
-                                <li>Select "Right Alt (AltGr)" and press the "Enter" key.</li>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_keyboard_7.jpg" width="797" height="553">
-                                <li>Select "No compose key" and press the "Enter" key.</li>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_keyboard_8.jpg" width="797" height="553">
-                            </ol>
-                            <li>Select "5 Internationalisation Options" and press the "Enter" key.</li>
-                            <img class="img-responsive" src="./files/images/client_install/raspi-config_wifi_1.png" width="797" height="553">
-                            <ol>
-                                <li>Select "I4 Change Wi-fi Country" and press the "Enter" key.</li>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_wifi_2.png" width="797" height="553">
-                                <li>Select "US United States" or the Country you reside in and press the "Enter" key.</li>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_wifi_3.png" width="797" height="553">
-                                <li>A new prompt stating "Wi-fi country set to US" will appear, press the "Enter" key to continue.</li>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_wifi_4.png" width="797" height="553">
-                            </ol>
-                            <li>Press the "Tab" key 2 times to select "&lt;Finish&gt;" and press the "Enter" key.</li>
-                            <img class="img-responsive" src="./files/images/client_install/raspi-config_finish.png" width="797" height="553">
-                            <li>A new prompt stating "Would you like to reboot now?" will appear, press the "Enter" key to continue.</li>
-                            <img class="img-responsive" src="./files/images/client_install/raspi-config_reboot.png" width="797" height="553">
-                            <li>After reboot, on login prompt, login.</li>
-                        </ol>
-                        <br>
-                        
-                        <li>Configure Networking</li>
-                        <ol>
-                            <li>sudo vi /etc/network/interfaces</li>
-                            <pre># interfaces(5) file used by ifup(8) and ifdown(8)
-
-# Please note that this file is written to be used with dhcpcd
-# For static IP, consult /etc/dhcpcd.conf and 'man dhcpcd.conf'
-
-# Include files from /etc/network/interfaces.d:
-source-directory /etc/network/interfaces.d
-
-auto lo
-iface lo inet loopback
-
-auto eth0
-allow-hotplug eth0
-iface eth0 inet dhcp
-
-auto eth1
-allow-hotplug eth1
-iface eth1 inet static
-address 192.168.166.1
-netmask 255.255.255.0
-
-allow-hotplug wlan0
-iface wlan0 inet manual
-    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf</pre>
-                        <br>
-                        <li>sudo service networking restart</li>
-                        <li></li>
-                        <br>Wait 30 seconds for eth0 to obtain an IP Address.
-                        </ol>
-                        <br>
-                        
-                        Note: you now have the option to SSH into the goSecure client through eth1 (the USB to Ethernet adapter). Copying and pasting the commands and configuration files is recommended. Be sure to change variables where specified.
-                        
-                        <br><br>
-                        
-                        <li>Update OS and Raspberry Pi</li>
-                            Note: These commands will run for a long time.
-                            <br><br>
-                        <ol>
-                            <li>sudo apt-get update -y</li>
-                            <li>sudo apt-get upgrade -y</li>
-                            <li>sudo apt-get dist-upgrade -y</li>
-                            <li>sudo apt-get install rpi-update</li>
-                            <li>sudo rpi-update</li>
-                            <li>sudo reboot</li>
-                            <li>After reboot, on login prompt, login.</li>
-                        </ol>
-                        <br>
-                        
-                        <li>Run the goSecure Server Install Script</li>
-                        <ol>
-                            <li>cd ~</li>
-                            <li>wget https://iadgov.github.io/goSecure/files/install_scripts/gosecure_server_install_pi.py</li>
-                            Note: replace the 2 arguments in the command below with your values. (i.e. sudo python gosecure_server_install_pi.py client1@ix.mil "mysupersecretpsk")
-                            <li>sudo python gosecure_server_install_pi.py &lt;client_id (i.e. client1@ix.mil)&gt; &lt;client_psk (i.e. "atleast16characterswithinquotes")&gt;</li>
-                        </ol>
-                        
-                        <br>
-                        
-                        <li>Clean up</li>
-                        <ol>
-                            <li>sudo rm /home/pi/gosecure_server_install_pi.py</li>
-                            <br>
-                            <li>Unplug the HDMI cable and SSH into the goSecure Server</li>
-                            <li>sudo reboot</li>
-                            <li>SSH into the goSecure Server</li>
-                            <li>sudo systemctl disable ssh</li>
-                            <li>sudo init 0</li>
-                        </ol>
-                        <br>
-                            </ol>
-
-                        </ol>
-                    </ol>
-                    
-                    <h3 id="component-client">Client</h3>
-                    <br>
-                    Note: The following instructions are to build the client in mode 1 (see introduction section for mode definitions).
-                    <br>
-                    <br>
-                    
-                    <ol type="1">
-                        <li>Prerequisites</li>
-                        <ul>
-                            <li>Hardware</li>
-                            <ul>
-                                <li>Raspberry Pi 3 Model B or Raspberry Pi 2 Model B (and a USB Wifi adapter like the Edimax EW-7811Un)</li>
-                                <li>2GB (minimum size) SD Card</li>
-                                <li>Ensure nothing is plugged into the ethernet port.</li>
-                            </ul>
-
-                            <li>Software</li>
-                            <ul>
-                                <li>Raspbian Jessie Lite Image: <a href="https://downloads.raspberrypi.org/raspbian_lite_latest">https://downloads.raspberrypi.org/raspbian_lite_latest</a></li>
-                            </ul>
-                        </ul>
-                        <br>
-                        
-                        <li>Install OS</li>
-                        <ol>
-                            <li>Install Raspbian Jessie Lite onto a SD Card using the instructions under the "WRITING AN IMAGE TO THE SD CARD" section from <a href="https://www.raspberrypi.org/documentation/installation/installing-images/">here</a>.</li>
-                            <li>Turn on the Raspberry Pi with the SD Card installed.</li>
-                            <li>Login with the default credentials (username: "pi" and password: "raspberry").</li>
-                        </ol>
-                        <br>
-                        
-                        <li>Configure OS</li>
-                        <ol>
-                            <li>sudo raspi-config</li>
-                            <li>Select "2 Change User Password" and press the "Enter" key.
-                            <ol>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_change_user_password_1.png" width="797" height="553">
-                                <li>Press the "Enter" key when you receive a message stating "You will now be asked to enter a password for the pi user"</li>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_change_user_password_2.png" width="797" height="553">
-                                <li>A new command line prompt stating "Enter new UNIX password:" will appear on the bottom of the screen, type in your new password and press the "Enter" key.</li>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_change_user_password_3.jpg" width="797" height="553">
-                                <li>A new command line prompt stating "Retype new UNIX password:" will appear on the bottom of the screen, type in your new password again and press the "Enter" key.</li>
-                                <li>A new prompt stating "Password changed successfully" will appear, press the "Enter" key to continue.</li>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_change_user_password_4.png" width="797" height="553">
-                            </ol>
-                            <li>Select "5 Internationalisation Options" and press the "Enter" key.</li>
-                            <img class="img-responsive" src="./files/images/client_install/raspi-config_timezone_1.png" width="797" height="553">
-                            <ol>
-                                <li>Select "I2 Change Timezone" and press the "Enter" key.</li>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_timezone_2.png" width="797" height="553">
-                                <li>Select "America" or the Country you reside in and press the "Enter" key.</li>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_timezone_3.png" width="797" height="553">
-                                <li>Select "New_York" or the location you reside in and press the "Enter" key.</li>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_timezone_4.png" width="797" height="553">
-                            </ol>
-                            <li>Select "5 Internationalisation Options" and press the "Enter" key.</li>
-                            <img class="img-responsive" src="./files/images/client_install/raspi-config_keyboard_1.png" width="797" height="553">
-                            <ol>
-                                <li>Select "I3 Change Keyboard Layout" and press the "Enter" key.</li>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_keyboard_2.png" width="797" height="553">
-                                <li>Select "Generic 105-key (Intl) PC" and press the "Enter" key.</li>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_keyboard_3.jpg" width="797" height="553">
-                                <li>Select "Other" and press the "Enter" key.</li>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_keyboard_4.jpg" width="797" height="553">
-                                <li>Select "English (US)" and press the "Enter" key.</li>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_keyboard_5.jpg" width="797" height="553">
-                                <li>Select "English (US)" and press the "Enter" key.</li>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_keyboard_6.jpg" width="797" height="553">
-                                <li>Select "Right Alt (AltGr)" and press the "Enter" key.</li>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_keyboard_7.jpg" width="797" height="553">
-                                <li>Select "No compose key" and press the "Enter" key.</li>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_keyboard_8.jpg" width="797" height="553">
-                            </ol>
-                            <li>Select "5 Internationalisation Options" and press the "Enter" key.</li>
-                            <img class="img-responsive" src="./files/images/client_install/raspi-config_wifi_1.png" width="797" height="553">
-                            <ol>
-                                <li>Select "I4 Change Wi-fi Country" and press the "Enter" key.</li>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_wifi_2.png" width="797" height="553">
-                                <li>Select "US United States" or the Country you reside in and press the "Enter" key.</li>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_wifi_3.png" width="797" height="553">
-                                <li>A new prompt stating "Wi-fi country set to US" will appear, press the "Enter" key to continue.</li>
-                                <img class="img-responsive" src="./files/images/client_install/raspi-config_wifi_4.png" width="797" height="553">
-                            </ol>
-                            <li>Press the "Tab" key 2 times to select "&lt;Finish&gt;" and press the "Enter" key.</li>
-                            <img class="img-responsive" src="./files/images/client_install/raspi-config_finish.png" width="797" height="553">
-                            <li>A new prompt stating "Would you like to reboot now?" will appear, press the "Enter" key to continue.</li>
-                            <img class="img-responsive" src="./files/images/client_install/raspi-config_reboot.png" width="797" height="553">
-                            <li>After reboot, on login prompt, login.</li>
-                        </ol>
-                        <br>
-                        
-                        <li>Configure Networking</li>
-                        <ol>
-                            <li>sudo vi /etc/network/interfaces</li>
-                            <pre># interfaces(5) file used by ifup(8) and ifdown(8)
-
-# Please note that this file is written to be used with dhcpcd
-# For static IP, consult /etc/dhcpcd.conf and 'man dhcpcd.conf'
-
-# Include files from /etc/network/interfaces.d:
-source-directory /etc/network/interfaces.d
-
-auto lo
-iface lo inet loopback
-
-auto eth0
-allow-hotplug eth0
-iface eth0 inet static
-address 192.168.50.1
-netmask 255.255.255.0
-
-auto wlan0
-allow-hotplug wlan0
-iface wlan0 inet manual
-    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf</pre>
-                        <li>sudo vi /etc/wpa_supplicant/wpa_supplicant.conf</li>
-                        <br>
-                        Note: replace the &lt;YOUR_WIFI_SSID&gt; with your WIFI SSID and &lt;YOUR_WIFI_PASSWORD&gt; with your WIFI Password.
-                        <br>
-                        <pre>ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
-update_config=1
-country=US
-network={
-    ssid="&lt;YOUR_WIFI_SSID&gt;"
-    psk="&lt;YOUR_WIFI_PASSWORD&gt;"
-}</pre>
-                        <li>sudo service networking restart</li>
-                        <li>sudo ifdown wlan0 &amp;&amp; sudo ifup wlan0</li>
-                        <br>Wait 30 seconds for the Wifi to obtain an IP Address.
-                        </ol>
-                        <br>
-                        
-                        Note: you now have the option to SSH into the goSecure client through eth0 or wlan0 if your computer is on the same Wifi network. Copying and pasting the commands and configuration files is recommended. Be sure to change variables where specified.
-                        
-                        <br><br>
-                        
-                        <li>Update OS and Raspberry Pi</li>
-                            Note: These commands will run for a long time.
-                            <br><br>
-                        <ol>
-                            <li>sudo apt-get update -y</li>
-                            <li>sudo apt-get upgrade -y</li>
-                            <li>sudo apt-get dist-upgrade -y</li>
-                            <li>sudo apt-get install rpi-update</li>
-                            <li>sudo rpi-update</li>
-                            <li>sudo reboot</li>
-                            <li>After reboot, on login prompt, login.</li>
-                        </ol>
-                        <br>
-                        
-                        <li>Run the goSecure Client Install Script</li>
-                        <ol>
-                            <li>cd ~</li>
-                            <li>wget https://iadgov.github.io/goSecure/files/install_scripts/gosecure_client_install.py</li>
-                            <li>sudo python gosecure_client_install.py</li>
-                        </ol>
-                        
-                        <br>
-                        
-                        <li>Clean up</li>
-                        <ol>
-                            <li>sudo rm /home/pi/gosecure_client_install.py</li>
-                            <li>sudo apt-get purge `sudo dpkg --get-selections | grep "\-dev" | sed s/install//` gcc-4\.[0-6].*</li>
-                            <li>sudo apt-get --yes autoremove</li>
-                            <li>sudo rm -rf /usr/share/doc/* /opt/vc/src/hello_pi/</li>
-                            <li>sudo find /usr/share/locale/* -maxdepth 0 -type d |grep -v en |xargs sudo rm -rf</li>
-                            <li>sudo find /usr/share/man/* -maxdepth 0 -type d |grep -Pv 'man\d' |xargs sudo rm -rf</li>
-                            <li>sudo find / -type f -name "*-old" |xargs sudo rm -rf</li>
-                            <li>sudo rm -rf /var/backups/* /var/lib/apt/lists/* ~/.bash_history</li>
-                            <li>sudo find /var/log/ -type f |xargs sudo rm -rf</li>
-                            <li>sudo cp /dev/null /etc/resolv.conf</li>
-                            <br>
-                            <li>Unplug the HDMI cable and SSH into the goSecure Client</li>
-                            <li>sudo reboot</li>
-                            <li>SSH into the goSecure Client</li>
-                            <li>sudo systemctl disable ssh</li>
-                            <li>sudo init 0</li>
-                        </ol>
-                        <br>
-                        
-                        
-
-                    </ol>
-                    <br>
-                        Follow the <a href="#documentation-instructions-user-client">instructions</a> in the Documentation section to use the goSecure client.
-                    
-                </section>
-                    
-                <section id="documentation" data-spy="scroll" data-target="#scrollspy-documentation">
-                    <h2 class="page-header"><a href="#documentation">Documentation</a></h2>
-                    
-                    <br>
-                    
-                    <h3 id="documentation-network">Network:</h3>
-                    <p class="lead">
-                        Network flow diagram:<br><br>
-                        <img class="img-responsive" src="./files/images/goSecure_Network_Diagram_1.png" style="width:850px; height:500px;">
-                        <br>
-                    </p>
-                    <br>
-                    
-                    <h3 id="documentation-instructions-user-client">Client - User Instructions:</h3>
-                    
-                    <br>
-                    Note: If you are using the goSecure Client for the first time, please follow the Setup section below.
-                    <br>
-                    <br>
-                    <ol>
-                        Setup:
-                        <ol>
-                            <li>Plug in the Ethernet cable from the goSecure Client to the device (i.e. your laptop).</li>
-                            <li>Plug in the USB cable to the goSecure Client to the device (i.e. your laptop).</li>
-                            <li>Wait 60 seconds.</li>
-                            <li>Open a web browser and navigate to "https://setup.gosecure"</li>
-                            <li>Follow the instructions on the web page that appears. The default login username is "admin" and the password is "gosecure". You will be prompted to change them once you login.</li>
-                            <li>You can access your enterprise resources now.</li>
-                        </ol>
-                        <br>
-                        
-                        Normal use:
-                        <ol>
-                            <li>Plug in the Ethernet cable from the goSecure Client to the device (i.e. your laptop).</li>
-                            <li>Plug in the USB cable to the goSecure Client to the device (i.e. your laptop).</li>
-                            <li>Wait 60 seconds.</li>
-                            <li>You can access your enterprise resources now.</li>
-                        </ol>
-                    </ol>
-                    <br>
-                    
-                </section>
-
-                <section id="faq">
-                    <h2 class="page-header"><a href="#faq">FAQ</a></h2>
-                    <h3>What is goSecure?</h3>
-                    <p class="lead">goSecure is an easy to use and portable VPN system.</p>
-                    
-                    <h3>How do I add more clients to the system?</h3>
-                    <p>Refer to the comments in the "/etc/ipsec.conf" configuration file on the goSecure server. Also add a new line to the "/etc/ipsec.secrets" configuration file on the goSecure server that contains the new &lt;unique_id_of_client&gt; and a new unique password.</p>
-                </section>
-                    
-                <section id="api">
-                    <h2 class="page-header"><a href="#api">API</a></h2>
-                    Note: Add "--insecure" to the end of the curl command if your computer does not trust the goSecure client's self signed certificate.
-                    <h3>goSecure Client REST API examples using curl</h3>
-                    <table class="table table-striped">
-                        <thead class="thead-default">
-                            <tr>
-                                <th>#</th>
-                                <th>Action</th>
-                                <th>curl command</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Set VPN credentials</td>
-                                <td>curl --user admin:gosecure -H "Content-Type: application/json" -X POST https://192.168.50.1/v1.0/vpn/credentials -d '{"vpn_server":"server1@ix.mil", "user_id":"client1@ix.mil","user_psk":"mysecretpsk"}'</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Reset (clear) VPN credentials</td>
-                                <td>curl --user admin:gosecure -H "Content-Type: application/json" -X DELETE https://192.168.50.1/v1.0/vpn/credentials</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Start VPN service and establish connection</td>
-                                <td>curl --user admin:gosecure -H "Content-Type: application/json" -X POST https://192.168.50.1/v1.0/vpn/actions -d '{"action":"start_vpn"}'</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">4</th>
-                                <td>Stop VPN service and close connection</td>
-                                <td>curl --user admin:gosecure -H "Content-Type: application/json" -X POST https://192.168.50.1/v1.0/vpn/actions -d '{"action":"stop_vpn"}'</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">5</th>
-                                <td>Restart VPN service and establish connection</td>
-                                <td>curl --user admin:gosecure -H "Content-Type: application/json" -X POST https://192.168.50.1/v1.0/vpn/actions -d '{"action":"restart_vpn"}'</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </section>
-
-                <section id="license">
-                    <h2 class="page-header"><a href="#license">License</a></h2>
-                    <p class="lead">
-                        This work was prepared by an U.S. Government employee and, therefore, is excluded from copyright by Section 105 of the Copyright Act of 1976. Copyright and Related Rights in the Work worldwide are waived through the <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0</a> <a href="https://creativecommons.org/publicdomain/zero/1.0/legalcode">Universal license</a>.
-                    </p>
-                </section>
-
-                <section id="disclaimer">
-                    <h2 class="page-header"><a href="#disclaimer">Disclaimer</a></h2>
-                    <p class="lead">
-                        <h3>Disclaimer of Warranty</h3><br>
-                        This Work is provided "as is." Any express or implied warranties, including but not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed. In no event shall the United States Government be liable for any direct, indirect, incidental, special, exemplary or consequential damages (including, but not limited to, procurement of substitute goods or services, loss of use, data or profits, or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way out of the use of this Guidance, even if advised of the possibility of such damage.
-                        <br>
-                        <br> The User of this Work agrees to hold harmless and indemnify the United States Government, its agents and employees from every claim or liability (whether in tort or in contract), including attorneys' fees, court costs, and expenses, arising in direct consequence of Recipient's use of the item, including, but not limited to, claims or liabilities made for injury to or death of personnel of User or third parties, damage to or destruction of property of User or third parties, and infringement or other violations of intellectual property or technical data rights.
-                        <br>
-                        <br> Nothing in this Work is intended to constitute an endorsement, explicit or implied, by the U.S. Government of any particular manufacturer's product or service.
-                        <br>
-                        <br>
-                    
-                        <h3>Disclaimer of Endorsement</h3><br>
-                        Reference herein to any specific commercial product, process, or service by trade name, trademark, manufacturer, or otherwise, in this Work does not constitute an endorsement, recommendation, or favoring by the United States Government and shall not be used for advertising or product endorsement purposes.
-                    </p>
-                </section>
-
+    <!-- Intro Header -->
+    <header class="intro">
+        <div class="intro-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <h1 class="brand-heading">goSecure</h1>
+                        <img src="files/grayscale/img/gosecure_logo.png" alt="Smiley face" height="600" width="600">
+                        <p class="intro-text">An easy-to-use and portable VPN solution.</p>
+                        <!--<a href="#about" class="btn btn-circle page-scroll">
+                            <i class="fa fa-angle-double-down animated"></i>
+                        </a>-->
+                         <a href="https://iadgov.github.io/goSecure/documentation.html" class="btn btn-default btn-lg"><i class="fa fa-github"></i> Get Started</a>
+                    </div>
+                </div>
             </div>
         </div>
+    </header>
 
-        <footer class="main-footer">
-            <div class="pull-right hidden-xs">
-                <b>Version</b> 0.9.9
+    <!--
+    <section id="about" class="container content-section text-center">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <h2>About goSecure</h2>
+                <p>Securely access network resources and services from anywhere.<br>
+                Zero-configuration. Plug-and-play. Power on and go.<br>
+                Deploy a server in 5 clicks.<br>
+                Setup a client in 3 clicks.</p>
             </div>
-            <strong>IAD IX - goSecure</strong>
-        </footer>
+        </div>
+    </section>
 
-    </div>
+    <section id="download" class="content-section text-center">
+        <div class="download-section">
+            <div class="container">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <h2>Build your own</h2>
+                    <p>or for more information see</p>
+                    <a href="https://www.github.com/iadgov/gosecure" class="btn btn-default btn-lg"><i class="fa fa-github"></i> Github</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
 
-    <!-- jQuery 2.1.4 -->
-    <script src="./files/plugins/jQuery/jQuery-2.1.4.min.js"></script>
-    <!-- Bootstrap 3.3.5 -->
-    <script src="./files/bootstrap/js/bootstrap.min.js"></script>
-    <!-- FastClick -->
-    <script src="./files/plugins/fastclick/fastclick.min.js"></script>
-    <!-- goSecure App -->
-    <script src="./files/dist/js/app.min.js"></script>
-    <!-- SlimScroll 1.3.0 -->
-    <script src="./files/plugins/slimScroll/jquery.slimscroll.min.js"></script>
-    <script src="./files/documentation/docs.js"></script>
+    <footer>
+        <div class="container text-center">
+            <p>IAD IX - goSecure</p>
+        </div>
+    </footer>
+    -->
+
+    <!-- jQuery -->
+    <script src="files/grayscale/vendor/jquery/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="files/grayscale/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+
+    <!-- Google Maps API Key - Use your own API key to enable the map feature. More information on the Google Maps API can be found at https://developers.google.com/maps/ -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRngKslUGJTlibkQ3FkfTxj3Xss1UlZDA&sensor=false"></script>
+
+    <!-- Theme JavaScript -->
+    <script src="files/grayscale/js/grayscale.min.js"></script>
+
 </body>
 
 </html>
