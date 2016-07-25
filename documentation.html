@@ -70,10 +70,10 @@
                         <a href="javascript:void(0)"><i class="fa fa-circle-o"></i> Documentation</a>
                         <ul class="nav treeview-menu">
                             <li><a href="#documentation-instructions-user-client"><i class="fa fa-square-o"></i> Client - User Instructions</a></li>
+                            <li><a href="#documentation-client-api"><i class="fa fa-square-o"></i> Client - API</a></li>
                         </ul>
                     </li>
                     <li><a href="#faq"><i class="fa fa-circle-o"></i> FAQ</a></li>
-                    <li><a href="#api"><i class="fa fa-circle-o"></i> API</a></li>
                     <li><a href="#license"><i class="fa fa-circle-o"></i> License</a></li>
                     <li><a href="#disclaimer"><i class="fa fa-circle-o"></i> Disclaimer</a></li>
                 </ul>
@@ -749,18 +749,10 @@
                         </ol>
                     <br>
                     
-                </section>
-
-                <section id="faq">
-                    <h2 class="page-header"><a href="#faq">FAQ</a></h2>
-                    <h3>How do I add more clients to the system?</h3>
-                    <p>Refer to the comments in the "/etc/ipsec.conf" configuration file on the goSecure server. Also add a new line to the "/etc/ipsec.secrets" configuration file on the goSecure server that contains the new &lt;unique_id_of_client&gt; and a new unique password.</p>
-                </section>
-                    
-                <section id="api">
-                    <h2 class="page-header"><a href="#api">API</a></h2>
+                    <h3 id="documentation-client-api">API</h3>
+                    <h4>goSecure Client REST API examples using curl</h4>
+                    <br>
                     Note: Add "--insecure" to the end of the curl command if your computer does not trust the goSecure client's self signed certificate.
-                    <h3>goSecure Client REST API examples using curl</h3>
                     <table class="table table-striped">
                         <thead class="thead-default">
                             <tr>
@@ -797,6 +789,15 @@
                             </tr>
                         </tbody>
                     </table>
+                    
+                    <br>
+                    
+                </section>
+
+                <section id="faq">
+                    <h2 class="page-header"><a href="#faq">FAQ</a></h2>
+                    <h3>How do I add more clients to the system?</h3>
+                    <p>Refer to the comments in the "/etc/ipsec.conf" configuration file on the goSecure server. Also add a new line to the "/etc/ipsec.secrets" configuration file on the goSecure server that contains the new &lt;unique_id_of_client&gt; and a new unique password.</p>
                 </section>
 
                 <section id="license">
