@@ -397,28 +397,28 @@
                                                     <li>sudo vi /etc/network/interfaces</li>
                                                     <pre># interfaces(5) file used by ifup(8) and ifdown(8)
 
-                        # Please note that this file is written to be used with dhcpcd
-                        # For static IP, consult /etc/dhcpcd.conf and 'man dhcpcd.conf'
+# Please note that this file is written to be used with dhcpcd
+# For static IP, consult /etc/dhcpcd.conf and 'man dhcpcd.conf'
 
-                        # Include files from /etc/network/interfaces.d:
-                        source-directory /etc/network/interfaces.d
+# Include files from /etc/network/interfaces.d:
+source-directory /etc/network/interfaces.d
 
-                        auto lo
-                        iface lo inet loopback
+auto lo
+iface lo inet loopback
 
-                        auto eth0
-                        allow-hotplug eth0
-                        iface eth0 inet dhcp
+auto eth0
+allow-hotplug eth0
+iface eth0 inet dhcp
 
-                        auto eth1
-                        allow-hotplug eth1
-                        iface eth1 inet static
-                        address 192.168.166.1
-                        netmask 255.255.255.0
+auto eth1
+allow-hotplug eth1
+iface eth1 inet static
+address 192.168.166.1
+netmask 255.255.255.0
 
-                        allow-hotplug wlan0
-                        iface wlan0 inet manual
-                            wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf</pre>
+allow-hotplug wlan0
+iface wlan0 inet manual
+    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf</pre>
                                                 <br>
                                                 <li>sudo service networking restart</li>
                                                 <li></li>
@@ -592,36 +592,36 @@
                                                     <li>sudo vi /etc/network/interfaces</li>
                                                     <pre># interfaces(5) file used by ifup(8) and ifdown(8)
 
-                        # Please note that this file is written to be used with dhcpcd
-                        # For static IP, consult /etc/dhcpcd.conf and 'man dhcpcd.conf'
+# Please note that this file is written to be used with dhcpcd
+# For static IP, consult /etc/dhcpcd.conf and 'man dhcpcd.conf'
 
-                        # Include files from /etc/network/interfaces.d:
-                        source-directory /etc/network/interfaces.d
+# Include files from /etc/network/interfaces.d:
+source-directory /etc/network/interfaces.d
 
-                        auto lo
-                        iface lo inet loopback
+auto lo
+iface lo inet loopback
 
-                        auto eth0
-                        allow-hotplug eth0
-                        iface eth0 inet static
-                        address 192.168.50.1
-                        netmask 255.255.255.0
+auto eth0
+allow-hotplug eth0
+iface eth0 inet static
+address 192.168.50.1
+netmask 255.255.255.0
 
-                        auto wlan0
-                        allow-hotplug wlan0
-                        iface wlan0 inet manual
-                            wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf</pre>
+auto wlan0
+allow-hotplug wlan0
+iface wlan0 inet manual
+    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf</pre>
                                                 <li>sudo vi /etc/wpa_supplicant/wpa_supplicant.conf</li>
                                                 <br>
                                                 Note: replace the &lt;YOUR_WIFI_SSID&gt; with your WIFI SSID and &lt;YOUR_WIFI_PASSWORD&gt; with your WIFI Password.
                                                 <br>
-                                                <pre>ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
-                        update_config=1
-                        country=US
-                        network={
-                            ssid="&lt;YOUR_WIFI_SSID&gt;"
-                            psk="&lt;YOUR_WIFI_PASSWORD&gt;"
-                        }</pre>
+                                                <pre>country=US
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+network={
+    ssid="&lt;YOUR_WIFI_SSID&gt;"
+    psk="&lt;YOUR_WIFI_PASSWORD&gt;"
+}</pre>
                                                 <li>sudo service networking restart</li>
                                                 <li>sudo ifdown wlan0 &amp;&amp; sudo ifup wlan0</li>
                                                 <br>Wait 30 seconds for the Wifi to obtain an IP Address.
