@@ -10,8 +10,10 @@ def get_wifi_list():
     except CalledProcessError as e:
         returncode = e.returncode
 
-
-    iw_list = (check_output(["sudo", "iwlist", "wlan0", "scan"])).split("\n")
+    try:
+        iw_list = (check_output(["sudo", "iwlist", "wlan0", "scan"])).split("\n")
+    except CalledProcessError as e:
+        iw_list = []
 
     #contains a tuple of the (ESSID, Encryption key)
     wifi_list = []
