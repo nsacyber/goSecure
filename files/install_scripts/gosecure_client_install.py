@@ -304,9 +304,7 @@ WantedBy=multi-user.target"""
     setup_gosecure_service_commands = """sudo chmod 644 /lib/systemd/system/gosecure.service
 sudo systemctl daemon-reload
 sudo systemctl enable gosecure.service
-sudo chmod 550 /home/pi/goSecure_Web_GUI/gosecure_app.py
-echo 'Rebooting now... please wait 30 seconds and navigate to https://setup.gosecure'
-sudo reboot"""
+sudo chmod 550 /home/pi/goSecure_Web_GUI/gosecure_app.py"""
     
     for command in setup_gosecure_service_commands.splitlines():
         call(command, shell=True)
@@ -322,10 +320,13 @@ def main():
     configure_firewall()
     enable_hardware_random()
     install_strongswan()
-    configure_strongswan()
-    start_strongswan()
     setup_dhcp_and_dns_server()
     setup_user_interface()
+    configure_strongswan()
+    start_strongswan()
+    
+    call("echo 'Rebooting now... please wait 30 seconds and navigate to https://setup.gosecure'", shell=True)
+    call("sudo reboot", shell=True)
     
 if __name__ == "__main__":
     main()

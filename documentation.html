@@ -657,8 +657,6 @@ network={
                                                 <li>Clean up</li>
                                                 <ol>
                                                     <li>sudo rm /home/pi/gosecure_client_install.py</li>
-                                                    <li>sudo apt-get purge `sudo dpkg --get-selections | grep "\-dev" | sed s/install//` gcc-4\.[0-6].*</li>
-                                                    <li>sudo apt-get --yes autoremove</li>
                                                     <li>sudo rm -rf /usr/share/doc/* /opt/vc/src/hello_pi/</li>
                                                     <li>sudo find /usr/share/locale/* -maxdepth 0 -type d |grep -v en |xargs sudo rm -rf</li>
                                                     <li>sudo find /usr/share/man/* -maxdepth 0 -type d |grep -Pv 'man\d' |xargs sudo rm -rf</li>
