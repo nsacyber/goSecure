@@ -19,8 +19,8 @@ def get_wifi_list():
     wifi_list = []
 
     for x in range(0, len(iw_list)):
-        if((iw_list[x].strip())[0:5] == "ESSID"):
-            if((iw_list[x].strip())[7:-1] != "" and (not ( iw_list[x].strip())[7:-1].startswith("\\"))):
+        if (iw_list[x].strip())[0:5] == "ESSID":
+            if (iw_list[x].strip())[7:-1] != "" and (not (iw_list[x].strip())[7:-1].startswith("\\")):
                 wifi_list.append((((iw_list[x].strip())[7:-1] + "-" + ((iw_list[x-1].strip())[15:])), (iw_list[x].strip())[7:-1]))
 
     return sorted(list(set(wifi_list)), key=lambda wifilist: wifilist[0])
@@ -32,21 +32,21 @@ def add_wifi(wifi_ssid, wifi_key):
     wifi_exists = False
     for x in range(0, len(lines)):
         #if SSID is already in file
-        if((lines[x].strip()) == 'ssid="' + str(wifi_ssid) + '"'):
+        if (lines[x].strip()) == 'ssid="' + str(wifi_ssid) + '"':
             wifi_exists = True
-            lines[x] = '    ssid="%s"\n' % (wifi_ssid)
-            if(wifi_key == "key_mgmt_none"):
+            lines[x] = '    ssid="%s"\n' % wifi_ssid
+            if wifi_key == "key_mgmt_none":
                 lines[x+1] = '    key_mgmt=NONE\n'
             else:
-                lines[x+1] = '    psk="%s"\n' % (wifi_key)
+                lines[x+1] = '    psk="%s"\n' % wifi_key
                 
-    if(wifi_exists != True):
+    if wifi_exists != True:
         lines.append('network={\n')
-        lines.append('    ssid="%s"\n' % (wifi_ssid))
-        if(wifi_key == "key_mgmt_none"):
+        lines.append('    ssid="%s"\n' % wifi_ssid)
+        if wifi_key == "key_mgmt_none":
             lines.append('    key_mgmt=NONE\n')
         else:
-            lines.append('    psk="%s"\n' % (wifi_key))  
+            lines.append('    psk="%s"\n' % wifi_key)
         lines.append('}\n')
 
     with open("/etc/wpa_supplicant/wpa_supplicant.conf", "w") as fout:
@@ -60,7 +60,7 @@ def add_wifi(wifi_ssid, wifi_key):
     
     time.sleep(15)
     
-    if(not internet_status()):
+    if not internet_status():
         wifi_captive_portal.captive_portal(wifi_ssid, "", "")
 
 def internet_status():
@@ -85,7 +85,7 @@ def reset_wifi():
     except CalledProcessError as e:
         returncode = e.returncode
 
-    if(returncode == 0):
+    if returncode == 0:
         return True
     else:
         return False
