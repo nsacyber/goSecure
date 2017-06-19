@@ -67,7 +67,7 @@ def configure_firewall():
     iptables_file.close()
     
     iptables_start_on_boot_script = textwrap.dedent("""\
-        # !/bin/sh
+        #!/bin/sh
         sudo ifdown wlan0
         sudo /sbin/iptables-restore < /etc/iptables/rules.v4\n""")
     
