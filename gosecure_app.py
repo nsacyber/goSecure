@@ -438,7 +438,7 @@ if __name__ == "__main__":
     app.secret_key=os.urandom(24)
     
     #if SSL key and certificate pair do not exist, create them.
-    if ((os.path.exists("ssl.key") and os.path.exists("ssl.crt")) != True):
+    if ((os.path.exists("ssl.key") and os.path.exists("ssl.crt")) is not True):
         os.system('openssl genrsa 2048 > ssl.key')
         os.system('openssl req -new -x509 -nodes -sha256 -days 1095 -subj "/C=US/O=goSecure/CN=goSecureClient" -key ssl.key > ssl.crt')
         os.system('sudo chown pi:pi ssl.crt ssl.key')
