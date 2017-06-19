@@ -71,10 +71,9 @@ def internet_status():
     return False
 
 def reset_wifi():
-    lines = []
-    lines.append("country=US\n")
-    lines.append("ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n")
-    lines.append("update_config=1\n")
+    lines = ["country=US\n",
+             "ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n",
+             "update_config=1\n"]
     with open("/etc/wpa_supplicant/wpa_supplicant.conf", "w") as fout:
         for line in lines:
             fout.write(line)
