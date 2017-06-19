@@ -12,7 +12,7 @@ def enable_ip_forward():
         lines = fin.readlines()
 
     for i, line in enumerate(lines):
-        if("net.ipv4.ip_forward" in line):
+        if "net.ipv4.ip_forward" in line:
             lines[i] = "net.ipv4.ip_forward = 1\n"
 
     with open("/etc/sysctl.conf", "w") as fout:
@@ -76,7 +76,7 @@ def enable_hardware_random():
     pi_hardware_version = check_output(["cat", "/proc/cpuinfo"]).split("\n")[-4]
     
     #if Pi 2
-    if("BCM2708" in pi_hardware_version):
+    if "BCM2708" in pi_hardware_version:
         call("sudo modprobe bcm2708-rng", shell=True)
         
         #call("sudo sh -c 'echo bcm2708-rng >> /etc/modules'")
@@ -88,7 +88,7 @@ def enable_hardware_random():
                 call("sudo sh -c 'echo bcm2708-rng >> /etc/modules'")
         
     #else if Pi 3
-    elif("BCM2709" in pi_hardware_version):
+    elif "BCM2709" in pi_hardware_version:
         call("sudo modprobe bcm2835-rng", shell=True)
         
         #call("sudo sh -c 'echo bcm2835-rng >> /etc/modules'")
@@ -169,7 +169,7 @@ conn work
         lines = fin.readlines()
 
     for i, line in enumerate(lines):
-        if("fips_mode = 0" in line):
+        if "fips_mode = 0" in line:
             lines[i] = "    fips_mode = 0\n"
 
     with open("/etc/strongswan.d/charon/openssl.conf", "w") as fout:
@@ -312,7 +312,7 @@ sudo chmod 550 /home/pi/goSecure_Web_GUI/gosecure_app.py"""
         
 def main():
     cmdargs = str(sys.argv)
-    if(len(sys.argv) != 1):
+    if len(sys.argv) != 1:
         print 'Syntax is: sudo python gosecure_client_install.py\nExample: sudo python gosecure_client_install.py\n'
         exit()
     
