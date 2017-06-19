@@ -174,7 +174,7 @@ def configure_strongswan(client_id, client_psk):
     ipsec_conf_file.close()
     
     
-    ipsec_secrets = "\{0} : PSK {1}".format(client_id, client_psk)
+    ipsec_secrets = "{0} : PSK {1}".format(client_id, client_psk)
     
     ipsec_secrets_file = open("/etc/ipsec.secrets", "w")
     ipsec_secrets_file.write(ipsec_secrets)
