@@ -83,8 +83,8 @@ def enable_hardware_random():
         call("sudo modprobe bcm2708-rng", shell=True)
         
         #call("sudo sh -c 'echo bcm2708-rng >> /etc/modules'")
-        with open("/etc/modules", "r+") as file:
-            for line in file:
+        with open("/etc/modules", "r+") as f:
+            for line in f:
                 if "bcm2708-rng" in line:
                     break
             else: # not found, we are at the eof
@@ -95,8 +95,8 @@ def enable_hardware_random():
         call("sudo modprobe bcm2835-rng", shell=True)
         
         #call("sudo sh -c 'echo bcm2835-rng >> /etc/modules'")
-        with open("/etc/modules", "r") as file:
-            for line in file:
+        with open("/etc/modules", "r") as f:
+            for line in f:
                 if "bcm2835-rng" in line:
                     break
             else: # not found, we are at the eof
@@ -196,8 +196,8 @@ def start_strongswan():
     call("sudo ipsec start", shell=True)
     
     #start strongSwan on boot
-    with open("/etc/network/if-pre-up.d/firewall", "r") as file:
-        for line in file:
+    with open("/etc/network/if-pre-up.d/firewall", "r") as f:
+        for line in f:
             if "sudo ipsec start" in line:
                 break
         else: # not found, we are at the eof
