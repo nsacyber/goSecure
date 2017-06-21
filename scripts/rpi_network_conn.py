@@ -39,8 +39,9 @@ def add_wifi(wifi_ssid, wifi_key):
                 lines[x+1] = '    key_mgmt=NONE\n'
             else:
                 lines[x+1] = '    psk="%s"\n' % wifi_key
-                
-    if wifi_exists != True:
+
+    if wifi_exists is not True:
+
         lines.append('network={\n')
         lines.append('    ssid="%s"\n' % wifi_ssid)
         if wifi_key == "key_mgmt_none":
