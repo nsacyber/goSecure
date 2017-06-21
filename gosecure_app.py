@@ -48,7 +48,7 @@ def request_loader(request):
 
     # DO NOT ever store passwords in plaintext and always compare password
     # hashes using constant-time comparison!
-    if(user_validate_credentials(request.form['username'],request.form['password'])):
+    if user_validate_credentials(request.form['username'], request.form['password']):
         user.is_authenticated = True
 
     return user
@@ -96,7 +96,7 @@ def user_validate_credentials(username, password):
         stored_password = users[username]['password']
         stored_salt = users[username]['salt']
         userPasswordHash = hashlib.sha256(str(stored_salt) + password).hexdigest()
-        if(stored_password == userPasswordHash):
+        if stored_password == userPasswordHash:
             return True
         else:
             return False
@@ -108,7 +108,7 @@ def user_change_credentials(username, password, new_password):
         return False
     else:
         #verify current password
-        if(user_validate_credentials(username, password)):
+        if user_validate_credentials(username, password):
             #change password
             userPasswordHashSalt = os.urandom(16).encode("base64")
             userPasswordHash = hashlib.sha256(str(userPasswordHashSalt) + new_password).hexdigest()
@@ -122,7 +122,7 @@ def user_change_credentials(username, password, new_password):
 #return True if credentials are reset
 #else return False
 def user_reset_credentials(username, password):
-    if(user_change_credentials(username, password, "gosecure")):
+    if user_change_credentials(username, password, "gosecure"):
         return True
     else:
         return False
@@ -140,20 +140,20 @@ def page_not_found(e):
 def login():
     form = loginForm()
 
-    if(request.method == "GET"):
+    if request.method == "GET":
         return render_template("login.html", form=form) 
 
-    elif(request.method == "POST"):
-        if(form.validate()):
+    elif request.method == "POST":
+        if form.validate():
             username = form.username.data
             password = form.password.data
-            if(user_validate_credentials(username, password)):
+            if user_validate_credentials(username, password):
                 user = User()
                 user.id = username
                 flask_login.login_user(user)
                 
                 #check to see if default credentials are being used. If so, redirect to change password page.
-                if(user_validate_credentials("admin","gosecure")):
+                if user_validate_credentials("admin", "gosecure"):
                     flash("Please change the default password.", "notice")
                     return redirect(url_for("user"))
                 else:
@@ -162,14 +162,15 @@ def login():
                     vpn_configuration_status_bool = vpn_configuration_status()
 
                     #check to see if network is up. If not, redirect to network page
-                    if(internet_status_bool is False and vpn_configuration_status_bool is True):
+                    if internet_status_bool is False and vpn_configuration_status_bool is True:
                         flash("Internet is not reachable.", "notice")
                         return redirect(url_for("wifi"))
                     #check to see if network and vpn are up. If not, redirect to initial setup page
-                    elif(internet_status_bool is False and vpn_status_bool is False):
+                    elif internet_status_bool is False and vpn_status_bool is False:
                         return redirect(url_for("initial_setup"))
                     #check to see if vpn is up. If not, redirect to vpn page
-                    elif(vpn_status_bool is False):
+                    elif vpn_status_bool is False:
+
                         flash("VPN is not established.", "notice")
                         return redirect(url_for("vpn_psk"))
                     else:
@@ -192,13 +193,13 @@ def logout():
 def status():
     form = statusForm()
     
-    if(request.method == "GET"):
+    if request.method == "GET":
         #check to see if network and vpn are active, red=not active, green=active
         internet_status_color = "red"
-        if(internet_status()):
+        if internet_status():
             internet_status_color = "green"
         vpn_status_color = "red"
-        if(vpn_status()):
+        if vpn_status():
             vpn_status_color = "green"
 
         return render_template("status.html", form=form, internet_status_color=internet_status_color, vpn_status_color=vpn_status_color)
@@ -209,16 +210,16 @@ def status():
 def user():
     form = userForm()
     
-    if(request.method == "GET"):
+    if request.method == "GET":
         form.username.data = flask_login.current_user.id
         return render_template("user.html", form=form)
     
-    elif(request.method == "POST"):
-        if(form.validate()):
+    elif request.method == "POST":
+        if form.validate():
             username = form.username.data
             password = form.password.data
             new_password = form.new_password.data
-            if(user_change_credentials(username, password, new_password)):
+            if user_change_credentials(username, password, new_password):
                 flash("Your user information has been successfully changed. Please login with the new credentials.", "success")
                 return redirect(url_for("login"))
             else:
@@ -235,16 +236,16 @@ def user():
 def initial_setup():
     form = initialSetupForm()
 
-    if(request.method == "GET"):
+    if request.method == "GET":
         return render_template("initial_setup.html", form=form) 
 
-    elif(request.method == "POST"):
-        if(form.validate()):
-            ssid = (form.ssid.data).rsplit("-", 1)[0]
+    elif request.method == "POST":
+        if form.validate():
+            ssid = form.ssid.data.rsplit("-", 1)[0]
             psk = form.psk.data
             add_wifi(ssid, psk)
             
-            if(internet_status() is True):
+            if internet_status() is True:
                 vpn_server = form.vpn_server.data
                 user_id = form.user_id.data
                 user_psk = form.user_psk.data
@@ -267,17 +268,17 @@ def initial_setup():
 def wifi():
     form = wifiForm()
 
-    if(request.method == "GET"):
+    if request.method == "GET":
         return render_template("wifi.html", form=form)
     
-    elif(request.method == "POST"):
-        if(form.validate()):
-            ssid = (form.ssid.data).rsplit("-", 1)[0]
+    elif request.method == "POST":
+        if form.validate():
+            ssid = form.ssid.data.rsplit("-", 1)[0]
             psk = form.psk.data
             add_wifi(ssid, psk)
             time.sleep(5)
             
-            if(internet_status() is True):
+            if internet_status() is True:
                 restart_vpn()
                 time.sleep(5)
                 flash("Wifi settings saved! VPN Restarted!", "success")
@@ -296,18 +297,18 @@ def wifi():
 def vpn_psk():
     form = vpnPskForm()
 
-    if(request.method == "GET"):
+    if request.method == "GET":
         return render_template("vpn_psk.html", form=form)
     
-    elif(request.method == "POST"):
-        if(form.validate()):
+    elif request.method == "POST":
+        if form.validate():
             vpn_server = form.vpn_server.data
             user_id = form.user_id.data
             user_psk = form.user_psk.data
             set_vpn_params(vpn_server, user_id, user_psk)
             restart_vpn()
 
-            if(vpn_status()):
+            if vpn_status():
                 flash("VPN settings saved and VPN restarted!", "success")
                 return redirect(url_for("status"))
             else:
@@ -323,19 +324,19 @@ def vpn_psk():
 def reset_to_default():
     form = resetToDefaultForm()
 
-    if(request.method == "GET"):
+    if request.method == "GET":
         form.username.data = flask_login.current_user.id
         return render_template("reset_to_default.html", form=form)
 
-    elif(request.method == "POST"):
-        if(form.validate()):
+    elif request.method == "POST":
+        if form.validate():
             username = form.username.data
             password = form.password.data
             
             reset_vpn_params()
             reset_wifi()
             
-            if(user_reset_credentials(username, password)):
+            if user_reset_credentials(username, password):
                 flash("Your client has been successfully reset to default settings.", "success")
                 return redirect(url_for("logout"))
             else:
@@ -351,23 +352,23 @@ def reset_to_default():
 @flask_login.login_required
 def execute_action():
     action = request.form["action"]
-    if(action == "reboot"):
+    if action == "reboot":
         pi_reboot()
-    elif(action == "shutdown"):
+    elif action == "shutdown":
         pi_shutdown()
-    elif(action == "start_vpn"):
+    elif action == "start_vpn":
         start_vpn()
         flash("VPN Started!", "notice")
-    elif(action == "stop_vpn"):
+    elif action == "stop_vpn":
         stop_vpn()
         flash("VPN Stopped!", "notice")
-    elif(action == "restart_vpn"):
+    elif action == "restart_vpn":
         restart_vpn()
         flash("VPN Restarted!", "notice")
-    elif(action == "ssh_service"):
+    elif action == "ssh_service":
         start_ssh_service()
         flash("SSH Service Started! It will be turned off on reboot.")
-    elif(action == "update_client"):
+    elif action == "update_client":
         update_client()
         flash("Client will reboot... please reload this page in 1 minute.")
     else:
@@ -382,14 +383,14 @@ def execute_action():
 @app.route("/v1.0/vpn/credentials", methods=["POST", "DELETE"])
 @requires_basic_auth
 def api_vpn_credentials():
-    if(request.method == "POST"):
+    if request.method == "POST":
         form = initialSetupForm()
         form.vpn_server.data = request.json["vpn_server"]
         form.user_id.data = request.json["user_id"]
         form.user_psk.data = request.json["user_psk"]
 
-        if(request.headers['Content-Type'] == 'application/json'):
-            if(form.vpn_server.validate(form) and form.user_id.validate(form) and form.user_psk.validate(form)):
+        if request.headers['Content-Type'] == 'application/json':
+            if form.vpn_server.validate(form) and form.user_id.validate(form) and form.user_psk.validate(form):
                 set_vpn_params(form.vpn_server.data, form.user_id.data, form.user_psk.data)
                 return "Successfully set vpn_server, user_id, and psk for VPN"
             else:
@@ -398,7 +399,7 @@ def api_vpn_credentials():
         else:
             return "415 Unsupported Media Type - Use application/json"
 
-    elif(request.method == "DELETE"):
+    elif request.method == "DELETE":
         reset_vpn_params()
         return "Successfully reset vpn_server, user_id, and psk for VPN"
     else:
@@ -407,21 +408,21 @@ def api_vpn_credentials():
 @app.route("/v1.0/vpn/actions", methods=["POST"])
 @requires_basic_auth
 def api_vpn_actions():
-    if(request.method == "POST"):
-        if(request.headers['Content-Type'] == 'application/json'):
+    if request.method == "POST":
+        if request.headers['Content-Type'] == 'application/json':
             action = request.json["action"]
-            if(action == "start_vpn"):
-                if(start_vpn()):
+            if action == "start_vpn":
+                if start_vpn():
                     return "VPN service started, VPN is ESTABLISHED"
                 else:
                     return "VPN service started, VPN is NOT ESTABLISHED"
                 
-            elif(action == "stop_vpn"):
+            elif action == "stop_vpn":
                 stop_vpn()
                 return "VPN service stopped, VPN is NOT ESTABLISHED"
             
-            elif(action == "restart_vpn"):
-                if(restart_vpn()):
+            elif action == "restart_vpn":
+                if restart_vpn():
                     return "VPN service restarted, VPN is ESTABLISHED"
                 else:
                     return "VPN service restarted, VPN is NOT ESTABLISHED"
@@ -438,7 +439,7 @@ if __name__ == "__main__":
     app.secret_key=os.urandom(24)
     
     #if SSL key and certificate pair do not exist, create them.
-    if ((os.path.exists("ssl.key") and os.path.exists("ssl.crt")) is not True):
+    if (os.path.exists("ssl.key") and os.path.exists("ssl.crt")) is not True:
         os.system('openssl genrsa 2048 > ssl.key')
         os.system('openssl req -new -x509 -nodes -sha256 -days 1095 -subj "/C=US/O=goSecure/CN=goSecureClient" -key ssl.key > ssl.crt')
         os.system('sudo chown pi:pi ssl.crt ssl.key')

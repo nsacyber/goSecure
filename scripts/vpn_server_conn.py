@@ -8,9 +8,9 @@ def set_vpn_params(vpn_server, user_id, user_psk):
         lines = fin.readlines()
 
     for x in range(0, len(lines)):
-        if((lines[x].strip())[0:7] == "leftid="):
+        if (lines[x].strip())[0:7] == "leftid=":
             lines[x] = "        leftid=%s       #unique id of client\n" % user_id
-        if((lines[x].strip())[0:6] == "right="):
+        if (lines[x].strip())[0:6] == "right=":
             lines[x] = "        right=%s       #strongSwan server external IP\n" % vpn_server
 
     with open("/etc/ipsec.conf", "w") as fout:
@@ -37,7 +37,7 @@ def add_route():
         except CalledProcessError as e:
                 returncode = e.returncode
                 
-        if(returncode == 0):
+        if returncode == 0:
                 return True
         else:
             return False
@@ -53,9 +53,9 @@ def start_vpn():
     except CalledProcessError as e:
         returncode = e.returncode
         
-    if(returncode == 0):
-        if(vpn_status()):
-            if(add_route):
+    if returncode == 0:
+        if vpn_status():
+            if add_route:
                 time.sleep(3)
                 turn_on_led_green()
                 return True
@@ -71,7 +71,7 @@ def stop_vpn():
     except CalledProcessError as e:
         returncode = e.returncode
     
-    if(returncode == 0):
+    if returncode == 0:
         return True
     else:
         return False
@@ -86,9 +86,9 @@ def restart_vpn():
     except CalledProcessError as e:
         returncode = e.returncode
     
-    if(returncode == 0):
-        if(vpn_status()):
-            if(add_route()):
+    if returncode == 0:
+        if vpn_status():
+            if add_route():
                 time.sleep(3)
                 turn_on_led_green()
                 return True
@@ -103,8 +103,8 @@ def vpn_status():
         returncode = e.returncode
     
     #if ipsec status command ran successfully, check if tunnel is established
-    if(returncode == 0):
-        if((vpn_status[1].strip())[9:20] == "ESTABLISHED"):
+    if returncode == 0:
+        if (vpn_status[1].strip())[9:20] == "ESTABLISHED":
             return True
 
     return False
@@ -119,22 +119,22 @@ def vpn_configuration_status():
         lines = fin.readlines()
 
     for x in range(0, len(lines)):
-        if((lines[x].strip())[0:7] == "leftid="):
-            if((lines[x].strip())[7:28] != "<unique_id_of_client>"):
+        if (lines[x].strip())[0:7] == "leftid=":
+            if (lines[x].strip())[7:28] != "<unique_id_of_client>":
                 leftid_set = 1
-        if((lines[x].strip())[0:6] == "right="):
-            if((lines[x].strip())[6:25] != "<eth0_ip_of_server>"):
+        if (lines[x].strip())[0:6] == "right=":
+            if (lines[x].strip())[6:25] != "<eth0_ip_of_server>":
                 right_set = 1
 
     #check to see if the username and secret are set in the ipsec.secrets file
     with open("/etc/ipsec.secrets") as fin:
         lines = fin.readlines()
 
-        if((lines[0].strip())[0:49] != "<unique_id_of_client> : PSK <password_for_client>"):
+        if (lines[0].strip())[0:49] != "<unique_id_of_client> : PSK <password_for_client>":
             vpn_psk = 1
 
 
-    if(leftid_set == 1 and right_set == 1 and vpn_psk == 1):
+    if leftid_set == 1 and right_set == 1 and vpn_psk == 1:
         return True
     else:
         return False
