@@ -19,7 +19,7 @@ def enable_ip_forward():
         lines = fin.readlines()
 
     for i, line in enumerate(lines):
-        if("net.ipv4.ip_forward" in line):
+        if "net.ipv4.ip_forward" in line:
             lines[i] = "net.ipv4.ip_forward = 1\n"
 
     with open("/etc/sysctl.conf", "w") as fout:
@@ -82,25 +82,26 @@ def enable_hardware_random():
     print "goSecure_Server_Script - Enable Hardware Random\n"
     pi_hardware_version = check_output(["cat", "/proc/cpuinfo"]).split("\n")[-4]
     
+
     # if Pi 2
-    if("BCM2708" in pi_hardware_version):
+    if "BCM2708" in pi_hardware_version:
         call("sudo modprobe bcm2708-rng", shell=True)
         
         # call("sudo sh -c 'echo bcm2708-rng >> /etc/modules'")
-        with open("/etc/modules", "r+") as file:
-            for line in file:
+        with open("/etc/modules", "r+") as f:
+            for line in f:
                 if "bcm2708-rng" in line:
                     break
             else: # not found, we are at the eof
                 call("sudo sh -c 'echo bcm2708-rng >> /etc/modules'")
         
     # else if Pi 3
-    elif("BCM2709" in pi_hardware_version):
+    elif "BCM2709" in pi_hardware_version:
         call("sudo modprobe bcm2835-rng", shell=True)
         
         # call("sudo sh -c 'echo bcm2835-rng >> /etc/modules'")
-        with open("/etc/modules", "r") as file:
-            for line in file:
+        with open("/etc/modules", "r") as f:
+            for line in f:
                 if "bcm2835-rng" in line:
                     break
             else: # not found, we are at the eof
@@ -185,7 +186,7 @@ def configure_strongswan(client_id, client_psk):
         lines = fin.readlines()
 
     for i, line in enumerate(lines):
-        if("fips_mode = 0" in line):
+        if "fips_mode = 0" in line:
             lines[i] = "    fips_mode = 0\n"
 
     with open("/etc/strongswan.d/charon/openssl.conf", "w") as fout:
@@ -203,8 +204,8 @@ def start_strongswan():
     call("sudo ipsec start", shell=True)
     
     # start strongSwan on boot
-    with open("/etc/network/if-pre-up.d/firewall", "r") as file:
-        for line in file:
+    with open("/etc/network/if-pre-up.d/firewall", "r") as f:
+        for line in f:
             if "sudo ipsec start" in line:
                 break
         else: # not found, we are at the eof
@@ -212,7 +213,8 @@ def start_strongswan():
     
 def main():
     cmdargs = str(sys.argv)
-    if(len(sys.argv) != 3):
+
+    if len(sys.argv) != 3:
         print textwrap.dedent("""\
             Syntax is: sudo python gosecure_server_install_pi.py <server_id> <client1_id> "<client1_psk>"
             Example: sudo python gosecure_server_install_pi.py vpn.ix.mil client1.ix.mil "mysupersecretpsk"\n""")

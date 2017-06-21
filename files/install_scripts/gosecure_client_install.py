@@ -14,7 +14,7 @@ def enable_ip_forward():
         lines = fin.readlines()
 
     for i, line in enumerate(lines):
-        if("net.ipv4.ip_forward" in line):
+        if "net.ipv4.ip_forward" in line:
             lines[i] = "net.ipv4.ip_forward = 1\n"
 
     with open("/etc/sysctl.conf", "w") as fout:
@@ -80,24 +80,24 @@ def enable_hardware_random():
     pi_hardware_version = check_output(["cat", "/proc/cpuinfo"]).split("\n")[-4]
     
     # if Pi 2
-    if("BCM2708" in pi_hardware_version):
+    if "BCM2708" in pi_hardware_version:
         call("sudo modprobe bcm2708-rng", shell=True)
         
         # call("sudo sh -c 'echo bcm2708-rng >> /etc/modules'")
-        with open("/etc/modules", "r+") as file:
-            for line in file:
+        with open("/etc/modules", "r+") as f:
+            for line in f:
                 if "bcm2708-rng" in line:
                     break
             else: # not found, we are at the eof
                 call("sudo sh -c 'echo bcm2708-rng >> /etc/modules'")
         
     # else if Pi 3
-    elif("BCM2709" in pi_hardware_version):
+    elif "BCM2709" in pi_hardware_version:
         call("sudo modprobe bcm2835-rng", shell=True)
         
         # call("sudo sh -c 'echo bcm2835-rng >> /etc/modules'")
-        with open("/etc/modules", "r") as file:
-            for line in file:
+        with open("/etc/modules", "r") as f:
+            for line in f:
                 if "bcm2835-rng" in line:
                     break
             else: # not found, we are at the eof
@@ -176,7 +176,7 @@ def configure_strongswan():
         lines = fin.readlines()
 
     for i, line in enumerate(lines):
-        if("fips_mode = 0" in line):
+        if "fips_mode = 0" in line:
             lines[i] = "    fips_mode = 0\n"
 
     with open("/etc/strongswan.d/charon/openssl.conf", "w") as fout:
@@ -194,8 +194,8 @@ def start_strongswan():
     call("sudo ipsec start", shell=True)
     
     # start strongSwan on boot
-    with open("/etc/network/if-pre-up.d/firewall", "r") as file:
-        for line in file:
+    with open("/etc/network/if-pre-up.d/firewall", "r") as f:
+        for line in f:
             if "sudo ipsec start" in line:
                 break
         else: # not found, we are at the eof
@@ -210,8 +210,8 @@ def start_strongswan():
         sudo sh -c \"echo 'exit 0' >> /etc/rc.local\"""")
 
     # add route on boot
-    with open("/etc/rc.local", "r+") as file:
-        for line in file:
+    with open("/etc/rc.local", "r+") as f:
+        for line in f:
             if "ip route add table 220 192.168.50.0/24 dev eth0" in line:
                 break
                 
@@ -268,8 +268,8 @@ def setup_dhcp_and_dns_server():
     
     # call("sudo sh -c 'echo \"192.168.50.1 setup\" >> /etc/hosts'", shell=True)
     # add domain name to local dns lookup file
-    with open("/etc/hosts", "r+") as file:
-        for line in file:
+    with open("/etc/hosts", "r+") as f:
+        for line in f:
             if "192.168.50.1 setup" in line:
                 break
         else: # not found, we are at the eof
@@ -323,7 +323,7 @@ def setup_user_interface():
         
 def main():
     cmdargs = str(sys.argv)
-    if(len(sys.argv) != 1):
+    if len(sys.argv) != 1:
         print 'Syntax is: sudo python gosecure_client_install.py\nExample: sudo python gosecure_client_install.py\n'
         exit()
     

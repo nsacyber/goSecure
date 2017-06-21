@@ -15,7 +15,7 @@ def enable_ip_forward():
         lines = fin.readlines()
 
     for i, line in enumerate(lines):
-        if("net.ipv4.ip_forward" in line):
+        if "net.ipv4.ip_forward" in line:
             lines[i] = "net.ipv4.ip_forward = 1\n"
 
     with open("/etc/sysctl.conf", "w") as fout:
@@ -148,7 +148,8 @@ def start_strongswan():
     
 def main():
     cmdargs = str(sys.argv)
-    if(len(sys.argv) != 3):
+
+    if len(sys.argv) != 3:
         print textwrap.dedent("""\
             Syntax is: sudo python gosecure_server_install.py <server_id> <client1_id> "<client1_psk>"
             Example: sudo python gosecure_server_install.py vpn.ix.mil client1.ix.mil "mysupersecretpsk"\n""")
