@@ -2,15 +2,19 @@ import os
 import RPi.GPIO as GPIO
 from subprocess import call
 
+
 def pi_reboot():
     os.system("sudo reboot")
-    
+
+
 def pi_shutdown():
     os.system("sudo shutdown -h now")
-    
+
+
 def start_ssh_service():
     os.system("sudo service ssh start")
-    
+
+
 def update_client():
     update_user_interface_commands = """sudo mv /home/pi/goSecure_Web_GUI /home/pi/goSecure_Web_GUI.old
 wget -P /home/pi/. https://github.com/iadgov/goSecure/archive/master.zip
@@ -28,15 +32,17 @@ sudo reboot"""
     
     for command in update_user_interface_commands.splitlines():
         call(command, shell=True)
-    
+
+
 def turn_on_led_green():
     GPIO.setmode(GPIO.BCM)
     GPIO.setwarnings(False)
-    GPIO.setup(7,GPIO.OUT)
-    GPIO.output(7,GPIO.HIGH)
-        
+    GPIO.setup(7, GPIO.OUT)
+    GPIO.output(7, GPIO.HIGH)
+
+
 def turn_off_led_green():
     GPIO.setmode(GPIO.BCM)
     GPIO.setwarnings(False)
-    GPIO.setup(7,GPIO.OUT)
-    GPIO.output(7,GPIO.LOW)
+    GPIO.setup(7, GPIO.OUT)
+    GPIO.output(7, GPIO.LOW)

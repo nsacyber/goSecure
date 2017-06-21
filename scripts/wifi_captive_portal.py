@@ -20,6 +20,7 @@ def captive_portal(wifi_ssid, cp_username, cp_password):
     else:
         return False
 
+
 def cp_starbucks(br):
     try:
         r = br.open('http://www.google.com')
@@ -28,8 +29,8 @@ def cp_starbucks(br):
         br.select_form(nr=0)
 
         br.submit()
-        #print br.response().read()
+        # print br.response().read()
         return True
-        
+
     except:
         return False

@@ -3,6 +3,7 @@ import wifi_captive_portal
 import urllib2
 import time
 
+
 def get_wifi_list():
     try:
         wlan_status = check_output(["sudo", "ifup", "wlan0"])
@@ -15,7 +16,7 @@ def get_wifi_list():
     except CalledProcessError as e:
         iw_list = []
 
-    #contains a tuple of the (ESSID, Encryption key)
+    # contains a tuple of the (ESSID, Encryption key)
     wifi_list = []
 
     for x in range(0, len(iw_list)):
@@ -24,6 +25,7 @@ def get_wifi_list():
                 wifi_list.append((((iw_list[x].strip())[7:-1] + "-" + ((iw_list[x-1].strip())[15:])), (iw_list[x].strip())[7:-1]))
 
     return sorted(list(set(wifi_list)), key=lambda wifilist: wifilist[0])
+
 
 def add_wifi(wifi_ssid, wifi_key):
     with open("/etc/wpa_supplicant/wpa_supplicant.conf") as wpa_supplicant:
@@ -64,12 +66,15 @@ def add_wifi(wifi_ssid, wifi_key):
     if not internet_status():
         wifi_captive_portal.captive_portal(wifi_ssid, "", "")
 
+
 def internet_status():
     try:
-        response = urllib2.urlopen("https://aws.amazon.com",timeout=1)
+        response = urllib2.urlopen("https://aws.amazon.com", timeout=1)
         return True
-    except urllib2.URLError as err: pass
+    except urllib2.URLError as err:
+        pass
     return False
+
 
 def reset_wifi():
     lines = ["country=US\n",
