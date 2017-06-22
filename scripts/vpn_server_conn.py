@@ -1,5 +1,6 @@
-from subprocess import CalledProcessError, check_output
 import time
+from subprocess import CalledProcessError, check_output
+
 from pi_mgmt import turn_on_led_green, turn_off_led_green
 
 

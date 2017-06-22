@@ -1,8 +1,8 @@
 import os
 import textwrap
+from subprocess import call
 
 import RPi.GPIO as GPIO
-from subprocess import call
 
 
 def pi_reboot():

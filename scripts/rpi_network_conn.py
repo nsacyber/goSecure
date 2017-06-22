@@ -1,7 +1,8 @@
-from subprocess import CalledProcessError, check_output, Popen
-import wifi_captive_portal
-import urllib2
 import time
+from subprocess import CalledProcessError, check_output, Popen
+
+import urllib2
+import wifi_captive_portal
 
 
 def get_wifi_list():

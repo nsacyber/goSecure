@@ -1,17 +1,24 @@
 #!/usr/bin/env python
 
-from flask import Flask, render_template, request, Response, flash, redirect, url_for
-from functools import wraps
-import flask.ext.login as flask_login
 import hashlib
-import pickle
-from forms import loginForm, initialSetupForm, userForm, wifiForm, vpnPskForm, resetToDefaultForm, statusForm
-from scripts.rpi_network_conn import add_wifi, internet_status, reset_wifi
-from scripts.vpn_server_conn import set_vpn_params, reset_vpn_params, start_vpn, stop_vpn, restart_vpn, vpn_status, vpn_configuration_status
-from scripts.pi_mgmt import pi_reboot, pi_shutdown, start_ssh_service, update_client
-import time
 import os
-import json
+import pickle
+import time
+from functools import wraps
+
+import flask.ext.login as flask_login
+from flask import (
+    Flask, render_template, request, Response, flash, redirect, url_for)
+
+from forms import (
+    loginForm, initialSetupForm, userForm, wifiForm, vpnPskForm,
+    resetToDefaultForm, statusForm)
+from scripts.pi_mgmt import (
+    pi_reboot, pi_shutdown, start_ssh_service, update_client)
+from scripts.rpi_network_conn import add_wifi, internet_status, reset_wifi
+from scripts.vpn_server_conn import (
+    set_vpn_params, reset_vpn_params, start_vpn, stop_vpn, restart_vpn,
+    vpn_status, vpn_configuration_status)
 
 app = Flask(__name__)
 login_manager = flask_login.LoginManager()
