@@ -22,7 +22,8 @@ login_manager.init_app(app)
 
 # users = {"admin":{"password":"2074ad04839ae517751e5948ae13f0e3c90d186c9c9bbd29c3c88b9c6000dba5", "salt":"uOMbInZTYYpiCGvEaH8Byw==\n"}}
 # default username=admin password=gosecure, user is prompted to change if default is being used.
-users = pickle.load(open("/home/pi/goSecure_Web_GUI/users_db.p", "rb"))
+with open("/home/pi/goSecure_Web_GUI/users_db.p", "rb") as fin:
+    users = pickle.load(fin)
 
 
 class User(flask_login.UserMixin):
@@ -101,10 +102,7 @@ def user_validate_credentials(username, password):
         stored_password = users[username]['password']
         stored_salt = users[username]['salt']
         userPasswordHash = hashlib.sha256(str(stored_salt) + password).hexdigest()
-        if stored_password == userPasswordHash:
-            return True
-        else:
-            return False
+        return stored_password == userPasswordHash
 
 
 # return True is password is changed successfully
@@ -120,7 +118,8 @@ def user_change_credentials(username, password, new_password):
             userPasswordHash = hashlib.sha256(str(userPasswordHashSalt) + new_password).hexdigest()
             users[username]["salt"] = userPasswordHashSalt
             users[username]["password"] = userPasswordHash
-            pickle.dump(users, open("/home/pi/goSecure_Web_GUI/users_db.p", "wb"))
+            with open("/home/pi/goSecure_Web_GUI/users_db.p", "wb") as fout:
+                pickle.dump(users, fout)
             return True
         else:
             return False
@@ -129,12 +128,9 @@ def user_change_credentials(username, password, new_password):
 # return True if credentials are reset
 # else return False
 def user_reset_credentials(username, password):
-    if user_change_credentials(username, password, "gosecure"):
-        return True
-    else:
-        return False
+    return user_change_credentials(username, password, "gosecure")
 
-    
+
 # Routes for web pages
 
 # 404 page
