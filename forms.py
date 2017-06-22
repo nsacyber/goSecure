@@ -1,5 +1,7 @@
-from wtforms import PasswordField, SelectField, SubmitField, StringField, validators
 from flask.ext.wtf import Form
+from wtforms import (
+    PasswordField, SelectField, SubmitField, StringField, validators)
+
 from scripts.rpi_network_conn import get_wifi_list
 
 
