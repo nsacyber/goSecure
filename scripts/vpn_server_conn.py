@@ -20,9 +20,8 @@ def set_vpn_params(vpn_server, user_id, user_psk):
             fout.write(line)
 
     # save the username and secret to the ipsec.secrets file
-    secrets = open("/etc/ipsec.secrets", "w")
-    secrets.write("%s : PSK %s" % (user_id, user_psk))
-    secrets.close()
+    with open("/etc/ipsec.secrets", "w") as secrets:
+        secrets.write("%s : PSK %s" % (user_id, user_psk))
 
 
 def reset_vpn_params():
@@ -33,19 +32,15 @@ def reset_vpn_params():
 # add route for accessing local ip addresses on the LAN interface (prevents getting locked out from the goSecure Client web gui)
 def add_route():
     route_table_list = check_output(["ip", "route", "show", "table", "220"]).split("\n")
-    
+
     if "192.168.50.0/24 dev eth0  scope link" not in route_table_list:
         try:
             check_output(["sudo", "ip", "route", "add", "table", "220", "192.168.50.0/24", "dev", "eth0"])
             returncode = 0
         except CalledProcessError as e:
-                returncode = e.returncode
-                
-        if returncode == 0:
-                return True
-        else:
-            return False
-        
+            returncode = e.returncode
+
+        return returncode == 0
     else:
         return True
 
@@ -58,13 +53,10 @@ def start_vpn():
     except CalledProcessError as e:
         returncode = e.returncode
         
-    if returncode == 0:
-        if vpn_status():
-            if add_route:
-                time.sleep(3)
-                turn_on_led_green()
-                return True
-
+    if returncode == 0 and vpn_status() and add_route():
+        time.sleep(3)
+        turn_on_led_green()
+        return True
     else:
         return False
 
@@ -77,10 +69,7 @@ def stop_vpn():
     except CalledProcessError as e:
         returncode = e.returncode
     
-    if returncode == 0:
-        return True
-    else:
-        return False
+    return returncode == 0
 
 
 def restart_vpn():
@@ -93,12 +82,10 @@ def restart_vpn():
     except CalledProcessError as e:
         returncode = e.returncode
     
-    if returncode == 0:
-        if vpn_status():
-            if add_route():
-                time.sleep(3)
-                turn_on_led_green()
-                return True
+    if returncode == 0 and vpn_status() and add_route():
+        time.sleep(3)
+        turn_on_led_green()
+        return True
     else:
         return False
 
@@ -142,7 +129,4 @@ def vpn_configuration_status():
         if (lines[0].strip())[0:49] != "<unique_id_of_client> : PSK <password_for_client>":
             vpn_psk = 1
 
-    if leftid_set == 1 and right_set == 1 and vpn_psk == 1:
-        return True
-    else:
-        return False
+    return leftid_set == 1 and right_set == 1 and vpn_psk == 1

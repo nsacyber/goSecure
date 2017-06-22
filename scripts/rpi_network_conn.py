@@ -91,7 +91,4 @@ def reset_wifi():
     except CalledProcessError as e:
         returncode = e.returncode
 
-    if returncode == 0:
-        return True
-    else:
-        return False
+    return returncode == 0
