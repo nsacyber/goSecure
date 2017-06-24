@@ -109,7 +109,7 @@ def vpn_configuration_status():
     with open("/etc/ipsec.conf") as fin:
         lines = fin.readlines()
 
-    for i, line in enumerate(lines):
+    for line in lines:
         current_line = line.strip()
         if (current_line.startswith("leftid=") and
                 not current_line.startswith("leftid=<unique_id_of_client>")):
