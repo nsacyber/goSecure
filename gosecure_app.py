@@ -207,13 +207,8 @@ def status():
     
     if request.method == "GET":
         # check to see if network and vpn are active, red=not active, green=active
-        internet_status_color = "red"
-        if internet_status():
-            internet_status_color = "green"
-        vpn_status_color = "red"
-        if vpn_status():
-            vpn_status_color = "green"
-
+        internet_status_color = "green" if internet_status() else "red"
+        vpn_status_color = "green" if vpn_status() else "red"
         return render_template("status.html", form=form, internet_status_color=internet_status_color, vpn_status_color=vpn_status_color)
 
 
