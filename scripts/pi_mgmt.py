@@ -37,15 +37,16 @@ def update_client():
         call(command, shell=True)
 
 
-def turn_on_led_green():
+def turn_led_green(on=True):
     GPIO.setmode(GPIO.BCM)
     GPIO.setwarnings(False)
     GPIO.setup(7, GPIO.OUT)
-    GPIO.output(7, GPIO.HIGH)
+    GPIO.output(7, GPIO.HIGH if on else GPIO.LOW)
+
+
+def turn_on_led_green():
+    turn_led_green(on=True)
 
 
 def turn_off_led_green():
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setwarnings(False)
-    GPIO.setup(7, GPIO.OUT)
-    GPIO.output(7, GPIO.LOW)
+    turn_led_green(on=False)
